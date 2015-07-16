@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBox>HI!!!!</TextBox>
+        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="50">HI!!!!</TextBox>
     </Grid>
 </UserControl>
