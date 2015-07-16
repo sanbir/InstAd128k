@@ -9,7 +9,7 @@ using OpenQA.Selenium.PhantomJS;
 
 namespace Logic.Core
 {
-    class InstaUser
+    public class InstaUser
     {
         public string ClientKey { get; set; }
 
@@ -51,9 +51,9 @@ namespace Logic.Core
             user.SendKeys(UserName);
             pass.SendKeys(UserPassword);
 
-            button.Click();
+            button.SendKeys(Keys.Enter);
 
-            return WaitTimer.FindElement(By.LinkText("Log out"), 60) != null;
+            return WaitTimer.FindElement(By.CssSelector("a[href*='/accounts/logout/']"), 60) != null;
         }
 
         private bool ApiAuth()

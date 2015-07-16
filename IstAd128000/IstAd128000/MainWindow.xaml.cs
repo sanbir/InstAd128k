@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Instad128000.Core;
+using Logic.Core;
 using InstAd128000.Tabs;
 
 namespace InstAd128000
@@ -19,6 +21,16 @@ namespace InstAd128000
         public MainWindow()
         {
             InitializeComponent();
+            SetIsEnabledOfOptionsTo(false);
+
+        }
+
+        public void SetIsEnabledOfOptionsTo(bool var)
+        {
+            foreach (var button in OptionsPanel.Children.OfType<Button>())
+            {
+                button.IsEnabled = var;
+            }
         }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
@@ -56,6 +68,7 @@ namespace InstAd128000
 
         private void Close_OnClick(object sender, RoutedEventArgs e)
         {
+            Driver.Close();
             Application.Current.Shutdown();
         }
     }
