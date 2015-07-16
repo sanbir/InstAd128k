@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -35,23 +36,9 @@ namespace InstAd128000.Tabs
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
-            ((MainWindow) Application.Current.MainWindow).Panel.Children.Add(new Spinner());
+            ((MainWindow) Application.Current.MainWindow).LoginButton.IsEnabled = false;
+            ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(new Spinner());
 
-            if (await DoJob())
-            {
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
-                ((MainWindow)Application.Current.MainWindow).SetIsEnabledOfOptionsTo(true);
-            }
-            else
-            {
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(this);
-            }
-        }
-
-        private async Task<bool> DoJob()
-        {
             var error = false;
 
             if (string.IsNullOrWhiteSpace(UsernameBox.Text))
@@ -67,15 +54,36 @@ namespace InstAd128000.Tabs
                 error = true;
             }
 
-            if (error) return false;
+            if (error) return;
 
+            var task = DoLoginTaskAsync();
+            if (await task)
+            {
+                ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
+                ((MainWindow)Application.Current.MainWindow).SetIsEnabledOfOptionsTo(true);
+            }
+            else
+            {
+                var warnText = new TextBlock();
+                warnText.Style = (Style)Application.Current.MainWindow.FindResource("OnStartDisclaimer");
+                warnText.Text = "Credentials provided are incorrect or do not exist. Please, ckeck it and try again.";
+                warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
+                warnText.VerticalAlignment = VerticalAlignment.Top;
+
+                ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
+                ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(warnText);
+                ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(this);
+                ((MainWindow)Application.Current.MainWindow).LoginButton.IsEnabled = true;
+            }
+        }
+
+        private async Task<bool> DoLoginTaskAsync()
+        {
             _user = new InstaUser(System.Configuration.ConfigurationManager.AppSettings["clientKey"],
-                                System.Configuration.ConfigurationManager.AppSettings["clientId"], Driver.Instance, UsernameBox.Text, PasswordBox.Text);
+                System.Configuration.ConfigurationManager.AppSettings["clientId"], Driver.Instance, UsernameBox.Text,
+                PasswordBox.Text);
 
-            _success = _user.Authorize();
-
-            return _success;
-
+            return await new Task<bool>(_user.Authorize);
         }
     }
 }

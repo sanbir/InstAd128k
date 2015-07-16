@@ -36,7 +36,7 @@
         <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" Background="BlanchedAlmond">
             <DockPanel>
                 <Button Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close it</Button>
-                <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick">Login</Button>
+                <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton">Login</Button>
             </DockPanel>
         </Border>
         <StackPanel Grid.Column="0" Grid.Row="1" x:Name="OptionsPanel">
