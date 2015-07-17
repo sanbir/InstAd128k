@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:instAd128000="clr-namespace:InstAd128000"
+        xmlns:converters="clr-namespace:InstAd128000.Converters"
         mc:Ignorable="d"
         Title="MainWindow" SizeToContent="WidthAndHeight" WindowStyle="None" MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" AllowsTransparency="True"
         Background="Transparent">
@@ -15,6 +16,7 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="IsEnabled" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type instAd128000:MainWindow}}, Path=IsLogged}"></Setter>
         </Style>
         <Style TargetType="Button" x:Key="MenuButtonStyle">
             <Setter Property="DockPanel.Dock" Value="Right"/>
@@ -28,6 +30,7 @@
             <Setter Property="Margin" Value="10"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
         </Style>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </Window.Resources>
     <Grid Margin="5">
         <Border BorderThickness="1" BorderBrush="SaddleBrown" CornerRadius="5">
@@ -46,7 +49,7 @@
                 <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" Background="BlanchedAlmond">
                     <DockPanel>
                         <Button Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close it</Button>
-                        <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" IsEnabled="{Binding IsLoggedIn, Mode=OneWay}">Login</Button>
+                        <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type instAd128000:MainWindow}}, Path=IsLogged, Converter={StaticResource InverseBooleanConverter}}">Login</Button>
                     </DockPanel>
                 </Border>
                 <StackPanel Grid.Column="0" Grid.Row="1" x:Name="OptionsPanel" Margin="5">

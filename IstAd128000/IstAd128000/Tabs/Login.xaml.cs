@@ -64,7 +64,6 @@ namespace InstAd128000.Tabs
             {
                 mainWindow.IsLogged = true;
                 mainWindow.Panel.Children.Clear();
-                mainWindow.SetIsEnabledOfOptionsTo(true);
             }
             else
             {
@@ -78,7 +77,6 @@ namespace InstAd128000.Tabs
                 mainWindow.Panel.Children.Clear();
                 mainWindow.Panel.Children.Add(warnText);
                 mainWindow.Panel.Children.Add(this);
-                mainWindow.LoginButton.IsEnabled = true;
             }
         }
 

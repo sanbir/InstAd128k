@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Instad128000.Core;
+using Instad128000.Core.Common.Logger;
 using Logic.Core;
 using InstAd128000.Tabs;
 
@@ -21,12 +22,11 @@ namespace InstAd128000
     {
         public MainWindow()
         {
+            Logger.Current.Info("Go now!");
             InitializeComponent();
-            SetIsEnabledOfOptionsTo(false);
         }
 
         private bool _loggedIn;
-
         public bool IsLogged
         {
             get { return _loggedIn; }
@@ -35,16 +35,6 @@ namespace InstAd128000
                 _loggedIn = value;
                 NotifyPropertyChanged("IsLogged");
             }
-        }
-
-        public void SetIsEnabledOfOptionsTo(bool var)
-        {
-            foreach (var button in OptionsPanel.Children.OfType<Button>())
-            {
-                button.IsEnabled = var;
-            }
-
-            LoginButton.IsEnabled = !var;
         }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
