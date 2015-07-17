@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,17 +30,17 @@ namespace InstAd128000.Tabs
         public Login()
         {
             InitializeComponent();
+            _spinner = new Spinner();
         }
 
         private bool _success = false ;
         private InstaUser _user;
+        private Spinner _spinner;
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
-            ((MainWindow) Application.Current.MainWindow).LoginButton.IsEnabled = false;
-            ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(new Spinner());
-
             var error = false;
+            var mainWindow = ((MainWindow) Application.Current.MainWindow);
 
             if (string.IsNullOrWhiteSpace(UsernameBox.Text))
             {
@@ -54,13 +55,16 @@ namespace InstAd128000.Tabs
                 error = true;
             }
 
+            mainWindow.Panel.Children.Clear();
+            mainWindow.Panel.Children.Add(_spinner);
+
             if (error) return;
 
-            var task = DoLoginTaskAsync();
-            if (await task)
+            if (await DoLoginTaskAsync())
             {
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
-                ((MainWindow)Application.Current.MainWindow).SetIsEnabledOfOptionsTo(true);
+                mainWindow.IsLogged = true;
+                mainWindow.Panel.Children.Clear();
+                mainWindow.SetIsEnabledOfOptionsTo(true);
             }
             else
             {
@@ -70,10 +74,11 @@ namespace InstAd128000.Tabs
                 warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
                 warnText.VerticalAlignment = VerticalAlignment.Top;
 
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Clear();
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(warnText);
-                ((MainWindow)Application.Current.MainWindow).Panel.Children.Add(this);
-                ((MainWindow)Application.Current.MainWindow).LoginButton.IsEnabled = true;
+                mainWindow.IsLogged = false;
+                mainWindow.Panel.Children.Clear();
+                mainWindow.Panel.Children.Add(warnText);
+                mainWindow.Panel.Children.Add(this);
+                mainWindow.LoginButton.IsEnabled = true;
             }
         }
 
@@ -82,8 +87,9 @@ namespace InstAd128000.Tabs
             _user = new InstaUser(System.Configuration.ConfigurationManager.AppSettings["clientKey"],
                 System.Configuration.ConfigurationManager.AppSettings["clientId"], Driver.Instance, UsernameBox.Text,
                 PasswordBox.Text);
-
-            return await new Task<bool>(_user.Authorize);
+            var task = new Task<bool>(_user.Authorize);
+            task.Start();
+            return await task;
         }
     }
 }

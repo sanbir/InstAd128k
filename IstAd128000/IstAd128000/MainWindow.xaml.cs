@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,13 +17,24 @@ namespace InstAd128000
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public MainWindow()
         {
             InitializeComponent();
             SetIsEnabledOfOptionsTo(false);
+        }
 
+        private bool _loggedIn;
+
+        public bool IsLogged
+        {
+            get { return _loggedIn; }
+            set
+            {
+                _loggedIn = value;
+                NotifyPropertyChanged("IsLogged");
+            }
         }
 
         public void SetIsEnabledOfOptionsTo(bool var)
@@ -31,6 +43,8 @@ namespace InstAd128000
             {
                 button.IsEnabled = var;
             }
+
+            LoginButton.IsEnabled = !var;
         }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
@@ -71,5 +85,14 @@ namespace InstAd128000
             Driver.Close();
             Application.Current.Shutdown();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }     
     }
 }
