@@ -49,7 +49,7 @@
                         <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" IsEnabled="{Binding IsLoggedIn, Mode=OneWay}">Login</Button>
                     </DockPanel>
                 </Border>
-                <StackPanel Grid.Column="0" Grid.Row="1" x:Name="OptionsPanel">
+                <StackPanel Grid.Column="0" Grid.Row="1" x:Name="OptionsPanel" Margin="5">
                     <Button Style="{StaticResource ButtonStyle}" Tag="FirstOptionTab" Click="AnyButton_OnClick">First Option</Button>
                     <Button Style="{StaticResource ButtonStyle}" Tag="SecondOptionTab" Click="AnyButton_OnClick">Second Option</Button>
                     <Button Style="{StaticResource ButtonStyle}" Tag="ThirdOptionTab" Click="AnyButton_OnClick">Third Option</Button>
