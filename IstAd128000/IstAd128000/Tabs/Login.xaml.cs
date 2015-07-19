@@ -44,13 +44,13 @@ namespace InstAd128000.Tabs
 
             if (string.IsNullOrWhiteSpace(UsernameBox.Text))
             {
-                UsernameBox.Background = new SolidColorBrush(Color.FromArgb(0x5a, 0xFF, 0, 0));
+                UsernameBox.Background = new SolidColorBrush(Color.FromArgb(60, 255, 100, 0));
                 UsernameBox.Text = "Please, provide username!";
                 error = true;
             }
             if (string.IsNullOrWhiteSpace(PasswordBox.Text))
             {
-                PasswordBox.Background = new SolidColorBrush(Color.FromArgb(0x5a, 0xFF, 0, 0));
+                PasswordBox.Background = new SolidColorBrush(Color.FromArgb(60, 255, 100, 0));
                 PasswordBox.Text = "Please, provide password!";
                 error = true;
             }

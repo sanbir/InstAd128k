@@ -83,6 +83,11 @@ namespace InstAd128000
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-        }     
+        }
+
+        private void Minimize_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
     }
 }

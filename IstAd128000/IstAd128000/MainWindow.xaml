@@ -49,6 +49,7 @@
                 <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" Background="BlanchedAlmond">
                     <DockPanel>
                         <Button Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close it</Button>
+                        <Button Style="{StaticResource MenuButtonStyle}" Click="Minimize_OnClick">Minimize</Button>
                         <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type instAd128000:MainWindow}}, Path=IsLogged, Converter={StaticResource InverseBooleanConverter}}">Login</Button>
                     </DockPanel>
                 </Border>
@@ -61,7 +62,7 @@
                     <Button Style="{StaticResource ButtonStyle}" Tag="SixthOptionTab" Click="AnyButton_OnClick">Sixth Option</Button>
                     <Button Style="{StaticResource ButtonStyle}" Tag="SeventhOptionTab" Click="AnyButton_OnClick">Seventh Option</Button>
                 </StackPanel>
-                <Grid Grid.Column="1" Grid.Row="1" x:Name="Panel" Width="500" Height="Auto">
+                <Grid Grid.Column="1" Grid.Row="1" x:Name="Panel" Width="500" Height="Auto" Margin="5">
                     <TextBlock Style="{StaticResource OnStartDisclaimer}"/>
                 </Grid>
             </Grid>
