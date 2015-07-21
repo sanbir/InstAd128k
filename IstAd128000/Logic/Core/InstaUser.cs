@@ -70,13 +70,29 @@ namespace Logic.Core
         /// </summary>
         /// <param name="userName">User Name</param>
         /// <returns></returns>
-        public async Task<List<User>> GetFollowersList(string userName)
+        private async Task<List<User>> GetFollowersList(string userName)
         {
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             var foundUser = await users.Search(userName, 1);
             var relationships = new InstaSharp.Endpoints.Relationships(ApiConfig);
             var followers = await relationships.FollowedBy(foundUser.Data[0].Id);
             return followers.Data;
+        }
+
+        /// <summary>
+        /// Follow For All Followers Of SelectedUser TODO: хуйнуть чтоб все на кого подписался хуячились в лог-хуёг, который ебаный юзер-хуюзер потом получает, пидр.
+        /// </summary>
+        /// <param name="userName">User Name</param>
+        public async void FollowForAllFollowersOfSelectedUser(string userName)
+        {
+            List<User> followers = await GetFollowersList(userName);
+            var users = new InstaSharp.Endpoints.Users(ApiConfig);
+            foreach (var item in followers)
+            {
+                Driver.Navigate().GoToUrl("https://instagram.com/" + item.Username);
+                var followButton = Driver.FindElement(By.ClassName("-cx-PRIVATE-FollowButton__button"));
+                followButton.Click();
+            }
         } 
     }
 }
