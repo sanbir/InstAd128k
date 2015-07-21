@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using InstaSharp;
+using InstaSharp.Endpoints;
+using InstaSharp.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 
@@ -24,6 +26,7 @@ namespace Logic.Core
         private InstagramConfig ApiConfig { get; set; }
 
         public WaitTimer WaitTimer { get; set; }
+
 
         public InstaUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword)
         {
@@ -62,5 +65,18 @@ namespace Logic.Core
             return ApiConfig != null;
         }
 
+        /// <summary>
+        /// Returns list of followers for selected user
+        /// </summary>
+        /// <param name="userName">User Name</param>
+        /// <returns></returns>
+        public async Task<List<User>> GetFollowersList(string userName)
+        {
+            var users = new InstaSharp.Endpoints.Users(ApiConfig);
+            var foundUser = await users.Search(userName, 1);
+            var relationships = new InstaSharp.Endpoints.Relationships(ApiConfig);
+            var followers = await relationships.FollowedBy(foundUser.Data[0].Id);
+            return followers.Data;
+        } 
     }
 }
