@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing.Text;
 using System.Linq;
 using System.Reflection;
@@ -17,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InstAd128000.Controls;
 using Instad128000.Core;
+using Instad128000.Core.Common.Logger;
 using Logic.Core;
 using OpenQA.Selenium.PhantomJS;
 
@@ -31,6 +33,8 @@ namespace InstAd128000.Tabs
         {
             InitializeComponent();
             _spinner = new Spinner();
+            UsernameBox.Text = Properties.Settings.Default.Username;
+            PasswordBox.Password= Properties.Settings.Default.Password;
         }
 
         private bool _success = false ;
@@ -48,11 +52,23 @@ namespace InstAd128000.Tabs
                 UsernameBox.Text = "Please, provide username!";
                 error = true;
             }
-            if (string.IsNullOrWhiteSpace(PasswordBox.Text))
+            if (string.IsNullOrWhiteSpace(PasswordBox.Password))
             {
                 PasswordBox.Background = new SolidColorBrush(Color.FromArgb(60, 255, 100, 0));
-                PasswordBox.Text = "Please, provide password!";
+                PasswordBox.Password = "Please, provide password!";
                 error = true;
+            }
+
+            if (UsernameBox.Text != Properties.Settings.Default.Username ||
+                PasswordBox.Password != Properties.Settings.Default.Password)
+            {
+                var result = MessageBox.Show("Do you want to save credentials?","",MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Properties.Settings.Default.Username = UsernameBox.Text;
+                    Properties.Settings.Default.Password = PasswordBox.Password;
+                    Properties.Settings.Default.Save();
+                }
             }
 
             mainWindow.Panel.Children.Clear();
@@ -84,7 +100,7 @@ namespace InstAd128000.Tabs
         {
             _user = new InstaUser(System.Configuration.ConfigurationManager.AppSettings["clientKey"],
                 System.Configuration.ConfigurationManager.AppSettings["clientId"], Driver.Instance, UsernameBox.Text,
-                PasswordBox.Text);
+                PasswordBox.Password);
             var task = new Task<bool>(_user.Authorize);
             task.Start();
             return await task;

@@ -53,12 +53,12 @@ namespace Logic.Core
 
             button.SendKeys(Keys.Enter);
 
-            return WaitTimer.FindElement(By.CssSelector("a[href*='/accounts/logout/']"), 60) != null;
+            return WaitTimer.FindElement(By.CssSelector("span[class*='-cx-PRIVATE-SearchBox__inactiveSearchIcon coreSpriteSearchIcon']"), 60) != null;
         }
 
         private bool ApiAuth()
         {
-            ApiConfig = new InstaSharp.InstagramConfig(ClientId, ClientKey);
+            ApiConfig = new InstagramConfig(ClientId, ClientKey);
             return ApiConfig != null;
         }
 
