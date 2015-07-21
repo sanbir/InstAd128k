@@ -36,6 +36,7 @@ namespace InstAd128000
                 NotifyPropertyChanged("IsLogged");
             }
         }
+        public InstaUser User { get; set; }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
         {

@@ -48,14 +48,14 @@
                 </Grid.RowDefinitions>
                 <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" Background="BlanchedAlmond">
                     <DockPanel>
-                        <Image Source="Files/Images/IconText/IconText5.png" Height="50"></Image>
+                        <Image Source="Files/Images/IconText/IconText5.png" Height="50" Margin="5"></Image>
                         <Button Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close it</Button>
                         <Button Style="{StaticResource MenuButtonStyle}" Click="Minimize_OnClick">Minimize</Button>
                         <Button Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type instAd128000:MainWindow}}, Path=IsLogged, Converter={StaticResource InverseBooleanConverter}}">Login</Button>
                     </DockPanel>
                 </Border>
                 <StackPanel Grid.Column="0" Grid.Row="1" x:Name="OptionsPanel" Margin="5">
-                    <Button Style="{StaticResource ButtonStyle}" Tag="FirstOptionTab" Click="AnyButton_OnClick">First Option</Button>
+                    <Button Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick">Follow</Button>
                     <Button Style="{StaticResource ButtonStyle}" Tag="SecondOptionTab" Click="AnyButton_OnClick">Second Option</Button>
                     <Button Style="{StaticResource ButtonStyle}" Tag="ThirdOptionTab" Click="AnyButton_OnClick">Third Option</Button>
                     <Button Style="{StaticResource ButtonStyle}" Tag="FourthOptionTab" Click="AnyButton_OnClick">Fourth Option</Button>

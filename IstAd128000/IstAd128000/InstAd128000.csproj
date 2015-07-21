@@ -74,8 +74,12 @@
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Helpers\ControlGetter.cs" />
     <Compile Include="Tabs\FirstOptionTab.xaml.cs">
       <DependentUpon>FirstOptionTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tabs\Follow.xaml.cs">
+      <DependentUpon>Follow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tabs\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -100,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Tabs\FirstOptionTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\Follow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

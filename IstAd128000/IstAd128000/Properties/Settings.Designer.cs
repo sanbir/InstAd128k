@@ -46,5 +46,29 @@ namespace InstAd128000.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9ff514285aac43a6ac9c07257be3c3d2")]
+        public string ClientId {
+            get {
+                return ((string)(this["ClientId"]));
+            }
+            set {
+                this["ClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("f5f2c96a6bf948348de274b9168d05dc")]
+        public string ClientKey {
+            get {
+                return ((string)(this["ClientKey"]));
+            }
+            set {
+                this["ClientKey"] = value;
+            }
+        }
     }
 }

@@ -8,5 +8,11 @@
     <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">717453zx</Value>
     </Setting>
+    <Setting Name="ClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">9ff514285aac43a6ac9c07257be3c3d2</Value>
+    </Setting>
+    <Setting Name="ClientKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)">f5f2c96a6bf948348de274b9168d05dc</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

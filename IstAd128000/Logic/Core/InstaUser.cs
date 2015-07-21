@@ -83,7 +83,7 @@ namespace Logic.Core
         /// Follow For All Followers Of SelectedUser TODO: хуйнуть чтоб все на кого подписался хуячились в лог-хуёг, который ебаный юзер-хуюзер потом получает, пидр.
         /// </summary>
         /// <param name="userName">User Name</param>
-        public async void FollowForAllFollowersOfSelectedUser(string userName)
+        public async void FollowAllFollowersOfSelectedUser(string userName)
         {
             List<User> followers = await GetFollowersList(userName);
             var users = new InstaSharp.Endpoints.Users(ApiConfig);

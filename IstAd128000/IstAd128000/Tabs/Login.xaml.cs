@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using InstAd128000.Controls;
 using Instad128000.Core;
 using Instad128000.Core.Common.Logger;
+using InstAd128000.Helpers;
 using Logic.Core;
 using OpenQA.Selenium.PhantomJS;
 
@@ -37,14 +38,11 @@ namespace InstAd128000.Tabs
             PasswordBox.Password= Properties.Settings.Default.Password;
         }
 
-        private bool _success = false ;
-        private InstaUser _user;
-        private Spinner _spinner;
+        private readonly Spinner _spinner;
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
             var error = false;
-            var mainWindow = ((MainWindow) Application.Current.MainWindow);
 
             if (string.IsNullOrWhiteSpace(UsernameBox.Text))
             {
@@ -71,15 +69,15 @@ namespace InstAd128000.Tabs
                 }
             }
 
-            mainWindow.Panel.Children.Clear();
-            mainWindow.Panel.Children.Add(_spinner);
+            ControlGetter.MainWindow.Panel.Children.Clear();
+            ControlGetter.MainWindow.Panel.Children.Add(_spinner);
 
             if (error) return;
 
             if (await DoLoginTaskAsync())
             {
-                mainWindow.IsLogged = true;
-                mainWindow.Panel.Children.Clear();
+                ControlGetter.MainWindow.IsLogged = true;
+                ControlGetter.MainWindow.Panel.Children.Clear();
             }
             else
             {
@@ -89,19 +87,19 @@ namespace InstAd128000.Tabs
                 warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
                 warnText.VerticalAlignment = VerticalAlignment.Top;
 
-                mainWindow.IsLogged = false;
-                mainWindow.Panel.Children.Clear();
-                mainWindow.Panel.Children.Add(warnText);
-                mainWindow.Panel.Children.Add(this);
+                ControlGetter.MainWindow.IsLogged = false;
+                ControlGetter.MainWindow.Panel.Children.Clear();
+                ControlGetter.MainWindow.Panel.Children.Add(warnText);
+                ControlGetter.MainWindow.Panel.Children.Add(this);
             }
         }
 
         private async Task<bool> DoLoginTaskAsync()
         {
-            _user = new InstaUser(System.Configuration.ConfigurationManager.AppSettings["clientKey"],
-                System.Configuration.ConfigurationManager.AppSettings["clientId"], Driver.Instance, UsernameBox.Text,
+            ControlGetter.MainWindow.User = new InstaUser(Properties.Settings.Default.ClientKey,
+                Properties.Settings.Default.ClientId, Driver.Instance, UsernameBox.Text,
                 PasswordBox.Password);
-            var task = new Task<bool>(_user.Authorize);
+            var task = new Task<bool>(ControlGetter.MainWindow.User.Authorize);
             task.Start();
             return await task;
         }
