@@ -9,9 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Instad128000.Core;
-using Instad128000.Core.Common.Logger;
+using Instad128000.Logic.Core;
 using InstAd128000.Properties;
-using Logic.Core;
 using InstAd128000.Tabs;
 
 namespace InstAd128000

@@ -18,9 +18,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InstAd128000.Controls;
 using Instad128000.Core;
-using Instad128000.Core.Common.Logger;
 using InstAd128000.Helpers;
-using Logic.Core;
+using Instad128000.Logic.Core;
 using OpenQA.Selenium.PhantomJS;
 
 namespace InstAd128000.Tabs

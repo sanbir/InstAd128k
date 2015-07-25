@@ -50,7 +50,7 @@ namespace InstAd128000.Tabs
             else
             {
                 FollowedPeopleCount.Foreground = Brushes.Red;
-                FollowedPeopleCount.Text = "Sorry, this user locked his page.";
+                FollowedPeopleCount.Text = "Sorry, this user locked his page or user do not exist.";
             }
             ControlGetter.MainWindow.IsNoProcessPerformed = true;
             FollowButton.IsEnabled = true;

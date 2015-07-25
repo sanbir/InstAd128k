@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Instad128000.Core;
-using Instad128000.Core.Common.Logger;
 
 namespace InstAd128000
 {

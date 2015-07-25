@@ -7,8 +7,8 @@
     <ProjectGuid>{E2FEE444-DFE6-43CA-B459-05E0C09FD0EC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Logic</RootNamespace>
-    <AssemblyName>Logic</AssemblyName>
+    <RootNamespace>Instad128000.Logic</RootNamespace>
+    <AssemblyName>Instad128000.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -92,7 +92,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Instad128000.Core.csproj">
+    <ProjectReference Include="..\Instad128000.Core\Instad128000.Core.csproj">
       <Project>{b9b6d5d9-475f-4daf-a80a-0f318f30036e}</Project>
       <Name>Instad128000.Core</Name>
     </ProjectReference>
