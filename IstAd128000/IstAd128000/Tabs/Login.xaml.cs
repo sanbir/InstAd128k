@@ -33,12 +33,9 @@ namespace InstAd128000.Tabs
         public Login()
         {
             InitializeComponent();
-            _spinner = new Spinner();
             UsernameBox.Text = Properties.Settings.Default.Username;
             PasswordBox.Password= Properties.Settings.Default.Password;
         }
-
-        private readonly Spinner _spinner;
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
@@ -70,7 +67,7 @@ namespace InstAd128000.Tabs
             }
 
             ControlGetter.MainWindow.Panel.Children.Clear();
-            ControlGetter.MainWindow.Panel.Children.Add(_spinner);
+            SpinnerInstance.SetToMainWindow();
 
             if (error) return;
 

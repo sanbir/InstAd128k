@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InstAd128000.Helpers;
+using InstaSharp.Models;
 
 namespace InstAd128000.Tabs
 {
@@ -26,10 +27,33 @@ namespace InstAd128000.Tabs
             InitializeComponent();
         }
 
-        private void Follow_OnClick(object sender, RoutedEventArgs e)
+        private List<User> _returnList;
+        public List<User> UserList {
+            get { return _returnList; }
+        }
+
+        private async void Follow_OnClick(object sender, RoutedEventArgs e)
         {
+            _returnList = null;
+
+            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            FollowButton.IsEnabled = false;
+
             var followString = FollowUsernameBox.Text;
-            ControlGetter.MainWindow.User.FollowAllFollowersOfSelectedUser(followString);
+            _returnList = await ControlGetter.MainWindow.User.FollowAllFollowersOfSelectedUser(followString);
+
+            if (_returnList != null)
+            {
+                FollowedPeopleContainerGrid.ItemsSource = _returnList;
+                FollowedPeopleCount.Text = "Followed Count (" + _returnList.Count + "):";
+            }
+            else
+            {
+                FollowedPeopleCount.Foreground = Brushes.Red;
+                FollowedPeopleCount.Text = "Sorry, this user locked his page.";
+            }
+            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            FollowButton.IsEnabled = true;
         }
     }
 }

@@ -10,8 +10,7 @@
         <Color x:Key="UnfilledColor" A="0" B="155" R="155" G="155"/>
 
         <Style x:Key="BusyAnimationStyle" TargetType="Control">
-            <Setter Property="Background" Value="#3FFF4000"/>
-
+            <Setter Property="Background" Value="BlanchedAlmond"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Control">
@@ -99,7 +98,7 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
 
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Background="{TemplateBinding Background}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" Background="{TemplateBinding Background}">
                             <Grid>
                                 <Canvas Height="60" Width="60">
                                     <Canvas.Resources>

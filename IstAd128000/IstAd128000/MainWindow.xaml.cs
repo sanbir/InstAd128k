@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Instad128000.Core;
 using Instad128000.Core.Common.Logger;
+using InstAd128000.Properties;
 using Logic.Core;
 using InstAd128000.Tabs;
 
@@ -22,11 +23,15 @@ namespace InstAd128000
     {
         public MainWindow()
         {
-            Logger.Current.Info("Go now!");
             InitializeComponent();
+            Width = Convert.ToDouble(Settings.Default.DefaultWidth);
+            Height = Convert.ToDouble(Settings.Default.DefaultHeight);
+            _noProcessPerformed = true;
+            _controlsList = new Dictionary<string, UserControl>();
         }
 
         private bool _loggedIn;
+        private bool _noProcessPerformed;
         public bool IsLogged
         {
             get { return _loggedIn; }
@@ -36,6 +41,22 @@ namespace InstAd128000
                 NotifyPropertyChanged("IsLogged");
             }
         }
+        public bool IsNoProcessPerformed
+        {
+            get { return _noProcessPerformed; }
+            set
+            {
+                _noProcessPerformed = value;
+                NotifyPropertyChanged("IsNoProcessPerformed");
+            }
+        }
+        public bool IsUiFreeForUser
+        {
+            get { return IsLogged && !IsNoProcessPerformed; }
+        }
+
+        private Dictionary<string,UserControl> _controlsList; 
+
         public InstaUser User { get; set; }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
@@ -46,12 +67,22 @@ namespace InstAd128000
             if (button == null) return;
             var tag = Convert.ToString(button.Tag);
 
+            if (_controlsList.ContainsKey(tag))
+            {
+                tab = _controlsList[tag];
+                tab.Width = double.NaN;
+                tab.Height = double.NaN;
+                Panel.Children.Clear();
+                Panel.Children.Add(tab);
+                return;
+            }
             try
             {
                 tab =
                     (UserControl)
                         Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, "InstAd128000.Tabs." + tag)
                             .Unwrap();
+                _controlsList.Add(tag,tab);
             }
             catch (Exception ex)
             {
@@ -89,6 +120,18 @@ namespace InstAd128000
         private void Minimize_OnClick(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
+        }
+
+        private void DefaultSize_OnClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Normal;
+            this.Width = Convert.ToDouble(Settings.Default.DefaultWidth);
+            this.Height = Convert.ToDouble(Settings.Default.DefaultHeight);
         }
     }
 }

@@ -49,7 +49,31 @@ namespace InstAd128000.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("9ff514285aac43a6ac9c07257be3c3d2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public string DefaultWidth {
+            get {
+                return ((string)(this["DefaultWidth"]));
+            }
+            set {
+                this["DefaultWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public string DefaultHeight {
+            get {
+                return ((string)(this["DefaultHeight"]));
+            }
+            set {
+                this["DefaultHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("f5f2c96a6bf948348de274b9168d05dc")]
         public string ClientId {
             get {
                 return ((string)(this["ClientId"]));
@@ -61,7 +85,7 @@ namespace InstAd128000.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("f5f2c96a6bf948348de274b9168d05dc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("9ff514285aac43a6ac9c07257be3c3d2")]
         public string ClientKey {
             get {
                 return ((string)(this["ClientKey"]));
