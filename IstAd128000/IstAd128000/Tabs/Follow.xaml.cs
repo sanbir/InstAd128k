@@ -37,6 +37,7 @@ namespace InstAd128000.Tabs
             _returnList = null;
 
             ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            SpinnerInstance.SetToMainWindow();
             FollowButton.IsEnabled = false;
 
             var followString = FollowUsernameBox.Text;
@@ -53,6 +54,7 @@ namespace InstAd128000.Tabs
                 FollowedPeopleCount.Text = "Sorry, this user locked his page or user do not exist.";
             }
             ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            SpinnerInstance.RemoveFromMainWindow();
             FollowButton.IsEnabled = true;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,12 +16,17 @@ namespace InstAd128000.Helpers
 
         public static Spinner Get
         {
-            get { return _spinner ?? new Spinner(); }
+            get { return _spinner ?? (_spinner = new Spinner()); }
         }
 
         public static void SetToMainWindow()
         {
             ControlGetter.MainWindow.Panel.Children.Add(Get);
+        }
+
+        public static void RemoveFromMainWindow()
+        {
+            ControlGetter.MainWindow.Panel.Children.Remove(Get);
         }
     }
 }

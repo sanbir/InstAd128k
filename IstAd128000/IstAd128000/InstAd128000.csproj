@@ -111,7 +111,7 @@
     <Compile Include="Converters\BoolArrToBoolWithAndOperatorConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\ControlGetter.cs" />
-    <Compile Include="Helpers\GetSpinner.cs" />
+    <Compile Include="Helpers\SpinnerInstance.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Tabs\FirstOptionTab.xaml.cs">
       <DependentUpon>FirstOptionTab.xaml</DependentUpon>
