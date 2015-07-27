@@ -8,8 +8,20 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="1" x:Name="CommentTag"></TextBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" TextWrapping="Wrap">Comment posts with tag:</TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="0" x:Name="CommentTag"></TextBox>
+        <TextBlock Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Margin="0,10,0,0">Comment posts with this text:</TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="1" x:Name="CommentText" Margin="0,10,0,0"></TextBox>
+        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="0,10,0,10" Click="Comment_OnClick" x:Name="CommentButton">Comment</Button>
+        <TextBlock Grid.Column="0" Grid.Row="3" TextWrapping="Wrap">Commented posts count:</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" x:Name="CommentedPostsCount"></TextBlock>
     </Grid>
 </UserControl>

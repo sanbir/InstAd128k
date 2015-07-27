@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
 
 namespace InstAd128000.Tabs
@@ -24,6 +25,27 @@ namespace InstAd128000.Tabs
         public CommentByTag()
         {
             InitializeComponent();
+        }
+
+        private async void Comment_OnClick(object sender, RoutedEventArgs e)
+        {
+            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            SpinnerInstance.SetToMainWindow();
+            CommentButton.IsEnabled = false;
+
+            if (string.IsNullOrWhiteSpace(CommentTag.Text))
+            {
+                CommentTag.Text = "Please, enter valid text";
+                CommentTag.Foreground = Brushes.Red;
+                return;
+            }
+
+            var result = await ControlGetter.MainWindow.User.CommentByTag(CommentTag.Text, CommentText.Text);
+            CommentedPostsCount.Text = result.Data.Count.ToString();
+
+            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            SpinnerInstance.RemoveFromMainWindow();
+            CommentButton.IsEnabled = true;
         }
     }
 }

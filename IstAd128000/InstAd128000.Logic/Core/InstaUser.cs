@@ -101,20 +101,21 @@ namespace Instad128000.Logic.Core
             return followers;
         }
 
-        public async Task<List<Tags>> CommentByTag(string tag)
+        public async Task<MediasResponse> CommentByTag(string tag, string commentText)
         {
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
-            var results = await tags.Recent("Cats","","",100);
+            var result = await tags.Recent(tag,"","",1000);
 
-            foreach (var result in results.Data.ToArray())
+            foreach (var res in result.Data.ToArray())
             {
+                //todo: убрать break
                 break;
-                Driver.Navigate().GoToUrl("https://instagram.com/p/47IICuwP7O/?tagged=cat");
+                Driver.Navigate().GoToUrl("https://instagram.com/p/47IICuwP7O/?tagged=" + tag);
                 var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 60);
-                commentField.SendKeys("Amazing cat!!!");
+                commentField.SendKeys(commentText);
                 commentField.SendKeys(Keys.Return);
             }
-            return null;
+            return result;
         }
 
         public async Task<TagsResponse> SearchForTags(string tagPart)
