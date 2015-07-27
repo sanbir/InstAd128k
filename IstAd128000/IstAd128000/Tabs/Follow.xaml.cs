@@ -40,6 +40,7 @@ namespace InstAd128000.Tabs
             SpinnerInstance.SetToMainWindow();
             FollowButton.IsEnabled = false;
 
+            //todo: check text is not empty
             var followString = FollowUsernameBox.Text;
             _returnList = await ControlGetter.MainWindow.User.FollowAllFollowersOfSelectedUser(followString);
 

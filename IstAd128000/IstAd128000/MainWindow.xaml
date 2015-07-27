@@ -7,9 +7,10 @@
         xmlns:instAd128000="clr-namespace:InstAd128000"
         xmlns:converters="clr-namespace:InstAd128000.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" ResizeMode="CanResizeWithGrip" WindowStyle="None" MouseDown="Window_MouseDown" 
-        WindowStartupLocation="CenterScreen" 
-        AllowsTransparency="True" Background="Transparent" >
+        Title="MainWindow" ResizeMode="CanResizeWithGrip" WindowStyle="None" 
+        MouseLeftButtonDown="Window_MouseDown" WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True" Background="Transparent" 
+        MinWidth="500" MinHeight="350">
     <Window.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:BoolArrToBoolWithAndOperatorConverter x:Key="BoolArrToBoolWithAndOperatorConverter" />
@@ -74,7 +75,7 @@
                             <Button Grid.Column="0" Style="{StaticResource MenuButtonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" 
                                     IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type instAd128000:MainWindow}}, Path=IsLogged, Converter={StaticResource InverseBooleanConverter}}">Login</Button>
                             <Button Grid.Column="1" Style="{StaticResource MenuButtonStyle}" Click="Maximize_OnClick">Maximize</Button>
-                            <Button Grid.Column="2" Style="{StaticResource MenuButtonStyle}" Click="DefaultSize_OnClick">Default size</Button>
+                            <Button Grid.Column="2" Style="{StaticResource MenuButtonStyle}" Click="DefaultSize_OnClick">Default</Button>
                             <Button Grid.Column="3" Style="{StaticResource MenuButtonStyle}" Click="Minimize_OnClick">Minimize</Button>
                             <Button Grid.Column="4" Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close it</Button>
                         </Grid>
@@ -87,9 +88,9 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick">Follow</Button>
-                    <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="SecondOptionTab" Click="AnyButton_OnClick">Second Option</Button>
-                    <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="ThirdOptionTab" Click="AnyButton_OnClick">Third Option</Button>
+                        <Button Grid.Row="0" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick">Follow</Button>
+                        <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick">Search for tags</Button>
+                        <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag">Comment by tag</Button>
                 </Grid> 
                 </Border>
                 <Border Grid.Column="1" Grid.Row="1" Margin="5"  BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" >

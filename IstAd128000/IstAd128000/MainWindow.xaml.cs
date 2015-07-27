@@ -6,12 +6,16 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using Instad128000.Core;
 using Instad128000.Logic.Core;
 using InstAd128000.Properties;
 using InstAd128000.Tabs;
+using Application = System.Windows.Application;
+using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.MessageBox;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace InstAd128000
 {
@@ -54,7 +58,12 @@ namespace InstAd128000
             get { return IsLogged && !IsNoProcessPerformed; }
         }
 
-        private Dictionary<string,UserControl> _controlsList; 
+        private Dictionary<string,UserControl> _controlsList;
+
+        public Dictionary<string, UserControl> ControlsList
+        {
+            get { return _controlsList; }
+        }
 
         public InstaUser User { get; set; }
 
@@ -97,7 +106,7 @@ namespace InstAd128000
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left && e.ButtonState != MouseButtonState.Released)
                 this.DragMove();
         }
 

@@ -5,3 +5,4 @@ syntax: glob
 [Oo]bj/
 [Ll]ogs/
 [Pp]ackages/
+*.tmp

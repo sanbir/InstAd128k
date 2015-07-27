@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Instad128000.Core.Extensions;
 using InstaSharp;
 using InstaSharp.Endpoints;
 using InstaSharp.Models;
+using InstaSharp.Models.Responses;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 
@@ -80,7 +82,7 @@ namespace Instad128000.Logic.Core
         }
 
         /// <summary>
-        /// Follow For All Followers Of SelectedUser TODO: хуйнуть чтоб все на кого подписался хуячились в лог-хуёг, который ебаный юзер-хуюзер потом получает, пидр.
+        /// Follow For All Followers Of SelectedUser
         /// </summary>
         /// <param name="userName">User Name</param>
         public async Task<List<User>> FollowAllFollowersOfSelectedUser(string userName)
@@ -97,6 +99,30 @@ namespace Instad128000.Logic.Core
                 followButton.Click();
             }
             return followers;
-        } 
+        }
+
+        public async Task<List<Tags>> CommentByTag(string tag)
+        {
+            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+            var results = await tags.Recent("Cats","","",100);
+
+            foreach (var result in results.Data.ToArray())
+            {
+                break;
+                Driver.Navigate().GoToUrl("https://instagram.com/p/47IICuwP7O/?tagged=cat");
+                var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 60);
+                commentField.SendKeys("Amazing cat!!!");
+                commentField.SendKeys(Keys.Return);
+            }
+            return null;
+        }
+
+        public async Task<TagsResponse> SearchForTags(string tagPart)
+        {
+            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+            var results = await tags.Search(tagPart);
+
+            return results;
+        }
     }
 }

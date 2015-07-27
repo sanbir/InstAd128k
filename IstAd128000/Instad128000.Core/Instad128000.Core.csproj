@@ -52,6 +52,7 @@
     <Compile Include="Common\Logger\ILogger.cs" />
     <Compile Include="Common\Logger\Log4NetLogger.cs" />
     <Compile Include="Common\Logger\Logger.cs" />
+    <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="Extensions\PhantomJSExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
