@@ -12,48 +12,41 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
 
 namespace InstAd128000.Tabs
 {
     /// <summary>
-    /// Interaction logic for tAGS.xaml
+    /// Interaction logic for LikeByTag.xaml
     /// </summary>
-    public partial class CommentByTag : UserControl
+    public partial class LikeByTag : UserControl
     {
-        public CommentByTag()
+        public LikeByTag()
         {
             InitializeComponent();
         }
 
-        private async void Comment_OnClick(object sender, RoutedEventArgs e)
+        private void Like_OnClick(object sender, RoutedEventArgs e)
         {
             ControlGetter.MainWindow.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
-            CommentButton.IsEnabled = false;
+            LikeButton.IsEnabled = false;
 
-            if (string.IsNullOrWhiteSpace(CommentTag.Text))
+            if (string.IsNullOrWhiteSpace(LikeTag.Text))
             {
-                CommentTag.Text = "Please, enter valid text";
-                CommentTag.Foreground = Brushes.Red;
+                LikeTag.Text = "Please, enter valid text";
+                LikeTag.Foreground = Brushes.Red;
                 return;
             }
 
             //todo: use this parameter!!!!!!!
-            var commentsNumber = CommentsNumber.Text;
+            var commentsNumber = LikesNumber.Text;
 
-            var result = await ControlGetter.MainWindow.User.CommentByTag(CommentTag.Text, CommentText.Text);
-            CommentedPostsCount.Text = result.Data.Count.ToString();
-
-            if (Convert.ToBoolean(ShouldLikeCheckBox.IsChecked))
-            {
-                //todo: запили по-браццки
-            }
+            //todo: замути лайки
 
             ControlGetter.MainWindow.IsNoProcessPerformed = true;
             SpinnerInstance.RemoveFromMainWindow();
-            CommentButton.IsEnabled = true;
+            LikeButton.IsEnabled = true;
         }
     }
 }

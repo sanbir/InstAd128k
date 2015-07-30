@@ -121,6 +121,9 @@
     <Compile Include="Tabs\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tabs\LikeByTag.xaml.cs">
+      <DependentUpon>LikeByTag.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tabs\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tabs\Follow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tabs\LikeByTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

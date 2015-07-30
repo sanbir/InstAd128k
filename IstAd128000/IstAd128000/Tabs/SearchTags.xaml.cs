@@ -65,7 +65,7 @@ namespace InstAd128000.Tabs
 
         private void ListItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var result = MessageBox.Show("Use this tag to leave comments?","",MessageBoxButton.YesNo);
+            var result = MessageBox.Show("Use this tag to leave comments(Yes) or likes(No)?","",MessageBoxButton.YesNoCancel);
             if (result == MessageBoxResult.Yes)
             {
                 var tag = ControlGetter.MainWindow.CommentByTag.Tag as string;
@@ -76,6 +76,17 @@ namespace InstAd128000.Tabs
                     keyIsPresent = ControlGetter.MainWindow.ControlsList.ContainsKey(tag);
                 } while (keyIsPresent == false);
                 (ControlGetter.MainWindow.ControlsList[tag] as CommentByTag).CommentTag.Text = UiHelper.FindChild<TextBlock>(sender as Grid,"Tag").Text;
+            }
+            if (result == MessageBoxResult.No)
+            {
+                var tag = ControlGetter.MainWindow.LikeByTag.Tag as string;
+                ControlGetter.MainWindow.LikeByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                var keyIsPresent = false;
+                do
+                {
+                    keyIsPresent = ControlGetter.MainWindow.ControlsList.ContainsKey(tag);
+                } while (keyIsPresent == false);
+                (ControlGetter.MainWindow.ControlsList[tag] as LikeByTag).LikeTag.Text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
             }
         }
     }

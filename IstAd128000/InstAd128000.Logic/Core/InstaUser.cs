@@ -104,7 +104,7 @@ namespace Instad128000.Logic.Core
         public async Task<MediasResponse> CommentByTag(string tag, string commentText)
         {
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
-            var result = await tags.Recent(tag,"","",1000);
+            var result = await tags.Recent(tag,"500","10000000",1000);
 
             foreach (var res in result.Data.ToArray())
             {
