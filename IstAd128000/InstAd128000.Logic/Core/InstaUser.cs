@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Instad128000.Core;
 using Instad128000.Core.Extensions;
 using InstaSharp;
 using InstaSharp.Endpoints;
@@ -32,6 +33,7 @@ namespace Instad128000.Logic.Core
 
         public InstaUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword)
         {
+            var aaa = new DataBaseHandler();
             ClientId = clientId;
             ClientKey = clientKey;
             Driver = driver;
