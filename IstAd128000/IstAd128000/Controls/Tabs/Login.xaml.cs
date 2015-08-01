@@ -1,28 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Drawing.Text;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using InstAd128000.Controls;
-using Instad128000.Core;
+using Instad128000.Core.Helpers.Selenium;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Helpers;
-using Instad128000.Logic.Core;
-using OpenQA.Selenium.PhantomJS;
 
-namespace InstAd128000.Tabs
+namespace InstAd128000.Controls.Tabs
 {
     /// <summary>
     /// Interaction logic for Login.xaml
@@ -66,6 +50,7 @@ namespace InstAd128000.Tabs
             }
 
             ControlGetter.MainWindow.Panel.Children.Clear();
+            ControlGetter.MainWindow.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
 
             if (error) return;
@@ -88,11 +73,12 @@ namespace InstAd128000.Tabs
                 ControlGetter.MainWindow.Panel.Children.Add(warnText);
                 ControlGetter.MainWindow.Panel.Children.Add(this);
             }
+            ControlGetter.MainWindow.IsNoProcessPerformed = true;
         }
 
         private async Task<bool> DoLoginTaskAsync()
         {
-            ControlGetter.MainWindow.User = new InstaUser(Properties.Settings.Default.ClientKey,
+            ControlGetter.MainWindow.User = new InstagramUser(Properties.Settings.Default.ClientKey,
                 Properties.Settings.Default.ClientId, Driver.Instance, UsernameBox.Text,
                 PasswordBox.Password);
             var task = new Task<bool>(ControlGetter.MainWindow.User.Authorize);

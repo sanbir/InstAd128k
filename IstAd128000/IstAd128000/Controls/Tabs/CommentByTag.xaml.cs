@@ -1,21 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
 
-namespace InstAd128000.Tabs
+namespace InstAd128000.Controls.Tabs
 {
     /// <summary>
     /// Interaction logic for tAGS.xaml
@@ -41,7 +30,7 @@ namespace InstAd128000.Tabs
             }
 
             //todo: use this parameter!!!!!!!
-            var commentsNumber = CommentsNumber.Text;
+            var commentsNumber = CommentsNumber.Number;
 
             var result = await ControlGetter.MainWindow.User.CommentByTag(CommentTag.Text, CommentText.Text);
             CommentedPostsCount.Text = result.Data.Count.ToString();

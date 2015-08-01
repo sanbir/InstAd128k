@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Instad128000.Core;
+using Instad128000.Core.Common.Interfaces;
 using Instad128000.Core.Extensions;
-using Instad128000.Core.Interfaces;
+using Instad128000.Core.Helpers.Selenium;
+using InstAd128000.SqlLite;
 using InstaSharp;
-using InstaSharp.Endpoints;
 using InstaSharp.Models;
 using InstaSharp.Models.Responses;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 
-namespace Instad128000.Logic.Core
+namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
-    public class InstaUser : ISocialNetworkUser
+    public class InstagramUser : ISocialNetworkUser<User>
     {
         public string ClientKey { get; set; }
 
@@ -31,7 +28,7 @@ namespace Instad128000.Logic.Core
 
         public WaitTimer WaitTimer { get; set; }
 
-        public InstaUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword)
+        public InstagramUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword)
         {
             var aaa = new DataBaseHandler();
             ClientId = clientId;
@@ -74,7 +71,7 @@ namespace Instad128000.Logic.Core
         /// </summary>
         /// <param name="userName">User Name</param>
         /// <returns></returns>
-        private async Task<List<User>> GetFollowersList(string userName)
+        public async Task<List<User>> GetContactsListOf(string userName)
         {
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             var foundUser = await users.Search(userName, 1);
@@ -84,12 +81,12 @@ namespace Instad128000.Logic.Core
         }
 
         /// <summary>
-        /// Follow For All Followers Of SelectedUser
+        /// Follow All Followers Of User
         /// </summary>
-        /// <param name="userName">User Name</param>
-        public async Task<List<User>> FollowAllFollowersOfSelectedUser(string userName)
+        /// <param name="userName">Name of user of which followers to follow</param>
+        public async Task<List<User>> AddToContactsAllContactsOf(string userName)
         {
-            List<User> followers = await GetFollowersList(userName);
+            List<User> followers = await GetContactsListOf(userName);
             if (followers == null) return null;
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             foreach (var item in followers)

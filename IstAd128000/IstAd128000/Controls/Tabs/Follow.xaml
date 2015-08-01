@@ -1,9 +1,8 @@
-﻿<UserControl x:Class="InstAd128000.Tabs.Follow"
+﻿<UserControl x:Class="InstAd128000.Controls.Tabs.Follow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:instAd128000="clr-namespace:InstAd128000.Tabs"
              xmlns:instAd1280001="clr-namespace:InstAd128000"
              xmlns:converters="clr-namespace:InstAd128000.Converters"
              mc:Ignorable="d"
@@ -47,7 +46,7 @@
                     <DataTemplate>
                         <DataTemplate.Resources>
                             <Style TargetType="TextBlock">
-                                <Setter Property="FontSize" Value="10"/>
+                                <Setter Property="FontSize" Value="15"/>
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
                                 <Setter Property="TextWrapping" Value="Wrap"/>
                             </Style>

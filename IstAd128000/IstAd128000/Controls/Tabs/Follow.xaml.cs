@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using InstAd128000.Helpers;
 using InstaSharp.Models;
 
-namespace InstAd128000.Tabs
+namespace InstAd128000.Controls.Tabs
 {
     /// <summary>
     /// Interaction logic for Follow.xaml
@@ -42,7 +32,7 @@ namespace InstAd128000.Tabs
 
             //todo: check text is not empty
             var followString = FollowUsernameBox.Text;
-            _returnList = await ControlGetter.MainWindow.User.FollowAllFollowersOfSelectedUser(followString);
+            _returnList = await ControlGetter.MainWindow.User.AddToContactsAllContactsOf(followString);
 
             if (_returnList != null)
             {

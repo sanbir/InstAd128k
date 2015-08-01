@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Management.Instrumentation;
-using System.Text;
-using System.Threading.Tasks;
-using OpenQA.Selenium.PhantomJS;
+﻿using OpenQA.Selenium.PhantomJS;
 
-namespace Instad128000.Core
+namespace Instad128000.Core.Helpers.Selenium
 {
     public static class Driver
     {

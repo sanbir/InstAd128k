@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Instad128000.Core;
+using Instad128000.Core.Helpers.Selenium;
 
 namespace InstAd128000
 {

@@ -4,11 +4,10 @@
     xmlns:local="clr-namespace:InstAd128000"
     xmlns:controls="clr-namespace:InstAd128000.Controls">
 
-
-    <Style TargetType="{x:Type controls:FollowedPeopleControl}">
+    <Style TargetType="{x:Type controls:NumericTextbox}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:FollowedPeopleControl}">
+                <ControlTemplate TargetType="{x:Type controls:NumericTextbox}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">

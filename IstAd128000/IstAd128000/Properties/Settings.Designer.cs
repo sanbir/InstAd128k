@@ -94,5 +94,17 @@ namespace InstAd128000.Properties {
                 this["ClientKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public string MaxTransactionNumber {
+            get {
+                return ((string)(this["MaxTransactionNumber"]));
+            }
+            set {
+                this["MaxTransactionNumber"] = value;
+            }
+        }
     }
 }

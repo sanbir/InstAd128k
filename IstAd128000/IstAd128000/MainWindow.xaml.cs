@@ -9,9 +9,9 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Instad128000.Core;
-using Instad128000.Logic.Core;
+using Instad128000.Core.Helpers.Selenium;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Properties;
-using InstAd128000.Tabs;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
@@ -65,7 +65,7 @@ namespace InstAd128000
             get { return _controlsList; }
         }
 
-        public InstaUser User { get; set; }
+        public InstagramUser User { get; set; }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -88,7 +88,7 @@ namespace InstAd128000
             {
                 tab =
                     (UserControl)
-                        Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, "InstAd128000.Tabs." + tag)
+                        Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, "InstAd128000.Controls.Tabs." + tag)
                             .Unwrap();
                 _controlsList.Add(tag,tab);
             }
@@ -140,6 +140,11 @@ namespace InstAd128000
             WindowState = WindowState.Normal;
             this.Width = Convert.ToDouble(Settings.Default.DefaultWidth);
             this.Height = Convert.ToDouble(Settings.Default.DefaultHeight);
+        }
+
+        private void Settings_OnClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("This functionality is under development");
         }
     }
 }

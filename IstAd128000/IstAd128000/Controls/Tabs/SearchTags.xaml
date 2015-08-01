@@ -1,24 +1,24 @@
-﻿<UserControl x:Class="InstAd128000.Tabs.SearchTags"
+﻿<UserControl x:Class="InstAd128000.Controls.Tabs.SearchTags"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid x:Name="SearchTagsTabHolder" Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="6*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="String to search tags for:"/>
-        <TextBox Grid.Column="1" Grid.Row="0" Text="kitty" VerticalAlignment="Top" x:Name="TagsStringInput" TextChanged="TagsStringInput_OnTextChanged"/>
-        <Button Grid.Column="1" Grid.Row="1" Click="SearchTags_OnClick" x:Name="TagSearchButton">Search</Button>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="String to search tags for:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="kitty" x:Name="TagsStringInput" TextChanged="TagsStringInput_OnTextChanged"/>
+        <Button Grid.Column="1" Grid.Row="1" Click="SearchTags_OnClick" x:Name="TagSearchButton" HorizontalAlignment="Right" Width="100" Height="30" >Search</Button>
         <TextBlock Grid.Column="0" Grid.Row="2" Text="Search results:"/>
         <ItemsControl Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" x:Name="FoundTagsContainerGrid">
             <ItemsControl.Template>
@@ -41,7 +41,7 @@
                 <DataTemplate>
                     <DataTemplate.Resources>
                         <Style TargetType="TextBlock">
-                            <Setter Property="FontSize" Value="10"/>
+                            <Setter Property="FontSize" Value="15"/>
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                             <Setter Property="TextWrapping" Value="Wrap"/>
                         </Style>
