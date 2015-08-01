@@ -10,7 +10,7 @@
         Title="MainWindow" ResizeMode="CanResizeWithGrip" WindowStyle="None" 
         MouseLeftButtonDown="Window_MouseDown" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True" Background="Transparent" 
-        MinWidth="700" MinHeight="350">
+        MinWidth="700" MinHeight="550">
     <Window.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:BoolArrToBoolWithAndOperatorConverter x:Key="BoolArrToBoolWithAndOperatorConverter" />
@@ -41,6 +41,7 @@
             <Setter Property="TextAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="FontSize" Value="15"></Setter>
         </Style>
         <Style x:Key="NoChromeButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
@@ -121,17 +122,29 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="3*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Button Grid.Row="0" Style="{StaticResource LoginByttonStyle}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton">Login</Button>
-                        <Button Grid.Row="1" Style="{StaticResource MenuButtonStyle}" Click="Maximize_OnClick">Maximize</Button>
-                        <Button Grid.Row="2" Style="{StaticResource MenuButtonStyle}" Click="DefaultSize_OnClick">Default</Button>
-                        <Button Grid.Row="3" Style="{StaticResource MenuButtonStyle}" Click="Minimize_OnClick">Minimize</Button>
-                        <Button Grid.Row="4" Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close it</Button>
-                        <Button Grid.Row="5" Style="{StaticResource MenuButtonStyle}" Click="Settings_OnClick">Settings</Button>
+
+                        <Border Grid.Row="2" BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Button Grid.Row="0" Style="{StaticResource MenuButtonStyle}" Click="Maximize_OnClick">Maximize</Button>
+                                <Button Grid.Row="1" Style="{StaticResource MenuButtonStyle}" Click="DefaultSize_OnClick">Default</Button>
+                                <Button Grid.Row="2" Style="{StaticResource MenuButtonStyle}" Click="Minimize_OnClick">Minimize</Button>
+                            </Grid>
+                        </Border>
+                        
+                        <Button Grid.Row="4" Style="{StaticResource MenuButtonStyle}" Click="Close_OnClick">Close</Button>
+                        <Button Grid.Row="6" Style="{StaticResource MenuButtonStyle}" Click="Settings_OnClick">Settings</Button>
                     </Grid>
                 </Border>
             </Grid>

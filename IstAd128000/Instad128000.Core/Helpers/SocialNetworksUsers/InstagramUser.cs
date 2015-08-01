@@ -107,9 +107,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
             foreach (var res in result.Data.ToArray())
             {
-                //todo: убрать break
                 break;
-                Driver.Navigate().GoToUrl("https://instagram.com/p/47IICuwP7O/?tagged=" + tag);
+                Driver.Navigate().GoToUrl("https://instagram.com/p/" + "47IICuwP7O/?tagged=" + tag);
                 var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 60);
                 commentField.SendKeys(commentText);
                 commentField.SendKeys(Keys.Return);
