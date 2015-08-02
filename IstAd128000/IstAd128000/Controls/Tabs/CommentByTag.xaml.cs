@@ -29,11 +29,13 @@ namespace InstAd128000.Controls.Tabs
                 return;
             }
 
-            //todo: use this parameter!!!!!!!
-            var commentsNumber = CommentsNumber.Number;
 
-            var result = await ControlGetter.MainWindow.User.CommentByTag(CommentTag.Text, CommentText.Text);
-            CommentedPostsCount.Text = result.Data.Count.ToString();
+            int commentsNumber = CommentsNumber.Number;
+            //todo: добавить поиск последнего id в бд для пагинации ептэ
+            string lastId = "0";
+
+            var result = await ControlGetter.MainWindow.User.CommentByTag(CommentTag.Text, CommentText.Text, commentsNumber, lastId);
+            CommentedPostsCount.Text = result.Count.ToString();
 
             if (Convert.ToBoolean(ShouldLikeCheckBox.IsChecked))
             {
