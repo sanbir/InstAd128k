@@ -30,7 +30,7 @@ namespace InstAd128000.Controls.Tabs
             }
 
 
-            int commentsNumber = CommentsNumber.Number;
+            int commentsNumber = Convert.ToInt32(CommentsNumber.Text);
             //todo: добавить поиск последнего id в бд для пагинации ептэ
             string lastId = "0";
 

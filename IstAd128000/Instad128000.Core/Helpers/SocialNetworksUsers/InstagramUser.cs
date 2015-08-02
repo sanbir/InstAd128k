@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Instad128000.Core.Common.Enums;
 using Instad128000.Core.Common.Interfaces;
@@ -119,25 +120,24 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 await GetSeleniumUserId();
             }
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
-            List<RequestResult> answer = new List<RequestResult>();
+            var answer = new List<RequestResult>();
             do
             {
                 var result = await tags.Recent(tag, "0", lastId, count);
+                var random = new Random();
                 foreach (var res in result.Data.ToArray())
                 {
+                    var timer = random.Next(0,20); 
                     Driver.Navigate().GoToUrl(res.Link);
                     var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 60);
                     commentField.SendKeys(commentText);
                     commentField.SendKeys(Keys.Return);
-                    answer.Add(new RequestResult(commentText, res.User.Id, UserId, RequestType.Comment));
-                    break;
+                    answer.Add(new RequestResult(commentText, res.User.Id, UserId, res.Link, RequestType.Comment));
+                    Thread.Sleep(new TimeSpan(0,0,timer));
                 }
                 lastId = result.Pagination.NextMaxTagId;
                 count -= result.Data.Count;
             } while (count > 0);
-
-
-
 
             return answer;
         }
