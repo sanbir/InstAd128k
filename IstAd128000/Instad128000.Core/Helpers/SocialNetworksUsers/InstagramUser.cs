@@ -7,7 +7,6 @@ using Instad128000.Core.Common.Interfaces;
 using Instad128000.Core.Common.Models;
 using Instad128000.Core.Extensions;
 using Instad128000.Core.Helpers.Selenium;
-using InstAd128000.SqlLite;
 using InstaSharp;
 using InstaSharp.Models;
 using InstaSharp.Models.Responses;
@@ -36,7 +35,6 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public InstagramUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword)
         {
-            var aaa = new DataBaseHandler();
             ClientId = clientId;
             ClientKey = clientKey;
             Driver = driver;

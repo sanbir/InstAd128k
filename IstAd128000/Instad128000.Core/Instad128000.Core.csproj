@@ -52,6 +52,7 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
@@ -79,10 +80,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Enums\RequestType.cs" />
+    <Compile Include="Common\Interfaces\Data\IRepository.cs" />
     <Compile Include="Common\Interfaces\IRequestResult.cs" />
+    <Compile Include="Common\Interfaces\Services\ICrudService.cs" />
+    <Compile Include="Common\Interfaces\Services\IRequestService.cs" />
     <Compile Include="Common\Logger\ILogger.cs" />
     <Compile Include="Common\Logger\Log4NetLogger.cs" />
     <Compile Include="Common\Logger\Logger.cs" />
+    <Compile Include="Common\Models\DataModels\BaseEntity.cs" />
+    <Compile Include="Common\Models\DataModels\DataRequestResult.cs" />
     <Compile Include="Common\Models\RequestResult.cs" />
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Helpers\Selenium\Driver.cs" />
@@ -104,12 +110,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\InstAd128000.SqlLite\InstAd128000.SqlLite.csproj">
-      <Project>{7ACA8722-DEC7-41CC-A52D-66D2A410B726}</Project>
-      <Name>InstAd128000.SqlLite</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\PhantomJS.2.0.0\tools\phantomjs\phantomjs.exe">

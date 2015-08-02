@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Instad128000.Core.Common.Enums
+namespace InstAd128000.SqlLite
 {
-    public enum RequestType
+    public interface IDbContextFactory
     {
-        Like = 0,
-        Comment = 1,
-        Follow = 2
+        DbContext GetContext();
     }
 }

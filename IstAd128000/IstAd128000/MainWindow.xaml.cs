@@ -10,9 +10,13 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using Instad128000.Core;
+using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Helpers.Selenium;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using InstAd128000.Dependencies;
 using InstAd128000.Properties;
+using InstAd128000.Services;
+using Microsoft.Practices.Unity;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
@@ -58,6 +62,9 @@ namespace InstAd128000
         {
             get { return IsLogged && !IsNoProcessPerformed; }
         }
+
+        [Dependency]
+        public IRequestService RequestService { get; set; }
 
         private Dictionary<string,UserControl> _controlsList;
 
