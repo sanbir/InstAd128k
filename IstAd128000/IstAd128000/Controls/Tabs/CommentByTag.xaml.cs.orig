@@ -29,6 +29,11 @@ namespace InstAd128000.Controls.Tabs
                 return;
             }
 
+<<<<<<< local
+            //todo: use this parameter!!!!!!!
+            var commentsNumber = CommentsNumber.Text;
+=======
+>>>>>>> other
 
             int commentsNumber = CommentsNumber.Number;
             //todo: добавить поиск последнего id в бд для пагинации ептэ

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Instad128000.Core.Common.Enums;
 using Instad128000.Core.Common.Interfaces;
+using Instad128000.Core.Common.Models;
 using Instad128000.Core.Extensions;
 using Instad128000.Core.Helpers.Selenium;
 using InstAd128000.SqlLite;
@@ -21,6 +24,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         public PhantomJSDriver Driver { get; set; }
 
         public string UserName { get; set; }
+
+        public int UserId { get; set; }
 
         public string UserPassword { get; set; }
 
@@ -66,6 +71,13 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return ApiConfig != null;
         }
 
+        private async Task<bool> GetSeleniumUserId()
+        {
+            var users = new InstaSharp.Endpoints.Users(ApiConfig);
+            UserId = (await users.Search(UserName, 1)).Data[0].Id;
+            return UserId > 0;
+        }
+
         /// <summary>
         /// Returns list of followers for selected user
         /// </summary>
@@ -100,20 +112,34 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public async Task<MediasResponse> CommentByTag(string tag, string commentText)
+        public async Task<List<RequestResult>> CommentByTag(string tag, string commentText, int count, string lastId)
         {
-            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
-            var result = await tags.Recent(tag,"500","10000000",1000);
-
-            foreach (var res in result.Data.ToArray())
+            if (UserId == 0)
             {
-                break;
-                Driver.Navigate().GoToUrl("https://instagram.com/p/" + "47IICuwP7O/?tagged=" + tag);
-                var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 60);
-                commentField.SendKeys(commentText);
-                commentField.SendKeys(Keys.Return);
+                await GetSeleniumUserId();
             }
-            return result;
+            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+            List<RequestResult> answer = new List<RequestResult>();
+            do
+            {
+                var result = await tags.Recent(tag, "0", lastId, count);
+                foreach (var res in result.Data.ToArray())
+                {
+                    Driver.Navigate().GoToUrl(res.Link);
+                    var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 60);
+                    commentField.SendKeys(commentText);
+                    commentField.SendKeys(Keys.Return);
+                    answer.Add(new RequestResult(commentText, res.User.Id, UserId, RequestType.Comment));
+                    break;
+                }
+                lastId = result.Pagination.NextMaxTagId;
+                count -= result.Data.Count;
+            } while (count > 0);
+
+
+
+
+            return answer;
         }
 
         public async Task<TagsResponse> SearchForTags(string tagPart)

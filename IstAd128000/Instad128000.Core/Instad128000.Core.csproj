@@ -78,9 +78,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Enums\RequestType.cs" />
+    <Compile Include="Common\Interfaces\IRequestResult.cs" />
     <Compile Include="Common\Logger\ILogger.cs" />
     <Compile Include="Common\Logger\Log4NetLogger.cs" />
     <Compile Include="Common\Logger\Logger.cs" />
+    <Compile Include="Common\Models\RequestResult.cs" />
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Helpers\Selenium\Driver.cs" />
     <Compile Include="Extensions\PhantomJSExtensions.cs" />
@@ -120,6 +123,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
