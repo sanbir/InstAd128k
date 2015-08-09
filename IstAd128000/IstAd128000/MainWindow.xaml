@@ -150,10 +150,10 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Follow all followers of some user">Follow</Button>
-                        <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Search for most popular tags that contain the word you enter">Search for tags</Button>
-                        <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Comment posts(and, if you wish, like them) by exact tag">Comment by tag</Button>
-                        <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Like posts by exact tag">Like by tag</Button>
+                        <Button Grid.Row="0" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Follow all followers of some user">Зафолловить</Button>
+                        <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Search for most popular tags that contain the word you enter">Рейтинг тегов</Button>
+                        <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Comment posts(and, if you wish, like them) by exact tag">Комментирровать по тегу</Button>
+                        <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Like posts by exact tag">Лайкнуть по тегу</Button>
                     </Grid>
                 </Border>
                 <Border Grid.Column="1" Grid.Row="1" Margin="5"  BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" >
