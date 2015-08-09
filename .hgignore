@@ -1,0 +1,8 @@
+syntax: glob
+*.suo
+*.user
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+[Pp]ackages/
+*.tmp
