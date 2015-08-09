@@ -26,103 +26,13 @@ namespace InstAd128000
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
             Width = Convert.ToDouble(Settings.Default.DefaultWidth);
             Height = Convert.ToDouble(Settings.Default.DefaultHeight);
-            _noProcessPerformed = true;
-            _controlsList = new Dictionary<string, UserControl>();
-        }
-
-        private bool _loggedIn;
-        private bool _noProcessPerformed;
-        public bool IsLogged
-        {
-            get { return _loggedIn; }
-            set
-            {
-                _loggedIn = value;
-                NotifyPropertyChanged("IsLogged");
-            }
-        }
-        public bool IsNoProcessPerformed
-        {
-            get { return _noProcessPerformed; }
-            set
-            {
-                _noProcessPerformed = value;
-                NotifyPropertyChanged("IsNoProcessPerformed");
-            }
-        }
-        public bool IsUiFreeForUser
-        {
-            get { return IsLogged && !IsNoProcessPerformed; }
-        }
-
-        [Dependency]
-        public IRequestService RequestService { get; set; }
-        [Dependency]
-        public IStringToSymbolService StringToSymbolService { get; set; }
-        [Dependency]
-        public IRepeatableStringsService RepeatableStringsService { get; set; }
-        [Dependency]
-        public IAddableStringsService AddableStringsService { get; set; }
-
-        private Dictionary<string,UserControl> _controlsList;
-
-        public Dictionary<string, UserControl> ControlsList
-        {
-            get { return _controlsList; }
-        }
-
-        public InstagramUser User { get; set; }
-
-        private void AnyButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            UserControl tab;
-
-            var button = sender as Button;
-            if (button == null) return;
-            var tag = Convert.ToString(button.Tag);
-
-            if (_controlsList.ContainsKey(tag))
-            {
-                tab = _controlsList[tag];
-                tab.Width = double.NaN;
-                tab.Height = double.NaN;
-                Panel.Children.Clear();
-                Panel.Children.Add(tab);
-                return;
-            }
-            try
-            {
-                if (tag == "Login")
-                {
-
-                    tab =
-                        (UserControl)
-                            Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), RequestService,
-                                StringToSymbolService, RepeatableStringsService, AddableStringsService);
-                }
-                else
-                {
-                    tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag));
-                }
-                _controlsList.Add(tag,tab);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("This functionality is under development");
-                return;
-            }
-
-            tab.Width = double.NaN;
-            tab.Height = double.NaN;
-            Panel.Children.Clear();
-            Panel.Children.Add(tab);
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -135,15 +45,6 @@ namespace InstAd128000
         {
             Driver.Close();
             Application.Current.Shutdown();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
 
         private void Minimize_OnClick(object sender, RoutedEventArgs e)

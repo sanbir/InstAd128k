@@ -20,7 +20,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async void Comment_OnClick(object sender, RoutedEventArgs e)
         {
-            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
             CommentButton.IsEnabled = false;
 
@@ -36,10 +36,10 @@ namespace InstAd128000.Controls.InstagramTabs
             //todo: добавить поиск последнего id в бд для пагинации ептэ
             string lastId = "0";
 
-            var result = await ControlGetter.MainWindow.User.CommentByTag(CommentTag.Text, CommentText.Text, commentsNumber, lastId, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
+            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTag(CommentTag.Text, CommentText.Text, commentsNumber, lastId, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
             CommentedPostsCount.Text = result.Count.ToString();
 
-            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
             SpinnerInstance.RemoveFromMainWindow();
             CommentButton.IsEnabled = true;
         }

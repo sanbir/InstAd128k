@@ -29,11 +29,11 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
             TagSearchButton.IsEnabled = false;
 
-            var result = await ControlGetter.MainWindow.User.SearchForTags(TagsStringInput.Text);
+            var result = await ControlGetter.MainWindow.InstagramTab.User.SearchForTags(TagsStringInput.Text);
             var list = result.Data.Select(data => new TagsCount()
             {
                 Count = data.MediaCount, Tag = data.Name.Trim()
@@ -41,7 +41,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
             FoundTagsContainerGrid.ItemsSource = list;
 
-            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
             SpinnerInstance.RemoveFromMainWindow();
             TagSearchButton.IsEnabled = true;
         }
@@ -57,25 +57,25 @@ namespace InstAd128000.Controls.InstagramTabs
             var result = MessageBox.Show("Use this tag to leave comments(Yes) or likes(No)?","",MessageBoxButton.YesNoCancel);
             if (result == MessageBoxResult.Yes)
             {
-                var tag = ControlGetter.MainWindow.CommentByTag.Tag as string;
-                ControlGetter.MainWindow.CommentByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                var tag = ControlGetter.MainWindow.InstagramTab.CommentByTag.Tag as string;
+                ControlGetter.MainWindow.InstagramTab.CommentByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
                 var keyIsPresent = false;
                 do
                 {
-                    keyIsPresent = ControlGetter.MainWindow.ControlsList.ContainsKey(tag);
+                    keyIsPresent = ControlGetter.MainWindow.InstagramTab.ControlsList.ContainsKey(tag);
                 } while (keyIsPresent == false);
-                (ControlGetter.MainWindow.ControlsList[tag] as CommentByTag).CommentTag.Text = UiHelper.FindChild<TextBlock>(sender as Grid,"Tag").Text;
+                (ControlGetter.MainWindow.InstagramTab.ControlsList[tag] as CommentByTag).CommentTag.Text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
             }
             if (result == MessageBoxResult.No)
             {
-                var tag = ControlGetter.MainWindow.LikeByTag.Tag as string;
-                ControlGetter.MainWindow.LikeByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                var tag = ControlGetter.MainWindow.InstagramTab.LikeByTag.Tag as string;
+                ControlGetter.MainWindow.InstagramTab.LikeByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
                 var keyIsPresent = false;
                 do
                 {
-                    keyIsPresent = ControlGetter.MainWindow.ControlsList.ContainsKey(tag);
+                    keyIsPresent = ControlGetter.MainWindow.InstagramTab.ControlsList.ContainsKey(tag);
                 } while (keyIsPresent == false);
-                (ControlGetter.MainWindow.ControlsList[tag] as LikeByTag).LikeTag.Text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
+                (ControlGetter.MainWindow.InstagramTab.ControlsList[tag] as LikeByTag).LikeTag.Text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
             }
         }
     }

@@ -21,7 +21,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async void Like_OnClick(object sender, RoutedEventArgs e)
         {
-            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
             LikeButton.IsEnabled = false;
 
@@ -29,7 +29,7 @@ namespace InstAd128000.Controls.InstagramTabs
             {
                 LikeTag.Text = "Please, enter valid text";
                 LikeTag.Foreground = Brushes.Red;
-                ControlGetter.MainWindow.IsNoProcessPerformed = true;
+                ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
                 SpinnerInstance.RemoveFromMainWindow();
                 LikeButton.IsEnabled = true;
                 return;
@@ -40,10 +40,10 @@ namespace InstAd128000.Controls.InstagramTabs
 
             string lastId = "0";
 
-            var result = await ControlGetter.MainWindow.User.LikeByTag(LikeTag.Text, likes, lastId);
+            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTag(LikeTag.Text, likes, lastId);
             //todo: замути лайки
 
-            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
             SpinnerInstance.RemoveFromMainWindow();
             LikeButton.IsEnabled = true;
         }
