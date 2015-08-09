@@ -43,6 +43,9 @@ namespace InstAd128000
             container.RegisterType(typeof(ICrudService<>), typeof(CrudService<>));
             container.RegisterType(typeof(IRepository<>), typeof(Repository<>));
             container.RegisterType<IRequestService, RequestService>();
+            container.RegisterType<IStringToSymbolService, StringToSymbolService>();
+            container.RegisterType<IRepeatableStringsService, RepeatableStringsService>();
+            container.RegisterType<IAddableStringsService, AddableStringsService>();
 
             var window = container.Resolve<MainWindow>();
             window.Show();

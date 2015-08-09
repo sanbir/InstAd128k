@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Instad128000.Core.Common.Models.DataModels
 {
-    public class CharToSymbol : BaseEntity
+    public class StringToSymbol : BaseEntity
     {
-        public string Char { get; set; }
+        public string String { get; set; }
         public string Symbol { get; set; }
     }
 }

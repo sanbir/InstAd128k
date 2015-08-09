@@ -5,9 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using InstAd128000.Helpers;
-using Xceed.Wpf.Toolkit;
 
-namespace InstAd128000.Controls.Tabs
+namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for tAGS.xaml

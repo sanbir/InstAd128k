@@ -5,7 +5,7 @@ using System.Windows.Media;
 using InstAd128000.Helpers;
 using InstaSharp.Models;
 
-namespace InstAd128000.Controls.Tabs
+namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for Follow.xaml

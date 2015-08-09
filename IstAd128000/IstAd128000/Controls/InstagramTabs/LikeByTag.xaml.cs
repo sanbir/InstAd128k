@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using InstAd128000.Helpers;
 
-namespace InstAd128000.Controls.Tabs
+namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for LikeByTag.xaml

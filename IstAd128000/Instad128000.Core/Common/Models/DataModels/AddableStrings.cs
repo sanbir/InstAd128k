@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Instad128000.Core.Common.Interfaces.Services
+namespace Instad128000.Core.Common.Models.DataModels
 {
-    public interface IMatchChar
+    public class AddableStrings : BaseEntity
     {
-        bool MatchChar(char charToMatch);
+        public string String { get; set; }
     }
 }

@@ -158,19 +158,19 @@
     <Compile Include="Helpers\SpinnerInstance.cs" />
     <Compile Include="Helpers\UiHelper.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Controls\Tabs\Follow.xaml.cs">
+    <Compile Include="Controls\InstagramTabs\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Tabs\LikeByTag.xaml.cs">
+    <Compile Include="Controls\InstagramTabs\LikeByTag.xaml.cs">
       <DependentUpon>LikeByTag.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Tabs\Login.xaml.cs">
+    <Compile Include="Controls\InstagramTabs\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Tabs\SearchTags.xaml.cs">
+    <Compile Include="Controls\InstagramTabs\SearchTags.xaml.cs">
       <DependentUpon>SearchTags.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Tabs\CommentByTag.xaml.cs">
+    <Compile Include="Controls\InstagramTabs\CommentByTag.xaml.cs">
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Spinner.xaml">
@@ -189,23 +189,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\Tabs\Follow.xaml">
+    <Page Include="Controls\InstagramTabs\Follow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Tabs\LikeByTag.xaml">
+    <Page Include="Controls\InstagramTabs\LikeByTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Tabs\Login.xaml">
+    <Page Include="Controls\InstagramTabs\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Tabs\SearchTags.xaml">
+    <Page Include="Controls\InstagramTabs\SearchTags.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Tabs\CommentByTag.xaml">
+    <Page Include="Controls\InstagramTabs\CommentByTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

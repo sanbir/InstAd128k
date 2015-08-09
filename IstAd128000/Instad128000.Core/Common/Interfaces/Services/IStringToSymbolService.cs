@@ -10,8 +10,8 @@ using Instad128000.Core.Common.Models.DataModels;
 
 namespace Instad128000.Core.Common.Interfaces.Services
 {
-    public interface ICharToSymbolService : ICrudService<CharToSymbol>, IMatchChar
+    public interface IStringToSymbolService : ICrudService<StringToSymbol>, IMatchString
     {
-        List<string> GetSymbolsByChar(char chr);
+        List<string> GetSymbolsByString(string str);
     }
 }

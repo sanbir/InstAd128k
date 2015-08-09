@@ -21,10 +21,10 @@ namespace InstAd128000.SqlLite.Migrations
         protected override void Seed(InstAd128000.SqlLite.Db context)
         {
             #region CharToSymbols
-            var charToSymbolRows = new List<CharToSymbol>();
-            charToSymbolRows.Add(new CharToSymbol()
+            var charToSymbolRows = new List<StringToSymbol>();
+            charToSymbolRows.Add(new StringToSymbol()
             {
-                Char = "п",
+                String = "п",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
@@ -33,7 +33,7 @@ namespace InstAd128000.SqlLite.Migrations
             });
             foreach (var row in charToSymbolRows)
             {
-                if (!context.CharToSymbolSet.Any(x => x.Char == row.Char && x.Symbol == row.Symbol))
+                if (!context.CharToSymbolSet.Any(x => x.String == row.String && x.Symbol == row.Symbol))
                 {
                     context.CharToSymbolSet.Add(row);
                 }
@@ -41,82 +41,82 @@ namespace InstAd128000.SqlLite.Migrations
             #endregion
 
             #region RepeatableChars
-            var repeatableChars = new List<RepeatableChars>();
-            repeatableChars.Add(new RepeatableChars()
+            var repeatableChars = new List<RepeatableStrings>();
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = ":",
+                String = ":",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = ";",
+                String = ";",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = ")",
+                String = ")",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = "(",
+                String = "(",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = ".",
+                String = ".",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = ",",
+                String = ",",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = "$",
+                String = "$",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = "\\",
+                String = "\\",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = "/",
+                String = "/",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
                 ModifyDate = DateTime.Now,
             });
-            repeatableChars.Add(new RepeatableChars()
+            repeatableChars.Add(new RepeatableStrings()
             {
-                Char = "|",
+                String = "|",
                 CreateDate = DateTime.Now,
                 ID = Guid.NewGuid(),
                 IsDeleted = false,
@@ -124,12 +124,63 @@ namespace InstAd128000.SqlLite.Migrations
             });
             foreach (var row in repeatableChars)
             {
-                if (!context.RepeatableCharsSet.Any(x => x.Char == row.Char))
+                if (!context.RepeatableCharsSet.Any(x => x.String == row.String))
                 {
                     context.RepeatableCharsSet.Add(row);
                 }
             }
             #endregion  
+
+            #region AddableStrings
+            var addableCharsRows = new List<AddableStrings>();
+            addableCharsRows.Add(new AddableStrings()
+            {
+                String = ")",
+                CreateDate = DateTime.Now,
+                ID = Guid.NewGuid(),
+                IsDeleted = false,
+                ModifyDate = DateTime.Now,
+            });
+            addableCharsRows.Add(new AddableStrings()
+            {
+                String = "(",
+                CreateDate = DateTime.Now,
+                ID = Guid.NewGuid(),
+                IsDeleted = false,
+                ModifyDate = DateTime.Now,
+            });
+            addableCharsRows.Add(new AddableStrings()
+            {
+                String = "!",
+                CreateDate = DateTime.Now,
+                ID = Guid.NewGuid(),
+                IsDeleted = false,
+                ModifyDate = DateTime.Now,
+            });
+            addableCharsRows.Add(new AddableStrings()
+            {
+                String = "D",
+                CreateDate = DateTime.Now,
+                ID = Guid.NewGuid(),
+                IsDeleted = false,
+                ModifyDate = DateTime.Now,
+            });
+            addableCharsRows.Add(new AddableStrings()
+            {
+                String = ":P",
+                CreateDate = DateTime.Now,
+                ID = Guid.NewGuid(),
+                IsDeleted = false,
+                ModifyDate = DateTime.Now,
+            });
+            foreach (var row in addableCharsRows)
+            {
+                if (!context.AddableCharsSet.Any(x => x.String == row.String))
+                {
+                    context.AddableCharsSet.Add(row);
+                }
+            }
+            #endregion
         }
     }
 }

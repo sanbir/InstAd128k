@@ -39,6 +39,15 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -83,18 +92,21 @@
     <Compile Include="Common\Enums\SentenceChanges.cs" />
     <Compile Include="Common\Interfaces\Data\IRepository.cs" />
     <Compile Include="Common\Interfaces\IRequestResult.cs" />
-    <Compile Include="Common\Interfaces\Services\ICharToSymbolService.cs" />
+    <Compile Include="Common\Interfaces\IUserControl.cs" />
+    <Compile Include="Common\Interfaces\Services\IAddableStringsService.cs" />
+    <Compile Include="Common\Interfaces\Services\IStringToSymbolService.cs" />
     <Compile Include="Common\Interfaces\Services\ICrudService.cs" />
-    <Compile Include="Common\Interfaces\Services\IMatchChar.cs" />
-    <Compile Include="Common\Interfaces\Services\IRepeatableCharsService.cs" />
+    <Compile Include="Common\Interfaces\Services\IMatchString.cs" />
+    <Compile Include="Common\Interfaces\Services\IRepeatableStringsService.cs" />
     <Compile Include="Common\Interfaces\Services\IRequestService.cs" />
     <Compile Include="Common\Logger\ILogger.cs" />
     <Compile Include="Common\Logger\Log4NetLogger.cs" />
     <Compile Include="Common\Logger\Logger.cs" />
+    <Compile Include="Common\Models\DataModels\AddableStrings.cs" />
     <Compile Include="Common\Models\DataModels\BaseEntity.cs" />
-    <Compile Include="Common\Models\DataModels\CharToSymbol.cs" />
+    <Compile Include="Common\Models\DataModels\StringToSymbol.cs" />
     <Compile Include="Common\Models\DataModels\DataRequestResult.cs" />
-    <Compile Include="Common\Models\DataModels\RepeatableChars.cs" />
+    <Compile Include="Common\Models\DataModels\RepeatableStrings.cs" />
     <Compile Include="Common\Models\RequestResult.cs" />
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
