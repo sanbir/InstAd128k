@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="InstAd128000.Controls.InstagramTabsContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:InstAd128000.Converters"
+             xmlns:instAd128000="clr-namespace:InstAd128000"
+             xmlns:controls="clr-namespace:InstAd128000.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Margin="5" BorderBrush="BurlyWood" Background="BlanchedAlmond" BorderThickness="1" CornerRadius="5">
+            <Grid x:Name="OptionsPanel" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" ToolTip="Войти в аккаунт Instagram">
+                    <Image Source="../Files/Images/System/Login.png"/>
+                </Button>
+                <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Подписаться на всех подписчиков юзера, найденного по имени">Подписаться</Button>
+                <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Найти самые популярные теги по фразе">Рейтинг тегов</Button>
+                <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Комментировать посты по конкретному тегу">Комменты</Button>
+                <Button Grid.Row="4" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Лайкнуть посты по конкретному тегу">Лайкнуть</Button>
+                <Button Grid.Row="5" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="SeetingsButton" ToolTip="Войти в аккаунт Instagram">
+                    <Image Source="../Files/Images/System/Settings.png"/>
+                </Button>
+            </Grid>
+        </Border>
+        <Border Grid.Column="1" Margin="5"  BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" >
+            <Grid x:Name="Panel">
+                <TextBlock Style="{StaticResource OnStartDisclaimer}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
