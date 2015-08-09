@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Instad128000.Core.Common.Enums
+namespace InstAd128000.SentenceBoilTest
 {
-    public enum RequestType
+    class Program
     {
-        Like = 0,
-        Comment = 1,
-        Follow = 2
+        static void Main(string[] args)
+        {
+        }
     }
 }
