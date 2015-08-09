@@ -134,7 +134,7 @@
                         <Button Style="{StaticResource TopMenuButton}" Click="Settings_OnClick" Margin="0,0,50,0">
                             <Image Source="Files/Images/System/Settings.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton"  Margin="0,0,50,0">
+                        <Button Style="{StaticResource TopMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton"  Margin="0,0,50,0" ToolTip="Заолгиниться в Instagram">
                             <Image Source="Files/Images/System/Login.png"/>
                         </Button>
                         <Grid DockPanel.Dock="Right">
