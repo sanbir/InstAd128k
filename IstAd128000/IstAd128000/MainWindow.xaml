@@ -37,7 +37,7 @@
         <Style TargetType="TextBlock" x:Key="OnStartDisclaimer">
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="Text" Value="Прежде, чем начать, пожалуйста, залогинтесь"></Setter>
+            <Setter Property="Text" Value="Please, login to proceed"></Setter>
             <Setter Property="TextAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="10"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
@@ -119,22 +119,22 @@
                 </Grid.RowDefinitions>
                 <Border Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" Background="BlanchedAlmond" Grid.Row="0">
                     <DockPanel>
-                        <Button Style="{StaticResource TopMenuButton}" Click="Close_OnClick" ToolTip="Закрыть">
+                        <Button Style="{StaticResource TopMenuButton}" Click="Close_OnClick">
                             <Image Source="Files/Images/System/Close.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Click="DefaultSize_OnClick" ToolTip="Дефолтный размер">
+                        <Button Style="{StaticResource TopMenuButton}" Click="DefaultSize_OnClick">
                             <Image Source="Files/Images/System/Default.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Click="Maximize_OnClick" ToolTip="На весь экран">
+                        <Button Style="{StaticResource TopMenuButton}" Click="Maximize_OnClick">
                             <Image Source="Files/Images/System/Maximize.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Click="Minimize_OnClick" ToolTip="Свернуть">
+                        <Button Style="{StaticResource TopMenuButton}" Click="Minimize_OnClick">
                             <Image Source="Files/Images/System/Minimize.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Click="Settings_OnClick" Margin="0,0,50,0" ToolTip="Настройки">
+                        <Button Style="{StaticResource TopMenuButton}" Click="Settings_OnClick" Margin="0,0,50,0">
                             <Image Source="Files/Images/System/Settings.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton"  Margin="0,0,50,0" ToolTip="Войти в аккаунт на Instagram">
+                        <Button Style="{StaticResource TopMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton"  Margin="0,0,50,0" ToolTip="Заолгиниться в Instagram">
                             <Image Source="Files/Images/System/Login.png"/>
                         </Button>
                         <Grid DockPanel.Dock="Right">
@@ -150,10 +150,10 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="0" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Follow all followers of some user">Follow</Button>
-                        <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Search for most popular tags that contain the word you enter">Search for tags</Button>
-                        <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Comment posts(and, if you wish, like them) by exact tag">Comment by tag</Button>
-                        <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Like posts by exact tag">Like by tag</Button>
+                        <Button Grid.Row="0" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick">Follow</Button>
+                        <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick">Search for tags</Button>
+                        <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag">Comment by tag</Button>
+                        <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag">Like by tag</Button>
                     </Grid>
                 </Border>
                 <Border Grid.Column="1" Grid.Row="1" Margin="5"  BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" >
