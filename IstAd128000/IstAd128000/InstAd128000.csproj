@@ -154,7 +154,6 @@
     </Compile>
     <Compile Include="Converters\BoolArrToBoolWithAndOperatorConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Dependencies\RequestServiceViewModel.cs" />
     <Compile Include="Helpers\ControlGetter.cs" />
     <Compile Include="Helpers\SpinnerInstance.cs" />
     <Compile Include="Helpers\UiHelper.cs" />

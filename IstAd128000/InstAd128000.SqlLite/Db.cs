@@ -16,6 +16,7 @@ namespace InstAd128000.SqlLite
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Db, Configuration>());
         }
 
-        public DbSet<DataRequestResult> RequestResults { get; set; } 
+        public DbSet<DataRequestResult> RequestResults { get; set; }
+        public DbSet<CharToSymbol> CharToSymbolSet { get; set; } 
     }
 }

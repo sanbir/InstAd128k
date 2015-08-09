@@ -13,7 +13,6 @@ using Instad128000.Core;
 using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Helpers.Selenium;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
-using InstAd128000.Dependencies;
 using InstAd128000.Properties;
 using InstAd128000.Services;
 using Microsoft.Practices.Unity;

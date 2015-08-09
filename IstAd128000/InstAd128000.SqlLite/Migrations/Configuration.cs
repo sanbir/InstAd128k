@@ -1,3 +1,5 @@
+﻿using System.Collections.Generic;
+using System.Data;
 using Instad128000.Core.Common.Enums;
 using Instad128000.Core.Common.Models.DataModels;
 
@@ -18,22 +20,22 @@ namespace InstAd128000.SqlLite.Migrations
 
         protected override void Seed(InstAd128000.SqlLite.Db context)
         {
-            if (!context.RequestResults.Any())
+            var charToSymbolRows = new List<CharToSymbol>();
+            charToSymbolRows.Add(new CharToSymbol()
             {
-                var def = new DataRequestResult()
+                Char = "п",
+                CreateDate = DateTime.Now,
+                ID = Guid.NewGuid(),
+                IsDeleted = false,
+                ModifyDate = DateTime.Now,
+                Symbol = "π"
+            });
+            foreach (var row in charToSymbolRows)
+            {
+                if (!context.CharToSymbolSet.Any(x => x.Char == row.Char && x.Symbol == row.Symbol))
                 {
-                    CommentText = "ohohoh",
-                    Link = "ohohoh",
-                    Type = RequestType.Like,
-                    UserId = 12,
-                    VictimsId = 13,
-                    CreateDate = DateTime.Now,
-                    ModifyDate = DateTime.Now,
-                    ID = Guid.NewGuid(),
-                    IsDeleted = false
-                };
-
-                context.RequestResults.Add(def);
+                    context.CharToSymbolSet.Add(row);
+                }
             }
         }
     }
