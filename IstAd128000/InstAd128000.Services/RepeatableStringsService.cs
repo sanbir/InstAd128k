@@ -10,16 +10,16 @@ using Instad128000.Core.Common.Models.DataModels;
 
 namespace InstAd128000.Services
 {
-    public class RepeatableCharsService: CrudService<RepeatableChars>, IRepeatableCharsService
+    public class RepeatableStringsService: CrudService<RepeatableStrings>, IRepeatableStringsService
     {
-        public RepeatableCharsService(IRepository<RepeatableChars> repo) : base(repo)
+        public RepeatableStringsService(IRepository<RepeatableStrings> repo) : base(repo)
         {
         }
 
-        public bool MatchChar(char charToMatch)
+        public bool MatchString(string charToMatch)
         {
-            var toString = charToMatch.ToString();
-            return this.Repo.Where(x => x.Char == toString).Any();
+            var toString = charToMatch;
+            return this.Repo.Where(x => x.String == toString).Any();
         }
     }
 }

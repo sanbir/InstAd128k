@@ -8,7 +8,7 @@ using Instad128000.Core.Common.Models.DataModels;
 
 namespace Instad128000.Core.Common.Interfaces.Services
 {
-    public interface IRepeatableCharsService : ICrudService<RepeatableChars>, IMatchChar
+    public interface IRepeatableStringsService : ICrudService<RepeatableStrings>, IMatchString
     {
     }
 }

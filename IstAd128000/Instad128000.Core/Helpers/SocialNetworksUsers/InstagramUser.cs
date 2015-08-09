@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Instad128000.Core.Common.Enums;
 using Instad128000.Core.Common.Interfaces;
+using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Models;
 using Instad128000.Core.Extensions;
 using Instad128000.Core.Helpers.Selenium;
@@ -18,6 +19,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
     public class InstagramUser : ISocialNetworkUser<User>
     {
+        private IRequestService RequestService { get; set; }
+        private IStringToSymbolService StringToSymbolService { get; set; }
+        private IRepeatableStringsService RepeatableStringsService { get; set; }
+        private IAddableStringsService AddableStringsService { get; set; }
+
         public string ClientKey { get; set; }
 
         public string ClientId { get; set; }
@@ -34,7 +40,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
-        public InstagramUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword)
+        public InstagramUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword, IRequestService requestService, 
+                            IStringToSymbolService stringToSymbolService, IRepeatableStringsService repeatableStringsService, IAddableStringsService addableStringsService)
         {
             ClientId = clientId;
             ClientKey = clientKey;
@@ -42,6 +49,10 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             WaitTimer = new WaitTimer(driver);
             UserName = userName;
             UserPassword = userPassword;
+            RequestService = requestService;
+            StringToSymbolService = stringToSymbolService;
+            RepeatableStringsService = repeatableStringsService;
+            AddableStringsService = addableStringsService;
         }
 
         public bool Authorize()

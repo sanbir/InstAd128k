@@ -42,8 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharToSymbolService.cs" />
-    <Compile Include="RepeatableCharsService.cs" />
+    <Compile Include="AddableStringsService.cs" />
+    <Compile Include="StringToSymbolService.cs" />
+    <Compile Include="RepeatableStringsService.cs" />
     <Compile Include="CrudService.cs" />
     <Compile Include="RequestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

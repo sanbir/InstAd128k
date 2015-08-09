@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Instad128000.Core.Common.Models.DataModels
 {
-    public class RepeatableChars : BaseEntity
+    public class RepeatableStrings : BaseEntity
     {
-        public string Char { get; set; }
+        public string String { get; set; }
     }
 }

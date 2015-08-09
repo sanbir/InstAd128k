@@ -21,16 +21,15 @@ namespace InstAd128000.TestApplication
         static void Main(string[] args)
         {
             LoadContainer();
-            var srv = _container.Resolve<ICharToSymbolService>();
-            var srvR = _container.Resolve<IRepeatableCharsService>();
+            var srv = _container.Resolve<IStringToSymbolService>();
+            var srvR = _container.Resolve<IRepeatableStringsService>();
+            var srvA = _container.Resolve<IAddableStringsService>();
 
-            var senOb = new SentenceObfuscator("Привет, мамочка и папочка! Я курю сиги:\\)).", srv, srvR);
-            for (var i = 0; i < 10; i++)
+            var senOb = new SentenceObfuscator("Привет, мамочка и папочка! Я курю сиги:\\)).", srv, srvR, srvA);
+            for (var i = 0; i < 100; i++)
             {
                 var next = senOb.Next();
             }
-
-
         }
 
         private static void LoadContainer()
@@ -40,8 +39,9 @@ namespace InstAd128000.TestApplication
             _container.RegisterType<IDbContextFactory, DbContextFactory>();
             _container.RegisterType(typeof(ICrudService<>), typeof(CrudService<>));
             _container.RegisterType(typeof(IRepository<>), typeof(Repository<>));
-            _container.RegisterType<ICharToSymbolService, CharToSymbolService>();
-            _container.RegisterType<IRepeatableCharsService, RepeatableCharsService>();
+            _container.RegisterType<IStringToSymbolService, StringToSymbolService>();
+            _container.RegisterType<IRepeatableStringsService, RepeatableStringsService>();
+            _container.RegisterType<IAddableStringsService, AddableStringsService>();
             _container.RegisterType<IRequestService, RequestService>();
         }
     }

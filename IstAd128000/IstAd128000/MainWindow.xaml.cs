@@ -64,6 +64,12 @@ namespace InstAd128000
 
         [Dependency]
         public IRequestService RequestService { get; set; }
+        [Dependency]
+        public IStringToSymbolService StringToSymbolService { get; set; }
+        [Dependency]
+        public IRepeatableStringsService RepeatableStringsService { get; set; }
+        [Dependency]
+        public IAddableStringsService AddableStringsService { get; set; }
 
         private Dictionary<string,UserControl> _controlsList;
 
@@ -93,10 +99,18 @@ namespace InstAd128000
             }
             try
             {
-                tab =
-                    (UserControl)
-                        Activator.CreateInstance(Assembly.GetExecutingAssembly().FullName, "InstAd128000.Controls.Tabs." + tag)
-                            .Unwrap();
+                if (tag == "Login")
+                {
+
+                    tab =
+                        (UserControl)
+                            Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), RequestService,
+                                StringToSymbolService, RepeatableStringsService, AddableStringsService);
+                }
+                else
+                {
+                    tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag));
+                }
                 _controlsList.Add(tag,tab);
             }
             catch (Exception ex)

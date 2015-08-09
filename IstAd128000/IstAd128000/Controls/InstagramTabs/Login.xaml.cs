@@ -2,22 +2,33 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Instad128000.Core.Common.Interfaces;
+using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Helpers.Selenium;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Helpers;
 
-namespace InstAd128000.Controls.Tabs
+namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : UserControl
+    public partial class Login : UserControl, IDBInteractive
     {
-        public Login()
+        public IRequestService RequestService { get; set; }
+        public IStringToSymbolService StringToSymbolService { get; set; }
+        public IRepeatableStringsService RepeatableStringsService { get; set; }
+        public IAddableStringsService AddableStringsService { get; set; }
+
+        public Login(IRequestService requestService, IStringToSymbolService stringToSymbolService, IRepeatableStringsService repeatableStringsService, IAddableStringsService addableStringsService)
         {
             InitializeComponent();
             UsernameBox.Text = Properties.Settings.Default.Username;
-            PasswordBox.Password= Properties.Settings.Default.Password;
+            PasswordBox.Password = Properties.Settings.Default.Password;
+            RequestService = requestService;
+            StringToSymbolService = stringToSymbolService;
+            RepeatableStringsService = repeatableStringsService;
+            AddableStringsService = addableStringsService;
         }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
@@ -80,7 +91,7 @@ namespace InstAd128000.Controls.Tabs
         {
             ControlGetter.MainWindow.User = new InstagramUser(Properties.Settings.Default.ClientKey,
                 Properties.Settings.Default.ClientId, Driver.Instance, UsernameBox.Text,
-                PasswordBox.Password);
+                PasswordBox.Password, RequestService,StringToSymbolService,RepeatableStringsService,AddableStringsService);
             var task = new Task<bool>(ControlGetter.MainWindow.User.Authorize);
             task.Start();
             return await task;

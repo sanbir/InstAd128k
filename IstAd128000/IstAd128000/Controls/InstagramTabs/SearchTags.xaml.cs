@@ -7,7 +7,7 @@ using System.Windows.Media;
 using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
 
-namespace InstAd128000.Controls.Tabs
+namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for SearchTags.xaml
