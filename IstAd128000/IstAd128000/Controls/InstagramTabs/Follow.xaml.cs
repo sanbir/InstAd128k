@@ -26,13 +26,13 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             _returnList = null;
 
-            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
             FollowButton.IsEnabled = false;
 
             //todo: check text is not empty
             var followString = FollowUsernameBox.Text;
-            _returnList = await ControlGetter.MainWindow.User.AddToContactsAllContactsOf(followString);
+            _returnList = await ControlGetter.MainWindow.InstagramTab.User.AddToContactsAllContactsOf(followString);
 
             if (_returnList != null)
             {
@@ -44,7 +44,7 @@ namespace InstAd128000.Controls.InstagramTabs
                 FollowedPeopleCount.Foreground = Brushes.Red;
                 FollowedPeopleCount.Text = "Sorry, this user locked his page or user do not exist.";
             }
-            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
             SpinnerInstance.RemoveFromMainWindow();
             FollowButton.IsEnabled = true;
         }

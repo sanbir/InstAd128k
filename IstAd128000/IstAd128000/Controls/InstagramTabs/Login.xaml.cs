@@ -60,16 +60,16 @@ namespace InstAd128000.Controls.InstagramTabs
                 }
             }
 
-            ControlGetter.MainWindow.Panel.Children.Clear();
-            ControlGetter.MainWindow.IsNoProcessPerformed = false;
+            ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
 
             if (error) return;
 
             if (await DoLoginTaskAsync())
             {
-                ControlGetter.MainWindow.IsLogged = true;
-                ControlGetter.MainWindow.Panel.Children.Clear();
+                ControlGetter.MainWindow.InstagramTab.IsLogged = true;
+                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
             }
             else
             {
@@ -79,20 +79,20 @@ namespace InstAd128000.Controls.InstagramTabs
                 warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
                 warnText.VerticalAlignment = VerticalAlignment.Top;
 
-                ControlGetter.MainWindow.IsLogged = false;
-                ControlGetter.MainWindow.Panel.Children.Clear();
-                ControlGetter.MainWindow.Panel.Children.Add(warnText);
-                ControlGetter.MainWindow.Panel.Children.Add(this);
+                ControlGetter.MainWindow.InstagramTab.IsLogged = false;
+                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+                ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(warnText);
+                ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(this);
             }
-            ControlGetter.MainWindow.IsNoProcessPerformed = true;
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
         }
 
         private async Task<bool> DoLoginTaskAsync()
         {
-            ControlGetter.MainWindow.User = new InstagramUser(Properties.Settings.Default.ClientKey,
+            ControlGetter.MainWindow.InstagramTab.User = new InstagramUser(Properties.Settings.Default.ClientKey,
                 Properties.Settings.Default.ClientId, Driver.Instance, UsernameBox.Text,
                 PasswordBox.Password, RequestService,StringToSymbolService,RepeatableStringsService,AddableStringsService);
-            var task = new Task<bool>(ControlGetter.MainWindow.User.Authorize);
+            var task = new Task<bool>(ControlGetter.MainWindow.InstagramTab.User.Authorize);
             task.Start();
             return await task;
         }

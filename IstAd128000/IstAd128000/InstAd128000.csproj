@@ -149,6 +149,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\InstagramTabsContainer.xaml.cs">
+      <DependentUpon>InstagramTabsContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,10 @@
     <Compile Include="Controls\InstagramTabs\CommentByTag.xaml.cs">
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\InstagramTabsContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Spinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

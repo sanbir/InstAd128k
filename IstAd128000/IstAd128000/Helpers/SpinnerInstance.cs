@@ -21,12 +21,12 @@ namespace InstAd128000.Helpers
 
         public static void SetToMainWindow()
         {
-            ControlGetter.MainWindow.Panel.Children.Add(Get);
+            ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(Get);
         }
 
         public static void RemoveFromMainWindow()
         {
-            ControlGetter.MainWindow.Panel.Children.Remove(Get);
+            ControlGetter.MainWindow.InstagramTab.Panel.Children.Remove(Get);
         }
     }
 }
