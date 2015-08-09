@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Instad128000.Core.Common.Enums;
@@ -28,7 +29,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public string ClientId { get; set; }
 
-        public PhantomJSDriver Driver { get; set; }
+        public PhantomJSDriver WebDriver { get; set; }
 
         public string UserName { get; set; }
 
@@ -40,13 +41,13 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
-        public InstagramUser(string clientKey, string clientId, PhantomJSDriver driver, string userName, string userPassword, IRequestService requestService, 
+        public InstagramUser(string clientKey, string clientId, PhantomJSDriver webDriver, string userName, string userPassword, IRequestService requestService, 
                             IStringToSymbolService stringToSymbolService, IRepeatableStringsService repeatableStringsService, IAddableStringsService addableStringsService)
         {
             ClientId = clientId;
             ClientKey = clientKey;
-            Driver = driver;
-            WaitTimer = new WaitTimer(driver);
+            WebDriver = webDriver;
+            WaitTimer = new WaitTimer(webDriver);
             UserName = userName;
             UserPassword = userPassword;
             RequestService = requestService;
@@ -62,11 +63,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         private bool SeleniumAuth()
         {
-            Driver.Navigate().GoToUrl("https://instagram.com/accounts/login/");
+            WebDriver.Navigate().GoToUrl("https://instagram.com/accounts/login/");
 
             var user = WaitTimer.FindElement(By.Id("lfFieldInputUsername"), 60);
-            var pass = Driver.FindElement(By.Id("lfFieldInputPassword"));
-            var button = Driver.FindElement(By.ClassName("-cx-PRIVATE-LoginForm__loginButton"));
+            var pass = WebDriver.FindElement(By.Id("lfFieldInputPassword"));
+            var button = WebDriver.FindElement(By.ClassName("-cx-PRIVATE-LoginForm__loginButton"));
 
             user.SendKeys(UserName);
             pass.SendKeys(UserPassword);
@@ -116,8 +117,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             {
                 //todo: убрать break
                 break;
-                Driver.Navigate().GoToUrl("https://instagram.com/" + item.Username);
-                var followButton = Driver.FindElement(By.ClassName("-cx-PRIVATE-FollowButton__button"));
+                WebDriver.Navigate().GoToUrl("https://instagram.com/" + item.Username);
+                var followButton = WebDriver.FindElement(By.ClassName("-cx-PRIVATE-FollowButton__button"));
                 followButton.Click();
             }
             return followers;
@@ -129,19 +130,50 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             {
                 await GetSeleniumUserId();
             }
-            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+            var mediaEndpoint = new InstaSharp.Endpoints.Media(ApiConfig);
+            var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
             var answer = new List<RequestResult>();
+            var waitSeconds = 30; //todo: userSetting
+            var likeFrequency = 2; //todo: userSetting
+            var banCount = 0;
+            var banCountSetting = 10; //todo: userSetting
             do
             {
-                var result = await tags.Recent(tag, "0", lastId, count);
+                var result = await tagsEndpoint.Recent(tag, "0", lastId, count);
+
                 var random = new Random();
                 foreach (var res in result.Data.ToArray())
                 {
-                    var timer = random.Next(0, 20);
-                    var likeResult = AddLike(res);
-                    if (likeResult != null)
+                    var timer = random.Next(0, waitSeconds);
+                    if (random.Next(0, waitSeconds) <= waitSeconds/likeFrequency)
                     {
-                        answer.Add(likeResult);
+                        var likeResult = AddLike(res);
+
+
+
+                        if (likeResult != null)
+                        {
+                            if (likeResult.VictimsId == 0)
+                            {
+                                count++;
+                            }
+                            else
+                            {
+                                answer.Add(likeResult);
+                            }
+                            
+                        }
+                        else
+                        {
+                            banCount++;
+                            if (banCount == banCountSetting)
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        count++;
+                        WebDriver.Navigate().GoToUrl(res.Link);
                     }
                     Thread.Sleep(new TimeSpan(0, 0, timer));
                 }
@@ -154,27 +186,46 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         }
 
+        public void WaitAjax()
+        {
+            while (true) // Handle timeout somewhere
+            {
+                var ready = new Func<bool>(() => (bool)ExecuteJavaScript("return (typeof($) === 'undefined') ? true : !$.active;"));
+                if (ready())
+                    break;
+                Thread.Sleep(100);
+            }
+            
+        }
+
+        public object ExecuteJavaScript(string javaScript, params object[] args)
+        {
+            var javaScriptExecutor = (IJavaScriptExecutor)WebDriver;
+
+            return javaScriptExecutor.ExecuteScript(javaScript, args);
+        }
+
 
         private RequestResult AddLike(Media media)
         {
             RequestResult result = null;
-            int counter = 0;
             
-            do
+            WebDriver.Navigate().GoToUrl(media.Link);
+            var likeButton = WebDriver.WaitUntil(By.ClassName("coreSpriteHeartOpen"), 5);
+            if (likeButton != null)
             {
-                Driver.Navigate().GoToUrl(media.Link);
-                var likeButton = Driver.WaitUntil(By.ClassName("coreSpriteHeartOpen"), 5);
-                if (likeButton != null)
-                {
-                    likeButton.Click();
-                    if (Driver.WaitUntil(By.ClassName("coreSpriteHeartFull"), 5) != null)
-                    {
-                        result = new RequestResult("", media.User.Id, UserId, media.Link, RequestType.Like);
-                        break;
-                    }
-                    counter++;
-                }
-            } while (counter != 2);
+                string id = media.Id.Substring(0, media.Id.IndexOf("_"));
+                string script = "window.vazr = ''; $.ajax({ url: 'https://instagram.com/web/likes/" + id + "/like/', type: 'POST'}).done(function( msg ) { window.vazr = msg.status == 'ok'? '1' : '0'; }).fail(function( jqXHR, textStatus ) {window.vazr = '0';});";
+                ExecuteJavaScript(script);                                                      //1047724894729627550
+                WaitAjax();
+                string vazr = (string)ExecuteJavaScript("return window.vazr;");
+                if(vazr == "1")
+                    result = new RequestResult("", media.User.Id, UserId, media.Link, RequestType.Like);
+            }
+            else
+            {
+                return new RequestResult("", 0, 0, "", RequestType.Like);
+            }
             
             return result;
         }
@@ -183,14 +234,14 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         private RequestResult AddComment(Media media, string commentText)
         {
             RequestResult result = null;
-            Driver.Navigate().GoToUrl(media.Link);
-            var commentResult = Driver.WaitUntil(By.XPath("//a[@title='" + UserName + "' and contains(text(), '" + UserName + "')] "), 5);
+            WebDriver.Navigate().GoToUrl(media.Link);
+            var commentResult = WebDriver.WaitUntil(By.XPath("//a[@title='" + UserName + "' and contains(text(), '" + UserName + "')] "), 5);
             int counter = 0;
             do
             {
                 if (commentResult == null) // if comment not exists
                 {
-                    var commentField = Driver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 10);
+                    var commentField = WebDriver.WaitUntil(By.ClassName("-cx-PRIVATE-PostInfo__commentCreatorInput"), 10);
                     if (commentField == null)
                     {
                         if (counter != 2)
@@ -202,7 +253,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     }
                         commentField.SendKeys(commentText.Trim());
                     commentField.SendKeys(Keys.Return);
-                    commentResult = Driver.WaitUntil(By.XPath("//a[@title='" + UserName + "' and contains(text(), '" + UserName + "')] "), 5);
+                    commentResult = WebDriver.WaitUntil(By.XPath("//a[@title='" + UserName + "' and contains(text(), '" + UserName + "')] "), 5);
                     if (commentResult != null)
                     {
                         result = new RequestResult(commentText, media.User.Id, UserId, media.Link, RequestType.Comment);

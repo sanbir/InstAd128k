@@ -41,6 +41,14 @@ namespace InstAd128000.Controls.InstagramTabs
             string lastId = "0";
 
             var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTag(LikeTag.Text, likes, lastId);
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Temp\result.txt", true))
+            {
+                foreach (var item in result)
+                {
+                    file.WriteLine("{0} url: {1}", item.Type.ToString("g"), item.Link);
+                }
+                
+            }
             //todo: замути лайки
 
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
