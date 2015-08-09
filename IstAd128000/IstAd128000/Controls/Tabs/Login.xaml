@@ -24,7 +24,7 @@
                 <Label Grid.Column="0">Password:</Label>
                 <PasswordBox Grid.Column="1" x:Name="PasswordBox" PasswordChar="*"></PasswordBox>
             </Grid>
-            <Button Width="100" Height="30" HorizontalAlignment="Right" Click="Login_OnClick">Login</Button>
+            <Button Width="100" Height="30" HorizontalAlignment="Right" Click="Login_OnClick">Войти</Button>
         </StackPanel>
     </Grid>
 </UserControl>

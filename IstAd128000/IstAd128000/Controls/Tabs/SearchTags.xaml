@@ -8,7 +8,7 @@
     <Grid x:Name="SearchTagsTabHolder" Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,10 +16,10 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="String to search tags for:" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Теги по вхождению строки: " TextWrapping="Wrap" VerticalAlignment="Center"/>
         <TextBox Grid.Column="1" Grid.Row="0" Text="kitty" x:Name="TagsStringInput" TextChanged="TagsStringInput_OnTextChanged"/>
-        <Button Grid.Column="1" Grid.Row="1" Click="SearchTags_OnClick" x:Name="TagSearchButton" HorizontalAlignment="Right" Width="100" Height="30" >Search</Button>
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Search results:"/>
+        <Button Grid.Column="1" Grid.Row="1" Click="SearchTags_OnClick" x:Name="TagSearchButton" HorizontalAlignment="Right" Width="100" Height="30" >Найти</Button>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Результаты поиска:"/>
         <ItemsControl Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" x:Name="FoundTagsContainerGrid">
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
