@@ -22,6 +22,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" ToolTip="Войти в аккаунт Instagram">
                     <Image Source="../Files/Images/System/Login.png"/>
@@ -30,7 +31,8 @@
                 <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Найти самые популярные теги по фразе">Рейтинг тегов</Button>
                 <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Комментировать посты по конкретному тегу">Комменты</Button>
                 <Button Grid.Row="4" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Лайкнуть посты по конкретному тегу">Лайкнуть</Button>
-                <Button Grid.Row="5" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="SeetingsButton" ToolTip="Войти в аккаунт Instagram">
+                <Button Grid.Row="5" Style="{StaticResource ButtonStyle}" Tag="SearchLocations" Click="AnyButton_OnClick" x:Name="SearchLocations" ToolTip="Поиск по локациям">Поиск по локациям</Button>
+                <Button Grid.Row="6" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="SeetingsButton" ToolTip="Войти в аккаунт Instagram">
                     <Image Source="../Files/Images/System/Settings.png"/>
                 </Button>
             </Grid>

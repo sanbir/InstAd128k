@@ -55,6 +55,10 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
@@ -152,6 +156,9 @@
     <Compile Include="Controls\InstagramTabsContainer.xaml.cs">
       <DependentUpon>InstagramTabsContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InstagramTabs\SearchLocations.xaml.cs">
+      <DependentUpon>SearchLocations.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SnapsterTabsContainer.xaml.cs">
       <DependentUpon>SnapsterTabsContainer.xaml</DependentUpon>
     </Compile>
@@ -180,6 +187,10 @@
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\InstagramTabsContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InstagramTabs\SearchLocations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

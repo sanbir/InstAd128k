@@ -23,5 +23,8 @@
     <Setting Name="MaxTransactionNumber" Type="System.String" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="BingCredentialsProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AnyssUdkNoAlvtUP71YzMtXKCKJTnvUQXNXjhAT50x-4dB5KblDAa6bRDC4rsXKb</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

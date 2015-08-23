@@ -4,6 +4,7 @@
              xmlns:controls="clr-namespace:InstAd128000.Controls"
              xmlns:converters="clr-namespace:InstAd128000.Converters"
              xmlns:instAd128000="clr-namespace:InstAd128000"
+             xmlns:properties="clr-namespace:InstAd128000.Properties"
              Startup="App_OnStartup">
     <Application.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
