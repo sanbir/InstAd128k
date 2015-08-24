@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InstAd128000.Properties;
+using InstAd128000.ViewModels;
 using Microsoft.Maps.MapControl.WPF;
 
 namespace InstAd128000.Controls.InstagramTabs
@@ -20,8 +21,12 @@ namespace InstAd128000.Controls.InstagramTabs
     /// <summary>
     /// Interaction logic for SearchLocations.xaml
     /// </summary>
-    public partial class SearchLocations : UserControl
+    public partial class SearchLocations
     {
+        private static SearchLocationsViewModel _viewModel;
+
+        public static SearchLocationsViewModel ViewModel => _viewModel ?? (_viewModel = new SearchLocationsViewModel());
+
         public SearchLocations()
         {
             InitializeComponent();

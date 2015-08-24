@@ -5,6 +5,7 @@
              xmlns:converters="clr-namespace:InstAd128000.Converters"
              xmlns:instAd128000="clr-namespace:InstAd128000"
              xmlns:properties="clr-namespace:InstAd128000.Properties"
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
              Startup="App_OnStartup">
     <Application.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
@@ -80,5 +81,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <viewModels:SearchLocationsViewModel x:Key="SearchLocationsViewModel" />
     </Application.Resources>
 </Application>

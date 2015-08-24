@@ -186,6 +186,7 @@
     <Compile Include="Controls\InstagramTabs\CommentByTag.xaml.cs">
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\SearchLocationsViewModel.cs" />
     <Page Include="Controls\InstagramTabsContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
