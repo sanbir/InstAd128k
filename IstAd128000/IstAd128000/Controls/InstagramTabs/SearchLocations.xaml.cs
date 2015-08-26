@@ -23,14 +23,15 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class SearchLocations
     {
-        private static SearchLocationsViewModel _viewModel;
-
-        public static SearchLocationsViewModel ViewModel => _viewModel ?? (_viewModel = new SearchLocationsViewModel());
+        public SearchLocationsViewModel ViewModel { get; set; }
 
         public SearchLocations()
         {
             InitializeComponent();
             MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(Settings.Default.BingCredentialsProvider);
+
+            ViewModel = new SearchLocationsViewModel {Latitude = 300, Longitude = 544, Query = "Fuck", Radius = 42};
+            DataContext = ViewModel;
         }
     }
 }

@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:InstAd128000.Controls.InstagramTabs"
              xmlns:properties="clr-namespace:InstAd128000.Properties"
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
              xmlns:wpf="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <StaticResource ResourceKey="SearchLocationsViewModel" />
+        <viewModels:SearchLocationsViewModel />
     </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,19 +25,19 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" >
                 <TextBlock Text="Строка запроса:" />
-                <TextBox Width="200" Text="{Binding Query}" />
+                <TextBox Width="200" Text="{Binding Path=Query, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Широта:" />
-                <TextBox Width="80" Text="{Binding Latitude}" />
+                <TextBox Width="80" Text="{Binding Path=Latitude, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Долгота:" />
-                <TextBox Width="80" Text="{Binding Longitude}" />
+                <TextBox Width="80" Text="{Binding Path=Longitude, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Радиус (м):" />
-                <TextBox Width="40" Text="{Binding Radius}" />
+                <TextBox Width="40" Text="{Binding Path=Radius, Mode=TwoWay}" />
             </StackPanel>
         </StackPanel>
         <wpf:Map Name="MyMap" 
