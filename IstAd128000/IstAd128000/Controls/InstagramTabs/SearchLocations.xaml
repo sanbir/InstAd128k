@@ -29,15 +29,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Широта:" />
-                <TextBox Width="80" Text="{Binding Path=Latitude, Mode=TwoWay}" />
+                <TextBox Width="80" Text="{Binding Path=Latitude, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Долгота:" />
-                <TextBox Width="80" Text="{Binding Path=Longitude, Mode=TwoWay}" />
+                <TextBox Width="80" Text="{Binding Path=Longitude, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Радиус (м):" />
-                <TextBox Width="40" Text="{Binding Path=Radius, Mode=TwoWay}" />
+                <TextBox Width="40" Text="{Binding Path=Radius, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </StackPanel>
         <wpf:Map Name="MyMap" 
