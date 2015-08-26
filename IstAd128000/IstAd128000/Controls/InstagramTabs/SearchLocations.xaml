@@ -45,6 +45,9 @@
                ZoomLevel="15"
                Mode="Road"
                Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+            <wpf:MapPolyline Stroke="Blue" StrokeThickness="5" 
+                 Locations="{Binding Path=Locations, Mode=TwoWay}" 
+                 Opacity="0.7"/>
         </wpf:Map>
     </Grid>
 </UserControl>
