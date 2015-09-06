@@ -118,5 +118,29 @@ namespace InstAd128000.Properties {
                 this["BingCredentialsProvider"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("G5TADXECKHJXANOVZKHZS0ANGMRDRK1DE5PCGX5RMHKYOIRH")]
+        public string FourSquareClientId {
+            get {
+                return ((string)(this["FourSquareClientId"]));
+            }
+            set {
+                this["FourSquareClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("KZWGHVNMPDUTNY2VPZS1ZYGQH3B3UJY5UX5P0S1N3JUGZ3FD")]
+        public string FourSquareClientSecret {
+            get {
+                return ((string)(this["FourSquareClientSecret"]));
+            }
+            set {
+                this["FourSquareClientSecret"] = value;
+            }
+        }
     }
 }

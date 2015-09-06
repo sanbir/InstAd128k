@@ -5,8 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using FourSquare.SharpSquare.Core;
+using FourSquare.SharpSquare.Entities;
 using InstAd128000.Annotations;
 using Microsoft.Maps.MapControl.WPF;
+using Location = Microsoft.Maps.MapControl.WPF.Location;
 
 namespace InstAd128000.ViewModels
 {
@@ -17,6 +20,7 @@ namespace InstAd128000.ViewModels
         private int _radius;
         private string _query;
         private LocationCollection _locations;
+        private List<Venue> _venues;
 
         public double Latitude
         {
@@ -68,6 +72,16 @@ namespace InstAd128000.ViewModels
             {
                 _locations = value;
                 OnPropertyChanged(nameof(Locations));
+            }
+        }
+
+        public List<Venue> Venues
+        {
+            get { return _venues; }
+            set
+            {
+                _venues = value;
+                OnPropertyChanged(nameof(Venues));
             }
         }
 
