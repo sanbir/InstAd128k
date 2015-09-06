@@ -314,12 +314,14 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public async Task<TagsResponse> SearchForTags(string tagPart)
         {
-            var locations = new InstaSharp.Endpoints.Locations(ApiConfig);
-            var results = await locations.Search(55.030229, 82.921143, 5000);
-            //var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
-            //var results = await tags.Search(tagPart);
+            //todo: Александр, это надо бы делать в отдельной функции)). Закомментил.
+            //var locations = new InstaSharp.Endpoints.Locations(ApiConfig);
+            //var results = await locations.Search(55.030229, 82.921143, 5000);
 
-            return null;
+            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+            var results = await tags.Search(tagPart);
+
+            return results;
         }
     }
 }
