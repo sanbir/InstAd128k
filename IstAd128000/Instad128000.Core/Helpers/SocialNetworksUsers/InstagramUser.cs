@@ -266,7 +266,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         } 
 
 
-        public async Task<List<RequestResult>> CommentByTag(string tag, string commentText, int count, string lastId, bool addLike)
+        public async Task<List<RequestResult>> CommentByTag(string tag, string commentText, int? count, string lastId, bool addLike)
         {
             DateTime start = DateTime.Now;
             if (UserId == 0)
@@ -314,7 +314,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public async Task<TagsResponse> SearchForTags(string tagPart)
         {
-            //todo: Александр, это надо бы делать в отдельной функции)). Закомментил.
+            //@todo: Александр, это надо бы делать в отдельной функции)). Закомментил.
             //var locations = new InstaSharp.Endpoints.Locations(ApiConfig);
             //var results = await locations.Search(55.030229, 82.921143, 5000);
 

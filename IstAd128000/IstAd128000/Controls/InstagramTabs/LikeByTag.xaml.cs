@@ -29,9 +29,24 @@ namespace InstAd128000.Controls.InstagramTabs
             {
                 LikeTag.Text = "Please, enter valid text";
                 LikeTag.Foreground = Brushes.Red;
-                ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-                SpinnerInstance.RemoveFromMainWindow();
-                LikeButton.IsEnabled = true;
+                ResetMainWindow();
+                return;
+            }
+
+            if (WorkTime.Value.HasValue)
+            {
+                var delta = WorkTime.Value.Value - DateTime.Now;
+                if (delta.Hours <= 0 || delta.Minutes <= 0)
+                {
+                    MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
+                    ResetMainWindow();
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
+                ResetMainWindow();
                 return;
             }
 
@@ -51,6 +66,11 @@ namespace InstAd128000.Controls.InstagramTabs
             }
             //todo: замути лайки
 
+            ResetMainWindow();
+        }
+
+        private void ResetMainWindow()
+        {
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
             SpinnerInstance.RemoveFromMainWindow();
             LikeButton.IsEnabled = true;

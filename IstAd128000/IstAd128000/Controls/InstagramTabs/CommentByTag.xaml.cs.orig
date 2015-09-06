@@ -22,42 +22,21 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
-            CommentButton.IsEnabled = false;
 
             if (string.IsNullOrWhiteSpace(CommentTag.Text))
             {
                 CommentTag.Text = "Please, enter valid text";
                 CommentTag.Foreground = Brushes.Red;
-                ResetMainWindow();
                 return;
             }
-
-            if (WorkTime.Value.HasValue)
-            {
-                var delta = WorkTime.Value.Value - DateTime.Now;
-                if (delta.Hours <= 0 || delta.Minutes <= 0)
-                {
-                    MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
-                    ResetMainWindow();
-                    return;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
-                ResetMainWindow();
-                return;
-            }
-                
-
-            int commentsNumber = Convert.ToInt32(CommentsNumber.Text);
+            
             //todo: добавить поиск последнего id в бд для пагинации ептэ
             string lastId = "0";
 
-            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTag(CommentTag.Text, CommentText.Text, commentsNumber, lastId, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
-            CommentedPostsCount.Text = result.Count.ToString();
+            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTag(CommentTag.Text, CommentText.Text, null, lastId, false);
 
-            ResetMainWindow();
+            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
+            SpinnerInstance.RemoveFromMainWindow();
         }
 
         private void CommentsNumber_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -69,13 +48,6 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             var regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
             return !regex.IsMatch(text);
-        }
-
-        private void ResetMainWindow()
-        {
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-            SpinnerInstance.RemoveFromMainWindow();
-            CommentButton.IsEnabled = true;
         }
     }
 }

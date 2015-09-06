@@ -66,21 +66,15 @@
                         <Button Style="{StaticResource TopMenuButton}" Click="Minimize_OnClick" ToolTip="Свернуть">
                             <Image Source="Files/Images/System/Minimize.png"/>
                         </Button>
-                        <Button Style="{StaticResource TopMenuButton}" Click="Settings_OnClick" Margin="0,0,50,0" ToolTip="Настройки">
-                            <Image Source="Files/Images/System/Settings.png"/>
-                        </Button>
                         <Grid DockPanel.Dock="Right">
                             <Image Source="Files/Images/IconText/IconText5.png" Grid.Column="0" Height="50" Margin="5"/>
                         </Grid>
                     </DockPanel>
                 </Border>
-                <TabControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" >
+                <TabControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" x:Name="Tabs">
                     <TabItem Header="Instagram">
                         <controls:InstagramTabsContainer x:Name="InstagramTab"></controls:InstagramTabsContainer>
-                    </TabItem>
-                    <TabItem Header="Snapster">
-                        <controls:SnapsterTabsContainer x:Name="SnapsterTab"></controls:SnapsterTabsContainer>
-                    </TabItem>
+                    </TabItem> 
                 </TabControl>
             </Grid>
         </Border>

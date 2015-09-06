@@ -163,12 +163,10 @@
     <Compile Include="Controls\InstagramTabs\SearchLocations.xaml.cs">
       <DependentUpon>SearchLocations.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SnapsterTabsContainer.xaml.cs">
-      <DependentUpon>SnapsterTabsContainer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\RemainingTimeConverter.cs" />
     <Compile Include="Converters\BoolArrToBoolWithAndOperatorConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\ControlGetter.cs" />
@@ -196,10 +194,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InstagramTabs\SearchLocations.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SnapsterTabsContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
