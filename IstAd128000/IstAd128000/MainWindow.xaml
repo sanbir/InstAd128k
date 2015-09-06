@@ -12,7 +12,7 @@
         AllowsTransparency="True" Background="Transparent" 
         MinWidth="700" MinHeight="550">
     <Window.Resources>
-        <Style TargetType="Button" x:Key="TopMenuButton">
+      <Style TargetType="Button" x:Key="TopMenuButton">
             <Setter Property="Width" Value="32"/>
             <Setter Property="Height" Value="32"/>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
@@ -40,7 +40,7 @@
     <Grid Margin="5">
         <Border BorderThickness="1" BorderBrush="SaddleBrown" CornerRadius="5">
             <Border.Background>
-                <SolidColorBrush Opacity="0.9" Color="WhiteSmoke"/>
+                <SolidColorBrush Opacity="0.8" Color="WhiteSmoke"/>
             </Border.Background>
             <Grid Margin="5">
                 <Grid.ColumnDefinitions>
