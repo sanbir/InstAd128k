@@ -124,7 +124,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public async Task<List<RequestResult>> LikeByTag(string tag, int count, string lastId)
+        public async Task<List<RequestResult>> LikeByTag(string tag, string lastId)
         {
             if (UserId == 0)
             {
@@ -133,24 +133,24 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             var mediaEndpoint = new InstaSharp.Endpoints.Media(ApiConfig);
             var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
             var answer = new List<RequestResult>();
-            var waitSeconds = 30; //todo: userSetting
-            var likeFrequency = 2; //todo: userSetting
+            var waitSeconds = 40; //todo: userSetting
+            var likeFrequency = 2; //todo: userSetting // это типа каждое n-е фото только лайкает, чтоб никто ни о чём не догадался ]:->
             var banCount = 0;
+            var count = 0;
             var banCountSetting = 10; //todo: userSetting
+            TimeSpan workTime = new TimeSpan(0, 5, 0);
+            DateTime start = DateTime.Now;
             do
             {
-                var result = await tagsEndpoint.Recent(tag, "0", lastId, count);
+                var result = await tagsEndpoint.Recent(tag, "0", lastId, 50);
 
                 var random = new Random();
                 foreach (var res in result.Data.ToArray())
                 {
-                    var timer = random.Next(0, waitSeconds);
+                    var timer = random.Next(10, waitSeconds);
                     if (random.Next(0, waitSeconds) <= waitSeconds/likeFrequency)
                     {
                         var likeResult = AddLike(res);
-
-
-
                         if (likeResult != null)
                         {
                             if (likeResult.VictimsId == 0)
@@ -175,11 +175,16 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                         count++;
                         WebDriver.Navigate().GoToUrl(res.Link);
                     }
+                    if(workTime < DateTime.Now - start)
+                    {
+                        break;
+                    }
                     Thread.Sleep(new TimeSpan(0, 0, timer));
+
                 }
                 lastId = result.Pagination.NextMaxTagId;
-                count -= result.Data.Count;
-            } while (count > 0);
+                
+            } while (workTime > DateTime.Now - start);
 
 
             return answer;

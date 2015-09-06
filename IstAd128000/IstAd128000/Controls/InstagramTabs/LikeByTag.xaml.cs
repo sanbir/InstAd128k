@@ -50,12 +50,11 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            //todo: use this parameter!!!!!!!
-            var likes = Convert.ToInt32(LikesNumber.Text);
+            var likes = Convert.ToInt32(LikesNumber.Text); //todo: убрать этот контрол к хуям.
 
             string lastId = "0";
 
-            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTag(LikeTag.Text, likes, lastId);
+            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTag(LikeTag.Text, lastId);
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Temp\result.txt", true))
             {
                 foreach (var item in result)
@@ -64,7 +63,6 @@ namespace InstAd128000.Controls.InstagramTabs
                 }
                 
             }
-            //todo: замути лайки
 
             ResetMainWindow();
         }
