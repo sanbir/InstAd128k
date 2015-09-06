@@ -39,15 +39,36 @@
                 <TextBlock Text="Радиус (м):" />
                 <TextBox Width="40" Text="{Binding Path=Radius, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Name="SearchLocationsBtn" Width="100" Height="20" Click="SearchLocationsBtn_OnClick">
+                    <TextBlock Text="Поиск"/>
+                </Button>
+            </StackPanel>
         </StackPanel>
         <wpf:Map Name="MyMap" 
                Center="54.8693482,83.0785167" 
                ZoomLevel="15"
                Mode="Road"
-               Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+               Grid.Row="1" Grid.Column="0">
             <wpf:MapPolyline Stroke="Blue" StrokeThickness="5" 
                  Locations="{Binding Path=Locations, Mode=TwoWay}" 
                  Opacity="0.7"/>
         </wpf:Map>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ListView ItemsSource="{Binding Path=Venues}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="Название:" />
+                            <TextBlock Text="{Binding Path=name}" FontWeight="Bold" />
+                            <TextBlock Text="Описание:" />
+                            <TextBlock Text="{Binding Path=description}" FontWeight="Bold" />
+                            <TextBlock Text="Расстояние:" />
+                            <TextBlock Text="{Binding Path=location.distance}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </UserControl>

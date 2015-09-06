@@ -63,6 +63,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SharpSquare, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpSquare.1.0.0.2\lib\net45\SharpSquare.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -118,6 +122,7 @@
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Helpers\SearchLocations\FoursquareHelper.cs" />
     <Compile Include="Helpers\LevenshteinDistance.cs" />
     <Compile Include="Helpers\SentenceObfuscator.cs" />
     <Compile Include="Helpers\Selenium\Driver.cs" />

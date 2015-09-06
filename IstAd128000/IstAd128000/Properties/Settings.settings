@@ -26,5 +26,11 @@
     <Setting Name="BingCredentialsProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">AnyssUdkNoAlvtUP71YzMtXKCKJTnvUQXNXjhAT50x-4dB5KblDAa6bRDC4rsXKb</Value>
     </Setting>
+    <Setting Name="FourSquareClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">G5TADXECKHJXANOVZKHZS0ANGMRDRK1DE5PCGX5RMHKYOIRH</Value>
+    </Setting>
+    <Setting Name="FourSquareClientSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">KZWGHVNMPDUTNY2VPZS1ZYGQH3B3UJY5UX5P0S1N3JUGZ3FD</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
