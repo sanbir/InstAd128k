@@ -1,0 +1,9 @@
+syntax: glob
+*.suo
+*.user
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+[Pp]ackages/
+*.tmp
+IstAd128000/Instad128000.Core/Helpers/SocialNetworksUsers/InstagramUser.cs.orig
