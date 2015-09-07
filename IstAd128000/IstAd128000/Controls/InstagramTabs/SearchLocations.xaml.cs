@@ -29,7 +29,7 @@ namespace InstAd128000.Controls.InstagramTabs
             MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(Settings.Default.BingCredentialsProvider);
             //////////////////////////////////
 
-            ViewModel = new SearchLocationsViewModel {Latitude = 54.8693482, Longitude = 83.0785167, Query = "Fuck", Radius = 42, Venues = new List<Venue>()};
+            ViewModel = new SearchLocationsViewModel {Latitude = 54.8693482, Longitude = 83.0785167, Query = "пиво", Radius = 4200, Venues = new List<Venue>()};
             DataContext = ViewModel;
 
             _foursquareHelper = new FoursquareHelper(Settings.Default.FourSquareClientId,

@@ -88,10 +88,6 @@
       <HintPath>..\packages\valueinjecter.3.1\lib\net45\Omu.ValueInjecter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SharpSquare, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpSquare.1.0.0.2\lib\net45\SharpSquare.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -319,6 +315,10 @@
     <ProjectReference Include="..\InstAd128000.SqlLite\InstAd128000.SqlLite.csproj">
       <Project>{7aca8722-dec7-41cc-a52d-66d2a410b726}</Project>
       <Name>InstAd128000.SqlLite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpSquare\SharpSquare.csproj">
+      <Project>{f6163f95-da23-49c6-b58b-cef0cf0b2c83}</Project>
+      <Name>SharpSquare</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

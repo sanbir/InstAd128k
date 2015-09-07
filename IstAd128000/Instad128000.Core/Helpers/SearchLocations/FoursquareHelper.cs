@@ -18,7 +18,6 @@ namespace Instad128000.Core.Helpers.SearchLocations
             try
             {
                 _sharpSquare = new SharpSquare(clientId, clientSecret);
-                _sharpSquare.GetAccessToken("", "");
             }
             catch (Exception ex)
             {
@@ -38,7 +37,6 @@ namespace Instad128000.Core.Helpers.SearchLocations
 
             var venuesTask = new Task<List<Venue>>(() => _sharpSquare.SearchVenues(parameters));
             venuesTask.Start();
-            var aa = await venuesTask;
 
             return await venuesTask;
         }

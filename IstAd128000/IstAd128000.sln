@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstAd128000", "IstAd128000\InstAd128000.csproj", "{264F3424-08AC-4F19-8DB5-F9516F7CADA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Instad128000.Core", "Instad128000.Core\Instad128000.Core.csproj", "{B9B6D5D9-475F-4DAF-A80A-0F318F30036E}"
@@ -10,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstAd128000.Services", "InstAd128000.Services\InstAd128000.Services.csproj", "{82BB8189-5256-4D0B-B77D-C04E0AD873A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstAd128000.TestApplication", "InstAd128000.TestApplication\InstAd128000.TestApplication.csproj", "{6DA68E37-F284-4F0F-B872-F021BF3CB49F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSquare", "SharpSquare\SharpSquare.csproj", "{F6163F95-DA23-49C6-B58B-CEF0CF0B2C83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{376A62B7-2E12-4E29-BBC5-343A96277D2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,8 +43,15 @@ Global
 		{6DA68E37-F284-4F0F-B872-F021BF3CB49F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DA68E37-F284-4F0F-B872-F021BF3CB49F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DA68E37-F284-4F0F-B872-F021BF3CB49F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6163F95-DA23-49C6-B58B-CEF0CF0B2C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6163F95-DA23-49C6-B58B-CEF0CF0B2C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6163F95-DA23-49C6-B58B-CEF0CF0B2C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6163F95-DA23-49C6-B58B-CEF0CF0B2C83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6163F95-DA23-49C6-B58B-CEF0CF0B2C83} = {376A62B7-2E12-4E29-BBC5-343A96277D2B}
 	EndGlobalSection
 EndGlobal
