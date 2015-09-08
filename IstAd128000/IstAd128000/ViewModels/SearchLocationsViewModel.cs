@@ -20,6 +20,7 @@ namespace InstAd128000.ViewModels
         private int _radius;
         private string _query;
         private LocationCollection _locations;
+        private LocationCollection _circleCenter;
         private List<Venue> _venues;
 
         public double Latitude
@@ -72,6 +73,16 @@ namespace InstAd128000.ViewModels
             {
                 _locations = value;
                 OnPropertyChanged(nameof(Locations));
+            }
+        }
+
+        public LocationCollection CircleCenter
+        {
+            get { return _circleCenter; }
+            set
+            {
+                _circleCenter = value;
+                OnPropertyChanged(nameof(CircleCenter));
             }
         }
 
@@ -142,6 +153,8 @@ namespace InstAd128000.ViewModels
 
         private void DrawCircle()
         {
+            DrawCircleCenter();
+
             var locations = GetCircle(_latitude, _longitude, _radius);
             var locationCollection = new LocationCollection();
             foreach (var location in locations)
@@ -149,6 +162,21 @@ namespace InstAd128000.ViewModels
                 locationCollection.Add(location);
             }
             Locations = locationCollection;
+        }
+
+        private void DrawCircleCenter()
+        {
+            const double centerRadius = 5;
+            double decreasedRadius = _radius / centerRadius;
+            decreasedRadius = decreasedRadius > centerRadius ? centerRadius : decreasedRadius;
+
+            var locations = GetCircle(_latitude, _longitude, decreasedRadius);
+            var locationCollection = new LocationCollection();
+            foreach (var location in locations)
+            {
+                locationCollection.Add(location);
+            }
+            CircleCenter = locationCollection;
         }
     }
 }

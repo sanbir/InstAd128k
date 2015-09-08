@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Input.Manipulations;
 using System.Windows.Media;
 using FourSquare.SharpSquare.Core;
@@ -31,16 +33,26 @@ namespace InstAd128000.Controls.InstagramTabs
             //////////////////////////////////
 
             ViewModel = new SearchLocationsViewModel {Latitude = 54.8693482, Longitude = 83.0785167, Query = "школа", Radius = 3000, Venues = new List<Venue>()};
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             DataContext = ViewModel;
 
             _foursquareHelper = new FoursquareHelper(Settings.Default.FourSquareClientId,
                 Settings.Default.FourSquareClientSecret);
         }
 
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            // refresh the map
+            MyMap.SetView(MyMap.Center, MyMap.ZoomLevel * 1.0001);
+            MyMap.SetView(MyMap.Center, MyMap.ZoomLevel / 1.0001);
+        }
+
         private async void SearchLocationsBtn_OnClick(object sender, RoutedEventArgs e)
         {
             try
             {
+                ViewModel.Venues.Clear();
+
                 ViewModel.Venues =
                     await
                         _foursquareHelper
@@ -60,6 +72,21 @@ namespace InstAd128000.Controls.InstagramTabs
             {
                 MyMap.Children.Add(new Pushpin { Location = new Location(venue.location.lat, venue.location.lng) });
             }
+        }
+
+        private async void MyMap_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Disables the default mouse click action.
+            e.Handled = true;
+
+            //Get the mouse click coordinates
+            Point mousePosition = e.GetPosition(MyMap);
+
+            //Convert the mouse coordinates to a locatoin on the map
+            Location circleCenter = MyMap.ViewportPointToLocation(mousePosition);
+
+            ViewModel.Latitude = circleCenter.Latitude;
+            ViewModel.Longitude = circleCenter.Longitude;
         }
     }
 }

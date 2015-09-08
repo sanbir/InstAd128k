@@ -7,6 +7,7 @@
              xmlns:properties="clr-namespace:InstAd128000.Properties"
              xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
              xmlns:mapControl="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+             xmlns:helpers="clr-namespace:InstAd128000.Helpers"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
@@ -49,10 +50,14 @@
                Center="54.8693482,83.0785167" 
                ZoomLevel="15"
                Mode="Road"
-               Grid.Row="1" Grid.Column="0">
+               Grid.Row="1" Grid.Column="0"
+               MouseLeftButtonDown="MyMap_OnMouseLeftButtonDown">
             <mapControl:MapPolyline Stroke="Blue" StrokeThickness="5" 
                  Locations="{Binding Path=Locations, Mode=TwoWay}" 
                  Opacity="0.7"/>
+            <mapControl:MapPolygon Fill="Blue" Stroke="Blue" StrokeThickness="5" 
+                          Locations="{Binding Path=CircleCenter, Mode=TwoWay}" 
+                          Opacity="0.7"/>
         </mapControl:Map>
         <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ListView ItemsSource="{Binding Path=Venues}">
