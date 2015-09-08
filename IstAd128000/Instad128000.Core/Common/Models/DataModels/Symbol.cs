@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Instad128000.Core.Common.Models.DataModels
 {
-    public class StringToSymbol : BaseEntity
+    public class DataString : BaseEntity
     {
         public string String { get; set; }
-        public string Symbol { get; set; }
+        public string StringToSymbolSymbol { get; set; }
+        public bool IsRepeatable { get; set; }
+        public bool IsAddable { get; set; }
     }
 }

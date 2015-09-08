@@ -49,10 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddableStringsService.cs" />
-    <Compile Include="StringToSymbolService.cs" />
-    <Compile Include="RepeatableStringsService.cs" />
     <Compile Include="CrudService.cs" />
+    <Compile Include="DataStringService.cs" />
     <Compile Include="RequestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

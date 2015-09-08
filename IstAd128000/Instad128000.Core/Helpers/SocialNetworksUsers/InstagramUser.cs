@@ -21,9 +21,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
     public class InstagramUser : ISocialNetworkUser<User>
     {
         private IRequestService RequestService { get; set; }
-        private IStringToSymbolService StringToSymbolService { get; set; }
-        private IRepeatableStringsService RepeatableStringsService { get; set; }
-        private IAddableStringsService AddableStringsService { get; set; }
+        private IDataStringService DataStringService{ get; set; }
 
         public string ClientKey { get; set; }
 
@@ -41,8 +39,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
-        public InstagramUser(string clientKey, string clientId, PhantomJSDriver webDriver, string userName, string userPassword, IRequestService requestService, 
-                            IStringToSymbolService stringToSymbolService, IRepeatableStringsService repeatableStringsService, IAddableStringsService addableStringsService)
+        public InstagramUser(string clientKey, string clientId, PhantomJSDriver webDriver, string userName, string userPassword, IRequestService requestService,
+                            IDataStringService dataStringService)
         {
             ClientId = clientId;
             ClientKey = clientKey;
@@ -51,9 +49,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             UserName = userName;
             UserPassword = userPassword;
             RequestService = requestService;
-            StringToSymbolService = stringToSymbolService;
-            RepeatableStringsService = repeatableStringsService;
-            AddableStringsService = addableStringsService;
+            DataStringService = dataStringService;
         }
 
         public bool Authorize()
@@ -188,7 +184,6 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
 
             return answer;
-
         }
 
         public void WaitAjax()

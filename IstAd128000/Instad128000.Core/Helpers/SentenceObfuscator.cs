@@ -17,18 +17,16 @@ namespace Instad128000.Core.Helpers
 {
     public class SentenceObfuscator
     {
-        private IStringToSymbolService CharSymbolService { get; set; }
-        private IRepeatableStringsService RepeatableStringsService { get; set; }
-        private IAddableStringsService AddableStringsService { get; set; }
+        private IDataStringService DataStringService { get; set; }
 
-        public SentenceObfuscator(string strToObfuscate, IStringToSymbolService charSymbolService, IRepeatableStringsService repeatableCharsService, IAddableStringsService srvA)
+        public SentenceObfuscator(string strToObfuscate, IDataStringService dataStringService)
         {
-            this.CharSymbolService = charSymbolService;
-            this.RepeatableStringsService = repeatableCharsService;
-            this.AddableStringsService = srvA;
+            this.DataStringService = dataStringService;
+
             PreviousObfuscated = new List<string>();
             InitialSentence = strToObfuscate;
             PreviousObfuscated.Add(strToObfuscate);
+
             Rand = new Random();
         }
 
@@ -117,7 +115,7 @@ namespace Instad128000.Core.Helpers
 
         private string AddChar(string toChange)
         {
-            var addable = AddableStringsService.GetAll().ToArray();
+            var addable = DataStringService.Where(x=>x.IsAddable).ToArray();
             return toChange + addable[Rand.Next(0, addable.Count() - 1)].String;
         }
 
@@ -127,13 +125,13 @@ namespace Instad128000.Core.Helpers
             toChange = toChange.ChangeCharOnIndexTo(index, Char.ToUpper(toChange[index]));
             return toChange;
         }
-
+        
         private string CharToSymbol(string toChange)
         {
             var matchedChars = new Dictionary<int, char>();
             for (var i=0; i<toChange.Length;i++)
             {
-                if (CharSymbolService.MatchString(toChange[i].ToString()))
+                if (DataStringService.MatchString(toChange[i].ToString(), SentenceChanges.CharToSymbol))
                 {
                     matchedChars.Add(i,toChange[i]);
                 }
@@ -142,19 +140,19 @@ namespace Instad128000.Core.Helpers
             if (matchedChars.Count == 0) return toChange;
 
             var indexToChange = matchedChars.ToArray()[Rand.Next(0, matchedChars.Count - 1)].Key;
-            var changers = CharSymbolService.GetSymbolsByString(toChange[indexToChange].ToString());
+            var changers = DataStringService.GetSymbolsByString(toChange[indexToChange].ToString());
 
             toChange = toChange.ChangeCharOnIndexTo(indexToChange, changers[Rand.Next(0, changers.Count - 1)]);
 
             return toChange;
         }
-
+        
         private string RepeatChar(string toChange)
         {
             var matchedChars = new Dictionary<int, char>();
             for (var i = 0; i < toChange.Length; i++)
             {
-                if (RepeatableStringsService.MatchString(toChange[i].ToString()))
+                if (DataStringService.MatchString(toChange[i].ToString(), SentenceChanges.RepeatChar))
                 {
                     matchedChars.Add(i, toChange[i]);
                 }
@@ -164,7 +162,7 @@ namespace Instad128000.Core.Helpers
 
             var indexToChange = matchedChars.ToArray()[Rand.Next(0, matchedChars.Count - 1)].Key;
             var toChangeString = toChange[indexToChange].ToString();
-            var changers = RepeatableStringsService.Where(x => x.String == toChangeString).ToList();
+            var changers = DataStringService.Where(x => x.String == toChangeString).ToList();
             var randomChanger = Rand.Next(0, changers.Count() - 1);
             var toInsertStr = changers[randomChanger].String + changers[randomChanger].String;
             toChange = toChange.ChangeCharOnIndexTo(indexToChange, toInsertStr);

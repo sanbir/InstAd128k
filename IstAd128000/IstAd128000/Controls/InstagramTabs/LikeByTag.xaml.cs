@@ -36,7 +36,7 @@ namespace InstAd128000.Controls.InstagramTabs
             if (WorkTime.Value.HasValue)
             {
                 var delta = WorkTime.Value.Value - DateTime.Now;
-                if (delta.Hours <= 0 || delta.Minutes <= 0)
+                if (delta.Hours < 0 || delta.Minutes <= 0)
                 {
                     MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
                     ResetMainWindow();

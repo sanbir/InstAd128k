@@ -17,8 +17,6 @@ namespace InstAd128000.SqlLite
         }
 
         public DbSet<DataRequestResult> RequestResults { get; set; }
-        public DbSet<StringToSymbol> CharToSymbolSet { get; set; }
-        public DbSet<RepeatableStrings> RepeatableCharsSet { get; set; }
-        public DbSet<AddableStrings> AddableCharsSet { get; set; } 
+        public DbSet<DataString> DataStrings { get; set; }
     }
 }

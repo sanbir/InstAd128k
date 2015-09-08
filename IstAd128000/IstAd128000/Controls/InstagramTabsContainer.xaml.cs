@@ -28,11 +28,7 @@ namespace InstAd128000.Controls
         [Dependency]
         public IRequestService RequestService { get; set; }
         [Dependency]
-        public IStringToSymbolService StringToSymbolService { get; set; }
-        [Dependency]
-        public IRepeatableStringsService RepeatableStringsService { get; set; }
-        [Dependency]
-        public IAddableStringsService AddableStringsService { get; set; }
+        public IDataStringService DataStringService { get; set; }
 
         public InstagramTabsContainer()
         {
@@ -99,8 +95,7 @@ namespace InstAd128000.Controls
 
                     tab =
                         (UserControl)
-                            Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), RequestService,
-                                StringToSymbolService, RepeatableStringsService, AddableStringsService);
+                            Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), RequestService,DataStringService);
                 }
                 else
                 {

@@ -11,8 +11,6 @@ namespace Instad128000.Core.Common.Interfaces
     public interface IDBInteractive
     {
         IRequestService RequestService { get; set; }
-        IStringToSymbolService StringToSymbolService { get; set; }
-        IRepeatableStringsService RepeatableStringsService { get; set; }
-        IAddableStringsService AddableStringsService { get; set; }
+        IDataStringService DataStringService { get; set; }
     }
 }

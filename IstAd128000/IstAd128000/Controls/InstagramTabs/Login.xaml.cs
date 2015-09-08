@@ -16,19 +16,15 @@ namespace InstAd128000.Controls.InstagramTabs
     public partial class Login : UserControl, IDBInteractive
     {
         public IRequestService RequestService { get; set; }
-        public IStringToSymbolService StringToSymbolService { get; set; }
-        public IRepeatableStringsService RepeatableStringsService { get; set; }
-        public IAddableStringsService AddableStringsService { get; set; }
+        public IDataStringService DataStringService { get; set; }
 
-        public Login(IRequestService requestService, IStringToSymbolService stringToSymbolService, IRepeatableStringsService repeatableStringsService, IAddableStringsService addableStringsService)
+        public Login(IRequestService requestService, IDataStringService dataStringService)
         {
             InitializeComponent();
             UsernameBox.Text = Properties.Settings.Default.Username;
             PasswordBox.Password = Properties.Settings.Default.Password;
             RequestService = requestService;
-            StringToSymbolService = stringToSymbolService;
-            RepeatableStringsService = repeatableStringsService;
-            AddableStringsService = addableStringsService;
+            DataStringService = dataStringService;
         }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
@@ -91,7 +87,7 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             ControlGetter.MainWindow.InstagramTab.User = new InstagramUser(Properties.Settings.Default.ClientKey,
                 Properties.Settings.Default.ClientId, Driver.Instance, UsernameBox.Text,
-                PasswordBox.Password, RequestService,StringToSymbolService,RepeatableStringsService,AddableStringsService);
+                PasswordBox.Password, RequestService, DataStringService);
             var task = new Task<bool>(ControlGetter.MainWindow.InstagramTab.User.Authorize);
             task.Start();
             return await task;
