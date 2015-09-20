@@ -146,7 +146,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     var timer = random.Next(10, waitSeconds);
                     if (random.Next(0, waitSeconds) <= waitSeconds/likeFrequency)
                     {
-                        var likeResult = AddLike(res);
+                        var likeResult = await Task.Run(() => AddLike(res));
                         if (likeResult != null)
                         {
                             if (likeResult.VictimsId == 0)
@@ -205,7 +205,6 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return javaScriptExecutor.ExecuteScript(javaScript, args);
         }
 
-
         private RequestResult AddLike(Media media)
         {
             RequestResult result = null;
@@ -230,7 +229,6 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         }
 
-
         private RequestResult AddComment(Media media, string commentText)
         {
             RequestResult result = null;
@@ -251,9 +249,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                         }
                         break;
                     }
-                        commentField.SendKeys(commentText.Trim());
+
+                    commentField.SendKeys(commentText.Trim());
                     commentField.SendKeys(Keys.Return);
                     commentResult = WebDriver.WaitUntil(By.XPath("//a[@title='" + UserName + "' and contains(text(), '" + UserName + "')] "), 5);
+
                     if (commentResult != null)
                     {
                         result = new RequestResult(commentText, media.User.Id, UserId, media.Link, RequestType.Comment);
@@ -265,8 +265,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         } 
 
-
-        public async Task<List<RequestResult>> CommentByTag(string tag, string commentText, int? count, string lastId, bool addLike)
+        public async Task<List<RequestResult>> CommentByTagAsync(string tag, string commentText, int? count, string lastId, bool addLike)
         {
             DateTime start = DateTime.Now;
             if (UserId == 0)
@@ -284,27 +283,25 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 foreach (var res in result.Data.ToArray())
                 {
                     var timer = random.Next(0,20);
-
-                    RequestResult requestResult = AddComment(res, commentText);
+                   
+                    RequestResult requestResult = await Task.Run(() => AddComment(res, commentText));
 
                     if (requestResult != null)
                     {
                         answer.Add(requestResult);
                     }
 
-                    Thread.Sleep(new TimeSpan(0, 0, 1));
-
                     if (addLike)
                     {
-                        var likeResult = AddLike(res);
+                        var likeResult = await Task.Run(() => AddLike(res));
                         if (likeResult != null)
                         {
                             answer.Add(likeResult);
                         }
                     }
 
-                    Thread.Sleep(new TimeSpan(0,0,timer));
-                }
+                    var wait = Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
+                };
                 lastId = result.Pagination.NextMaxTagId;
                 count -= result.Data.Count;
             } while (count > 0);
@@ -312,12 +309,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return answer;
         }
 
-        public async Task<TagsResponse> SearchForTags(string tagPart)
+        public async Task<TagsResponse> SearchForTagsAsync(string tagPart)
         {
-            //@todo: Александр, это надо бы делать в отдельной функции)). Закомментил.
-            //var locations = new InstaSharp.Endpoints.Locations(ApiConfig);
-            //var results = await locations.Search(55.030229, 82.921143, 5000);
-
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
             var results = await tags.Search(tagPart);
 

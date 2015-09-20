@@ -33,7 +33,7 @@ namespace InstAd128000.Controls.InstagramTabs
             SpinnerInstance.SetToMainWindow();
             TagSearchButton.IsEnabled = false;
 
-            var result = await ControlGetter.MainWindow.InstagramTab.User.SearchForTags(TagsStringInput.Text);
+            var result = await ControlGetter.MainWindow.InstagramTab.User.SearchForTagsAsync(TagsStringInput.Text);
             var list = result.Data.Select(data => new TagsCount()
             {
                 Count = data.MediaCount, Tag = data.Name.Trim()
