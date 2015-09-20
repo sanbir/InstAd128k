@@ -54,7 +54,7 @@ namespace InstAd128000.Controls.InstagramTabs
             //todo: добавить поиск последнего id в бд для пагинации ептэ
             string lastId = "0";
 
-            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTag(CommentTag.Text, CommentText.Text, commentsNumber, lastId, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
+            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTagAsync(CommentTag.Text, CommentText.Text, commentsNumber, lastId, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
             CommentedPostsCount.Text = result.Count.ToString();
 
             ResetMainWindow();
