@@ -39,8 +39,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
-        public InstagramUser(string clientKey, string clientId, PhantomJSDriver webDriver, string userName, string userPassword, IRequestService requestService,
-                            IDataStringService dataStringService)
+        public InstagramUser(string clientKey, string clientId, PhantomJSDriver webDriver, string userName, string userPassword, 
+            IRequestService requestService, IDataStringService dataStringService)
         {
             ClientId = clientId;
             ClientKey = clientKey;
@@ -175,7 +175,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     {
                         break;
                     }
-                    Thread.Sleep(new TimeSpan(0, 0, timer));
+                    await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
 
                 }
                 lastId = result.Pagination.NextMaxTagId;
@@ -219,11 +219,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 WaitAjax();
                 string vazr = (string)ExecuteJavaScript("return window.vazr;");
                 if(vazr == "1")
-                    result = new RequestResult("", media.User.Id, UserId, media.Link, RequestType.Like);
+                    result = new RequestResult("", media.User.Id, UserId, media.Link, RequestType.Like,media.Id);
             }
             else
             {
-                return new RequestResult("", 0, 0, "", RequestType.Like);
+                return new RequestResult("", 0, 0, "", RequestType.Like,media.Id);
             }
             
             return result;
@@ -256,7 +256,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
                     if (commentResult != null)
                     {
-                        result = new RequestResult(commentText, media.User.Id, UserId, media.Link, RequestType.Comment);
+                        result = new RequestResult(commentText, media.User.Id, UserId, media.Link, RequestType.Comment, media.Id);
                         break;
                     }
                 }
@@ -265,56 +265,81 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         } 
 
-        public async Task<List<RequestResult>> CommentByTagAsync(string tag, string commentText, int? count, string lastId, bool addLike)
+        public async Task<List<RequestResult>> CommentByTagAsync(string tag, string commentText, TimeSpan workPeriod, bool addLike)
         {
-            DateTime start = DateTime.Now;
+            var start = DateTime.Now;
+            var end = DateTime.Now.Add(workPeriod);
+
             if (UserId == 0)
             {
                 await GetSeleniumUserId();
             }
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
             var answer = new List<RequestResult>();
-            do
+            var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
+
+            var result = await tags.Recent(tag, lastId ?? "0", null, null);
+            var random = new Random();
+            if (result == null)
             {
-                var result = await tags.Recent(tag, "0", lastId, count);
-                var random = new Random();
-                if (result == null)
-                    break;
-                foreach (var res in result.Data.ToArray())
-                {
-                    var timer = random.Next(0,20);
+                return null;
+            }
+
+            if (result.Data == null || result.Data.Count == 0)
+            {
+                return null;
+            }
+
+            foreach (var res in result.Data.ToArray())
+            {
+                var timer = random.Next(0,20);
                    
-                    RequestResult requestResult = await Task.Run(() => AddComment(res, commentText));
+                RequestResult requestResult = await Task.Run(() => AddComment(res, commentText));
 
-                    if (requestResult != null)
+                if (requestResult != null)
+                {
+                    answer.Add(requestResult);
+                }
+
+                if (addLike)
+                {
+                    var likeResult = await Task.Run(() => AddLike(res));
+                    if (likeResult != null)
                     {
-                        answer.Add(requestResult);
+                        answer.Add(likeResult);
                     }
+                }
 
-                    if (addLike)
-                    {
-                        var likeResult = await Task.Run(() => AddLike(res));
-                        if (likeResult != null)
-                        {
-                            answer.Add(likeResult);
-                        }
-                    }
+                if (DateTime.Now < end)
+                {
+                    lastId = answer.Last().PostId;
+                    SaveToDb(answer);
+                    return answer;
+                }
 
-                    var wait = Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
-                };
-                lastId = result.Pagination.NextMaxTagId;
-                count -= result.Data.Count;
-            } while (count > 0);
-            TimeSpan time = DateTime.Now - start;
+                await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
+            };
+
+            lastId = result.Pagination.NextMaxTagId;
+            SaveToDb(answer);
+
             return answer;
         }
-
         public async Task<TagsResponse> SearchForTagsAsync(string tagPart)
         {
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
             var results = await tags.Search(tagPart);
 
             return results;
+        }
+
+        private void SaveToDb(List<RequestResult> res)
+        {
+            foreach (var ress in res)
+            {
+                RequestService.Update(ress.ToDataRequestResult());
+            }
+            RequestService.Save();
         }
     }
 }

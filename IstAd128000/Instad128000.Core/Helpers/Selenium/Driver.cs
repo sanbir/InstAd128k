@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.PhantomJS;
+using System;
 
 namespace Instad128000.Core.Helpers.Selenium
 {
@@ -12,6 +13,8 @@ namespace Instad128000.Core.Helpers.Selenium
             {
                 var driverService = PhantomJSDriverService.CreateDefaultService();
                 driverService.HideCommandPromptWindow = true;
+                AppDomain.CurrentDomain.UnhandledException += Close;
+                AppDomain.CurrentDomain.ProcessExit += Close;
                 return _driver ?? (_driver = new PhantomJSDriver(driverService));
             }
         }
@@ -23,6 +26,21 @@ namespace Instad128000.Core.Helpers.Selenium
                 _driver.Quit();
             }
         }
-    }
 
+        private static void Close(object sender, UnhandledExceptionEventArgs args)
+        {
+            if (_driver != null)
+            {
+                _driver.Quit();
+            }
+        }
+
+        private static void Close(object sender, EventArgs args)
+        {
+            if (_driver != null)
+            {
+                _driver.Quit();
+            }
+        }
+    }
 }
