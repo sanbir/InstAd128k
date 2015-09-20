@@ -48,13 +48,8 @@ namespace InstAd128000.Controls.InstagramTabs
                 ResetMainWindow();
                 return;
             }
-                
 
-            int commentsNumber = Convert.ToInt32(CommentsNumber.Text);
-            //todo: добавить поиск последнего id в бд для пагинации ептэ
-            string lastId = "0";
-
-            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTagAsync(CommentTag.Text, CommentText.Text, commentsNumber, lastId, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
+            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTagAsync(CommentTag.Text, CommentText.Text, WorkTime.Value.Value - DateTime.Now, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
             CommentedPostsCount.Text = result.Count.ToString();
 
             ResetMainWindow();

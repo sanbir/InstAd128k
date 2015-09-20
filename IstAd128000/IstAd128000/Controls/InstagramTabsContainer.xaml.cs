@@ -25,11 +25,6 @@ namespace InstAd128000.Controls
     /// </summary>
     public partial class InstagramTabsContainer : UserControl, INotifyPropertyChanged
     {
-        [Dependency]
-        public IRequestService RequestService { get; set; }
-        [Dependency]
-        public IDataStringService DataStringService { get; set; }
-
         public InstagramTabsContainer()
         {
             InitializeComponent();
@@ -90,17 +85,7 @@ namespace InstAd128000.Controls
             }
             try
             {
-                if (tag == "Login")
-                {
-
-                    tab =
-                        (UserControl)
-                            Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), RequestService,DataStringService);
-                }
-                else
-                {
-                    tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag));
-                }
+                tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag));
                 _controlsList.Add(tag, tab);
             }
             catch (Exception ex)

@@ -35,6 +35,11 @@ namespace InstAd128000
             Height = Convert.ToDouble(Settings.Default.DefaultHeight);
         }
 
+        [Dependency]
+        public IRequestService RequestService { get; set; }
+        [Dependency]
+        public IDataStringService DataStringService { get; set; }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ButtonState != MouseButtonState.Released)
