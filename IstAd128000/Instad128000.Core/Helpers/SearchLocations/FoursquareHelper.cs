@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Instad128000.Core.Common.Logger;
 using FourSquare.SharpSquare.Core;
 using FourSquare.SharpSquare.Entities;
-using Instad128000.Core.Common.Logger;
 
 namespace Instad128000.Core.Helpers.SearchLocations
 {
