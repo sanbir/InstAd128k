@@ -84,7 +84,7 @@ namespace InstAd128000.Controls.InstagramTabs
         private async Task<bool> DoLoginTaskAsync()
         {
             ControlGetter.MainWindow.InstagramTab.User = new InstagramUser(Properties.Settings.Default.ClientKey,
-                Properties.Settings.Default.ClientId, Driver.Instance, UsernameBox.Text,
+                Properties.Settings.Default.ClientId, Driver.PhantomInstance, UsernameBox.Text,
                 PasswordBox.Password, ControlGetter.MainWindow.RequestService, ControlGetter.MainWindow.DataStringService);
             var task = new Task<bool>(ControlGetter.MainWindow.InstagramTab.User.Authorize);
             task.Start();

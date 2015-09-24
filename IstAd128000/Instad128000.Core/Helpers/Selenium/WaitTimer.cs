@@ -6,12 +6,12 @@ namespace Instad128000.Core.Helpers.Selenium
 {
     public class WaitTimer
     {
-        public WaitTimer(PhantomJSDriver driver)
+        public WaitTimer(IWebDriver driver)
         {
             Driver = driver;
         }
 
-        public PhantomJSDriver Driver { get; set; }
+        public IWebDriver Driver { get; set; }
 
         public IWebElement FindElement(By by, int timeoutInSeconds)
         {

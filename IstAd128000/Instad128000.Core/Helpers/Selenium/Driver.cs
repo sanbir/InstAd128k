@@ -1,13 +1,14 @@
-﻿using OpenQA.Selenium.PhantomJS;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.PhantomJS;
 using System;
 
 namespace Instad128000.Core.Helpers.Selenium
 {
-    public static class Driver
+    public class Driver
     {
-        private static PhantomJSDriver _driver;
+        private static IWebDriver _pD;
 
-        public static PhantomJSDriver Instance 
+        public static IWebDriver PhantomInstance 
         {
             get
             {
@@ -15,31 +16,36 @@ namespace Instad128000.Core.Helpers.Selenium
                 driverService.HideCommandPromptWindow = true;
                 AppDomain.CurrentDomain.UnhandledException += Close;
                 AppDomain.CurrentDomain.ProcessExit += Close;
-                return _driver ?? (_driver = new PhantomJSDriver(driverService));
+                return _pD ?? (_pD = new PhantomJSDriver(driverService));
             }
+        }
+
+        ~Driver()
+        {
+            Close();
         }
 
         public static void Close()
         {
-            if (_driver != null)
+            if (_pD != null)
             {
-                _driver.Quit();
+                _pD.Quit();
             }
         }
 
         private static void Close(object sender, UnhandledExceptionEventArgs args)
         {
-            if (_driver != null)
+            if (_pD != null)
             {
-                _driver.Quit();
+                _pD.Quit();
             }
         }
 
         private static void Close(object sender, EventArgs args)
         {
-            if (_driver != null)
+            if (_pD != null)
             {
-                _driver.Quit();
+                _pD.Quit();
             }
         }
     }

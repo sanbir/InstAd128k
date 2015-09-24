@@ -27,7 +27,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public string ClientId { get; set; }
 
-        public PhantomJSDriver WebDriver { get; set; }
+        public IWebDriver WebDriver { get; set; }
 
         public string UserName { get; set; }
 
@@ -39,7 +39,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
-        public InstagramUser(string clientKey, string clientId, PhantomJSDriver webDriver, string userName, string userPassword, 
+        public InstagramUser(string clientKey, string clientId, IWebDriver webDriver, string userName, string userPassword, 
             IRequestService requestService, IDataStringService dataStringService)
         {
             ClientId = clientId;
@@ -252,7 +252,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
                     commentField.SendKeys(commentText.Trim());
                     commentField.SendKeys(Keys.Return);
-                    commentResult = WebDriver.WaitUntil(By.XPath("//a[@title='" + UserName + "' and contains(text(), '" + UserName + "')] "), 5);
+                    commentResult = WebDriver.WaitUntil(By.XPath("//a[@title='" + UserName.ToLower() + "' and contains(text(), '" + UserName.ToLower() + "')] "), 5);
 
                     if (commentResult != null)
                     {
@@ -270,60 +270,66 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
 
-            if (UserId == 0)
-            {
-                await GetSeleniumUserId();
-            }
-            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
             var answer = new List<RequestResult>();
-            var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
-
-            var result = await tags.Recent(tag, lastId ?? "0", null, null);
-            var random = new Random();
-            if (result == null)
+            do
             {
-                return null;
-            }
-
-            if (result.Data == null || result.Data.Count == 0)
-            {
-                return null;
-            }
-
-            foreach (var res in result.Data.ToArray())
-            {
-                var timer = random.Next(0,20);
-                   
-                RequestResult requestResult = await Task.Run(() => AddComment(res, commentText));
-
-                if (requestResult != null)
+                if (UserId == 0)
                 {
-                    answer.Add(requestResult);
+                    await GetSeleniumUserId();
+                }
+                var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+                var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
+
+                var result = await tags.Recent(tag, lastId ?? "0", null, null);
+                var random = new Random();
+                if (result == null)
+                {
+                    return null;
                 }
 
-                if (addLike)
+                if (result.Data == null || result.Data.Count == 0)
                 {
-                    var likeResult = await Task.Run(() => AddLike(res));
-                    if (likeResult != null)
+                    return null;
+                }
+
+                foreach (var res in result.Data.ToArray())
+                {
+                    var timer = random.Next(0, 20);
+
+                    var requestResult = await Task.Run(() => AddComment(res, commentText));
+
+                    if (requestResult != null)
                     {
-                        answer.Add(likeResult);
+                        answer.Add(requestResult);
                     }
-                }
 
-                if (DateTime.Now < end)
-                {
-                    lastId = answer.Last().PostId;
-                    SaveToDb(answer);
-                    return answer;
-                }
+                    if (addLike)
+                    {
+                        var likeResult = await Task.Run(() => AddLike(res));
+                        if (likeResult != null)
+                        {
+                            answer.Add(likeResult);
+                        }
+                    }
 
-                await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
-            };
+                    if (DateTime.Now > end)
+                    {
+                        if (answer != null && answer.Count > 0)
+                        {
+                            lastId = answer.Last().PostId;
+                            SaveToDb(answer);
+                        }
+                        return answer;
+                    }
 
-            lastId = result.Pagination.NextMaxTagId;
-            SaveToDb(answer);
+                    await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
+                };
 
-            return answer;
+                lastId = result.Pagination.NextMaxTagId;
+                SaveToDb(answer);
+
+                return answer;
+            } while (DateTime.Now > end);
         }
         public async Task<TagsResponse> SearchForTagsAsync(string tagPart)
         {

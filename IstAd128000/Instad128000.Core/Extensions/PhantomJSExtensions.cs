@@ -9,9 +9,9 @@ using OpenQA.Selenium.Support.UI;
 
 namespace Instad128000.Core.Extensions
 {
-    public static class PhantomJSExtensions
+    public static class WebDriverExtensions
     {
-        public static IWebElement WaitUntil(this PhantomJSDriver driver, By by, int timeoutInSeconds)
+        public static IWebElement WaitUntil(this IWebDriver driver, By by, int timeoutInSeconds)
         {
             if (timeoutInSeconds > 0)
             {

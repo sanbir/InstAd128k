@@ -62,7 +62,6 @@ namespace InstAd128000.SqlLite
             }
             catch (Exception e)
             {
-                // Logger.Current.Error("DB SAVE: ", e);
                 throw new Exception("Database error! " + e.Message);
             }
         }

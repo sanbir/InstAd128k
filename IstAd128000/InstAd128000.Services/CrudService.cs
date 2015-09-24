@@ -35,6 +35,7 @@ namespace InstAd128000.Services
         {
             if (item.ID == Guid.Empty)
             {
+                item.ID = Guid.NewGuid();
                 var newItem = this.Repo.Insert(item);
                 this.Repo.Save();
                 return newItem.ID;
