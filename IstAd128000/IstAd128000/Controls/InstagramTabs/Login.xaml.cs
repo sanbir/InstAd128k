@@ -13,11 +13,8 @@ namespace InstAd128000.Controls.InstagramTabs
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : UserControl, IDBInteractive
+    public partial class Login : UserControl
     {
-        public IRequestService RequestService { get; set; }
-        public IDataStringService DataStringService { get; set; }
-
         public Login()
         {
             InitializeComponent();

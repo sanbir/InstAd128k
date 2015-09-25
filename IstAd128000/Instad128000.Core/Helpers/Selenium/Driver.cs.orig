@@ -29,8 +29,16 @@ namespace Instad128000.Core.Helpers.Selenium
         {
             if (_pD != null)
             {
+<<<<<<< working copy
+<<<<<<< working copy
                 _pD.Quit();
                 _pD.Dispose();
+=======
+                _driver.Quit();
+>>>>>>> destination
+=======
+                _pD.Quit();
+>>>>>>> destination
             }
         }
 
@@ -38,8 +46,16 @@ namespace Instad128000.Core.Helpers.Selenium
         {
             if (_pD != null)
             {
+<<<<<<< working copy
+<<<<<<< working copy
                 _pD.Quit();
                 _pD.Dispose();
+=======
+                _driver.Quit();
+>>>>>>> destination
+=======
+                _pD.Quit();
+>>>>>>> destination
             }
         }
 
@@ -47,8 +63,16 @@ namespace Instad128000.Core.Helpers.Selenium
         {
             if (_pD != null)
             {
+<<<<<<< working copy
+<<<<<<< working copy
                 _pD.Quit();
                 _pD.Dispose();
+=======
+                _driver.Quit();
+>>>>>>> destination
+=======
+                _pD.Quit();
+>>>>>>> destination
             }
         }
     }

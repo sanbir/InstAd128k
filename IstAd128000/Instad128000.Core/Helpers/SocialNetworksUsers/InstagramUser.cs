@@ -120,8 +120,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public async Task<List<RequestResult>> LikeByTag(string tag, string lastId)
+        public async Task<List<RequestResult>> LikeByTagAsync(string tag, TimeSpan workPeriod)
         {
+            var start = DateTime.Now;
+            var end = DateTime.Now.Add(workPeriod);
+
             if (UserId == 0)
             {
                 await GetSeleniumUserId();
@@ -133,12 +136,12 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             var likeFrequency = 2; //todo: userSetting // это типа каждое n-е фото только лайкает, чтоб никто ни о чём не догадался ]:->
             var banCount = 0;
             var count = 0;
-            var banCountSetting = 10; //todo: userSetting
-            TimeSpan workTime = new TimeSpan(0, 5, 0);
-            DateTime start = DateTime.Now;
+            var banCountSetting = 10; //todo: userSettin
+            var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
+
             do
             {
-                var result = await tagsEndpoint.Recent(tag, "0", lastId, 50);
+                var result = await tagsEndpoint.Recent(tag, lastId, null, 50);
 
                 var random = new Random();
                 foreach (var res in result.Data.ToArray())
@@ -171,16 +174,23 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                         count++;
                         WebDriver.Navigate().GoToUrl(res.Link);
                     }
-                    if(workTime < DateTime.Now - start)
+                    if(DateTime.Now > end)
                     {
-                        break;
+                        if (answer != null && answer.Count > 0)
+                        {
+                            lastId = answer.Last().PostId;
+                            SaveToDb(answer);
+                        }
+                        return answer;
                     }
                     await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
 
                 }
+
                 lastId = result.Pagination.NextMaxTagId;
-                
-            } while (workTime > DateTime.Now - start);
+                SaveToDb(answer);
+
+            } while (DateTime.Now > end);
 
 
             return answer;
@@ -265,7 +275,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         } 
 
-        public async Task<List<RequestResult>> CommentByTagAsync(string tag, string commentText, TimeSpan workPeriod, bool addLike)
+        public async Task<List<RequestResult>> CommentByTagAsync(string tag, string commentText, TimeSpan workPeriod)
         {
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
@@ -303,15 +313,6 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                         answer.Add(requestResult);
                     }
 
-                    if (addLike)
-                    {
-                        var likeResult = await Task.Run(() => AddLike(res));
-                        if (likeResult != null)
-                        {
-                            answer.Add(likeResult);
-                        }
-                    }
-
                     if (DateTime.Now > end)
                     {
                         if (answer != null && answer.Count > 0)
@@ -328,8 +329,9 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 lastId = result.Pagination.NextMaxTagId;
                 SaveToDb(answer);
 
-                return answer;
             } while (DateTime.Now > end);
+
+            return answer;
         }
         public async Task<TagsResponse> SearchForTagsAsync(string tagPart)
         {

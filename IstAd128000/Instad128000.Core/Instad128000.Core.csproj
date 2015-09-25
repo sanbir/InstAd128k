@@ -110,6 +110,7 @@
     <Compile Include="Common\Models\DataModels\BaseEntity.cs" />
     <Compile Include="Common\Models\DataModels\DataRequestResult.cs" />
     <Compile Include="Common\Models\DataModels\Symbol.cs" />
+    <Compile Include="Common\Models\HistoryAction.cs" />
     <Compile Include="Common\Models\RequestResult.cs" />
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />

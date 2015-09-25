@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
+using System.Text.RegularExpressions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -21,10 +22,10 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async void SearchTags_OnClick(object sender, RoutedEventArgs e)
         {
-
-            if (string.IsNullOrWhiteSpace(TagsStringInput.Text))
+            if (string.IsNullOrWhiteSpace(TagsStringInput.Text)
+                || new Regex("[^a-zA-Zа-яА-Я]").Match(TagsStringInput.Text).Length > 0)
             {
-                TagsStringInput.Text = "Please, enter valid text";
+                TagsStringInput.Text = "Text is invalid";
                 TagsStringInput.Foreground = Brushes.Red;
                 return;
             }

@@ -49,7 +49,7 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTagAsync(CommentTag.Text, CommentText.Text, WorkTime.Value.Value - DateTime.Now, Convert.ToBoolean(ShouldLikeCheckBox.IsChecked));
+            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTagAsync(CommentTag.Text, CommentText.Text, WorkTime.Value.Value - DateTime.Now);
             CommentedPostsCount.Text = result.Count.ToString();
 
             ResetMainWindow();

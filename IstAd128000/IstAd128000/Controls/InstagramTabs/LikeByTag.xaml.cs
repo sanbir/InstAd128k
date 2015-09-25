@@ -50,20 +50,8 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            var likes = Convert.ToInt32(LikesNumber.Text); //todo: убрать этот контрол к хуям.
-
-            string lastId = "0";
-
-            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTag(LikeTag.Text, lastId);
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Temp\result.txt", true))
-            {
-                foreach (var item in result)
-                {
-                    file.WriteLine("{0} url: {1}", item.Type.ToString("g"), item.Link);
-                }
-                
-            }
-
+            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTagAsync(LikeTag.Text, WorkTime.Value.Value - DateTime.Now);
+           
             ResetMainWindow();
         }
 

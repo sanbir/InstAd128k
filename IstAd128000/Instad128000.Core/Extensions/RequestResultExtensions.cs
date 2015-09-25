@@ -19,6 +19,7 @@ namespace Instad128000.Core.Extensions
             output.UserId = res.UserId;
             output.VictimsId = res.VictimsId;
             output.PostId = res.PostId;
+            output.Type = res.Type;
 
             return output;
         }
