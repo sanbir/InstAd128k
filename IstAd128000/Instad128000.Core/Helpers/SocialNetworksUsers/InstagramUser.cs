@@ -18,7 +18,7 @@ using OpenQA.Selenium.PhantomJS;
 
 namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
-    public class InstagramUser : ISocialNetworkUser<User>
+    public class InstagramUser : IInstaUser
     {
         private IRequestService RequestService { get; set; }
         private IDataStringService DataStringService{ get; set; }
@@ -91,7 +91,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         /// </summary>
         /// <param name="userName">User Name</param>
         /// <returns></returns>
-        public async Task<List<User>> GetContactsListOf(string userName)
+        public async Task<List<User>> GetContactsListAsync(string userName)
         {
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             var foundUser = await users.Search(userName, 1);
@@ -104,9 +104,9 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         /// Follow All Followers Of User
         /// </summary>
         /// <param name="userName">Name of user of which followers to follow</param>
-        public async Task<List<User>> AddToContactsAllContactsOf(string userName)
+        public async Task<List<User>> AddToContactsAllContactsOfUserAsync(string userName)
         {
-            List<User> followers = await GetContactsListOf(userName);
+            List<User> followers = await GetContactsListAsync(userName);
             if (followers == null) return null;
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             foreach (var item in followers)
@@ -120,10 +120,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public async Task<List<RequestResult>> LikeByTagAsync(string tag, TimeSpan workPeriod)
+        public async Task<List<RequestResult>> LikeByTagAsync(List<string> chosenTags, TimeSpan workPeriod)
         {
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
+            var random = new Random();
 
             if (UserId == 0)
             {
@@ -141,9 +142,9 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
             do
             {
+                var tag = chosenTags[random.Next(0, chosenTags.Count - 1)];
                 var result = await tagsEndpoint.Recent(tag, lastId, null, 50);
-
-                var random = new Random();
+                
                 foreach (var res in result.Data.ToArray())
                 {
                     var timer = random.Next(10, waitSeconds);
@@ -275,10 +276,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         } 
 
-        public async Task<List<RequestResult>> CommentByTagAsync(string tag, string commentText, TimeSpan workPeriod)
+        public async Task<List<RequestResult>> CommentByTagAsync(List<string> chosenTags, string commentText, TimeSpan workPeriod)
         {
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
+            var random = new Random();
 
             var answer = new List<RequestResult>();
             do
@@ -287,11 +289,14 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 {
                     await GetSeleniumUserId();
                 }
+
+                var tag = chosenTags[random.Next(0,chosenTags.Count - 1)];
+
                 var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
                 var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
 
                 var result = await tags.Recent(tag, lastId ?? "0", null, null);
-                var random = new Random();
+
                 if (result == null)
                 {
                     return null;

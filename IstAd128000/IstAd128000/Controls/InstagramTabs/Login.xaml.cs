@@ -7,19 +7,26 @@ using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Helpers.Selenium;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Helpers;
+using Instad128000.Core.Common.Enums;
+using System;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : UserControl
+    public partial class Login : UserControl, IDBInteractive
     {
+        public IRequestService RequestService { get; set; }
+        public IDataStringService DataStringService { get; set; }
+
         public Login()
         {
             InitializeComponent();
             UsernameBox.Text = Properties.Settings.Default.Username;
             PasswordBox.Password = Properties.Settings.Default.Password;
+            this.RequestService = RequestService;
+            this.DataStringService = DataStringService;
         }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
@@ -80,10 +87,9 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async Task<bool> DoLoginTaskAsync()
         {
-            ControlGetter.MainWindow.InstagramTab.User = new InstagramUser(Properties.Settings.Default.ClientKey,
-                Properties.Settings.Default.ClientId, Driver.PhantomInstance, UsernameBox.Text,
-                PasswordBox.Password, ControlGetter.MainWindow.RequestService, ControlGetter.MainWindow.DataStringService);
-            var task = new Task<bool>(ControlGetter.MainWindow.InstagramTab.User.Authorize);
+            var user = UserFactory.Init(SocialUserType.Instagram, UsernameBox.Text,PasswordBox.Password,
+                 ControlGetter.MainWindow.RequestService, ControlGetter.MainWindow.DataStringService);
+            var task = new Task<bool>(user.Authorize);
             task.Start();
             return await task;
         }

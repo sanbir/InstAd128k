@@ -4,16 +4,12 @@ using InstaSharp.Models;
 
 namespace Instad128000.Core.Common.Interfaces
 {
-    interface ISocialNetworkUser<TContactModel>
+    public interface ISocialNetworkUser
     {
         string UserName { get; set; }
 
         string UserPassword { get; set; }
 
         bool Authorize();
-
-        Task<List<TContactModel>> GetContactsListOf(string userName);
-
-        Task<List<TContactModel>> AddToContactsAllContactsOf(string userName);
     }
 }

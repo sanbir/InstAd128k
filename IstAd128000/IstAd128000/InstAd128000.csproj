@@ -36,7 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Files\Images\ICO\Icon3.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -193,6 +194,7 @@
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\SearchLocationsViewModel.cs" />
+    <Compile Include="ViewModels\SearchTagsViewModel.cs" />
     <Page Include="Controls\InstagramTabsContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

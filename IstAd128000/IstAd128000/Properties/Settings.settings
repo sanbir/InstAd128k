@@ -2,23 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="InstAd128000.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Username" Type="System.String" Scope="User">
-      <Value Profile="(Default)">instad128</Value>
-    </Setting>
-    <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">qwerty128</Value>
-    </Setting>
     <Setting Name="DefaultWidth" Type="System.String" Scope="User">
       <Value Profile="(Default)">600</Value>
     </Setting>
     <Setting Name="DefaultHeight" Type="System.String" Scope="User">
       <Value Profile="(Default)">400</Value>
-    </Setting>
-    <Setting Name="ClientId" Type="System.String" Scope="User">
-      <Value Profile="(Default)">f5f2c96a6bf948348de274b9168d05dc</Value>
-    </Setting>
-    <Setting Name="ClientKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">9ff514285aac43a6ac9c07257be3c3d2</Value>
     </Setting>
     <Setting Name="MaxTransactionNumber" Type="System.String" Scope="User">
       <Value Profile="(Default)">100</Value>
@@ -31,6 +19,12 @@
     </Setting>
     <Setting Name="FourSquareClientSecret" Type="System.String" Scope="User">
       <Value Profile="(Default)">KZWGHVNMPDUTNY2VPZS1ZYGQH3B3UJY5UX5P0S1N3JUGZ3FD</Value>
+    </Setting>
+    <Setting Name="Username" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CherryFirsov</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">07doreti</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -25,30 +25,6 @@ namespace InstAd128000.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("instad128")]
-        public string Username {
-            get {
-                return ((string)(this["Username"]));
-            }
-            set {
-                this["Username"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("qwerty128")]
-        public string Password {
-            get {
-                return ((string)(this["Password"]));
-            }
-            set {
-                this["Password"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("600")]
         public string DefaultWidth {
             get {
@@ -68,30 +44,6 @@ namespace InstAd128000.Properties {
             }
             set {
                 this["DefaultHeight"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("f5f2c96a6bf948348de274b9168d05dc")]
-        public string ClientId {
-            get {
-                return ((string)(this["ClientId"]));
-            }
-            set {
-                this["ClientId"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("9ff514285aac43a6ac9c07257be3c3d2")]
-        public string ClientKey {
-            get {
-                return ((string)(this["ClientKey"]));
-            }
-            set {
-                this["ClientKey"] = value;
             }
         }
         
@@ -140,6 +92,30 @@ namespace InstAd128000.Properties {
             }
             set {
                 this["FourSquareClientSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CherryFirsov")]
+        public string Username {
+            get {
+                return ((string)(this["Username"]));
+            }
+            set {
+                this["Username"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("07doreti")]
+        public string Password {
+            get {
+                return ((string)(this["Password"]));
+            }
+            set {
+                this["Password"] = value;
             }
         }
     }

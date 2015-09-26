@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using InstAd128000.Helpers;
 using InstaSharp.Models;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -32,7 +33,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
             //todo: check text is not empty
             var followString = FollowUsernameBox.Text;
-            _returnList = await ControlGetter.MainWindow.InstagramTab.User.AddToContactsAllContactsOf(followString);
+            _returnList = await UserFactory.Insta.AddToContactsAllContactsOfUserAsync(followString);
 
             if (_returnList != null)
             {

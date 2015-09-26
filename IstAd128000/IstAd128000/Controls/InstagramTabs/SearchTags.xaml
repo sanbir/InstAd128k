@@ -3,24 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InstAd128000.Controls.InstagramTabs" 
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewModels:SearchTagsViewModel/>
+    </UserControl.DataContext>
     <Grid x:Name="SearchTagsTabHolder" Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" Text="Теги по вхождению строки: " TextWrapping="Wrap" VerticalAlignment="Center"/>
         <TextBox Grid.Column="1" Grid.Row="0" Text="kitty" x:Name="TagsStringInput" TextChanged="TagsStringInput_OnTextChanged"/>
         <Button Grid.Column="1" Grid.Row="1" Click="SearchTags_OnClick" x:Name="TagSearchButton" HorizontalAlignment="Right" Width="100" Height="30" >Найти</Button>
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="Результаты поиска:"/>
-        <ItemsControl Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" x:Name="FoundTagsContainerGrid">
+
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Результаты поиска:"/>
+        </StackPanel>
+        
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="Выбранные тэги:"/>
+        <ItemsControl ItemsSource="{Binding Path=Result}" Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="0" Margin="10" x:Name="FoundTagsContainerGrid">
             <ItemsControl.Template>
                 <ControlTemplate TargetType="ItemsControl">
                     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5">
@@ -42,18 +53,24 @@
                     <DataTemplate.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="FontSize" Value="15"/>
-                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
                             <Setter Property="TextWrapping" Value="Wrap"/>
                         </Style>
+                        <Style TargetType="Label">
+                            <Setter Property="FontSize" Value="10"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
                     </DataTemplate.Resources>
-                    <Grid Background="Transparent" MouseLeftButtonDown="ListItem_OnMouseLeftButtonDown">
+                    <Grid Background="Transparent" MouseLeftButtonDown="ListItem_OnMouseLeftButtonDown" ToolTip="Нажмите, чтобы добавить тэг">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
                         </Grid.ColumnDefinitions>
                         <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Label>Тэг</Label>
                                     <TextBlock Margin="5" Text="{Binding Path=Tag}" HorizontalAlignment="Center" x:Name="Tag"/>
+                                    <Label ToolTip="Количество использований тэга">Количество</Label>
                                     <TextBlock Margin="5" Text="{Binding Path=Count}" HorizontalAlignment="Center" x:Name="Count"/>
                                 </StackPanel>
                             </StackPanel>
@@ -65,5 +82,55 @@
                 <Style></Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
+        <ItemsControl ItemsSource="{Binding Path=Chosen}" Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="1" Margin="10" x:Name="ChosenTagsContainerGrid">
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5">
+                        <ScrollViewer ClipToBounds="True">
+                            <Grid>
+                                <ItemsPresenter/>
+                            </Grid>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DataTemplate.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                        <Style TargetType="Label">
+                            <Setter Property="FontSize" Value="10"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                        </Style>
+                    </DataTemplate.Resources>
+                    <Grid Background="Transparent" MouseLeftButtonDown="Chosen_MouseLeftButtonDown" ToolTip="Нажмите, чтобы удалить тэг">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
+                        </Grid.ColumnDefinitions>
+                        <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Margin="5" Text="{Binding}" HorizontalAlignment="Center" x:Name="Tag"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style></Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        <Button Grid.Column="1" Grid.Row="4" Click="SaveButton_Click" x:Name="SaveButton" HorizontalAlignment="Right" Width="100" Height="30" >Готово</Button>
+        <Button Grid.Column="0" Grid.Row="4" Click="SelectAllButton_Click" x:Name="SelectAllButton" HorizontalAlignment="Left" Width="100" Height="30" >Выбрать все</Button>
     </Grid>
 </UserControl>

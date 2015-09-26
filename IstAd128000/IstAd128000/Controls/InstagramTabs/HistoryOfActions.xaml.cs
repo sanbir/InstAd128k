@@ -22,31 +22,26 @@ namespace InstAd128000.Controls.InstagramTabs
     /// <summary>
     /// Interaction logic for HistoryOfActions.xaml
     /// </summary>
-    public partial class HistoryOfActions : UserControl, IDBInteractive
+    public partial class HistoryOfActions : UserControl
     {
         public HistoryOfActions()
         {
             InitializeComponent();
-            this.DataStringService = Helpers.ControlGetter.MainWindow.DataStringService;
-            this.RequestService = Helpers.ControlGetter.MainWindow.RequestService;
             SetItems();
         }
-
-        public IDataStringService DataStringService { get; set; }
-        public IRequestService RequestService { get; set; }
 
         private void Link_MouseUp(object sender, MouseButtonEventArgs e)
         {
             System.Diagnostics.Process.Start((sender as TextBlock).Text);
         }
 
-        private async void SetItems()
+        private async Task SetItems()
         {
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             Helpers.SpinnerInstance.SetToMainWindow();
 
             Refresh.IsEnabled = false;
-            HistoryContainerGrid.ItemsSource = await Task.Run(() => RequestService.GetAll().Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
+            HistoryContainerGrid.ItemsSource = await Task.Run(() => ControlGetter.MainWindow.RequestService.GetAll().Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
             Refresh.IsEnabled = true;
 
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
@@ -55,7 +50,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            SetItems();
+            await SetItems();
         }
     }
 }

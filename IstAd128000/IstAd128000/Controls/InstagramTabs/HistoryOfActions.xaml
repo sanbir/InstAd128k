@@ -47,11 +47,11 @@
                         <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Label>Comment</Label>
+                                    <Label>Коммент</Label>
                                     <TextBlock Margin="5" Text="{Binding Path=Comment}" HorizontalAlignment="Center" x:Name="Comment"/>
-                                    <Label>Link</Label>
+                                    <Label>Ссылка</Label>
                                     <TextBlock MouseUp="Link_MouseUp" Margin="5" Text="{Binding Path=Link}" HorizontalAlignment="Center" x:Name="Link"/>
-                                    <Label>Type</Label>
+                                    <Label>Тип</Label>
                                     <TextBlock Margin="5" Text="{Binding Path=Type}" HorizontalAlignment="Center" x:Name="Type"/>
                                 </StackPanel>
                             </StackPanel>

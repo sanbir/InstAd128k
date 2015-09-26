@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using InstAd128000.Helpers;
+using System.Collections.Generic;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -50,7 +51,9 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTagAsync(LikeTag.Text, WorkTime.Value.Value - DateTime.Now);
+            var tags = new List<string>();
+            tags.AddRange(LikeTag.Text.Split(';'));
+            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTagAsync(tags, WorkTime.Value.Value - DateTime.Now);
            
             ResetMainWindow();
         }
