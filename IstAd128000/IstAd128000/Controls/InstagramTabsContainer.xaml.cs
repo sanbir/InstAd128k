@@ -30,8 +30,8 @@ namespace InstAd128000.Controls
             InitializeComponent();
             _noProcessPerformed = true;
             _controlsList = new Dictionary<string, UserControl>();
-        }  
-        
+        }
+
         private bool _loggedIn;
         private bool _noProcessPerformed;
         public bool IsLogged
@@ -63,8 +63,6 @@ namespace InstAd128000.Controls
         {
             get { return _controlsList; }
         }
-
-        public InstagramUser User { get; set; }
 
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
         {

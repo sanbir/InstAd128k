@@ -7,7 +7,7 @@
              xmlns:instAd128000="clr-namespace:InstAd128000"
              xmlns:controls="clr-namespace:InstAd128000.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -16,25 +16,36 @@
         <Border Grid.Column="0" Margin="5" BorderBrush="BurlyWood" Background="BlanchedAlmond" BorderThickness="1" CornerRadius="5">
             <Grid x:Name="OptionsPanel" >
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                
                 <Button Grid.Row="0" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" ToolTip="Войти в аккаунт Instagram">
                     <Image Source="../Files/Images/System/Login.png"/>
                 </Button>
-                <Button Grid.Row="1" Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Подписаться на всех подписчиков юзера, найденного по имени">Подписаться</Button>
-                <Button Grid.Row="2" Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Найти самые популярные теги по фразе">Рейтинг тегов</Button>
-                <Button Grid.Row="3" Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Комментировать посты по конкретному тегу">Комменты</Button>
-                <Button Grid.Row="4" Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Лайкнуть посты по конкретному тегу">Лайкнуть</Button>
-                <Button Grid.Row="5" Style="{StaticResource ButtonStyle}" Tag="SearchLocations" Click="AnyButton_OnClick" x:Name="SearchLocations" ToolTip="Поиск по локациям">Поиск по локациям</Button>
-                <Button Grid.Row="6" Style="{StaticResource ButtonStyle}" Tag="HistoryOfActions" Click="AnyButton_OnClick" x:Name="HistoryOfActions" ToolTip="Посмотреть историю комментов/лайков с ссылками на посты">История</Button>
 
+                <GroupBox Grid.Row="1" Header="Настройки">
+                    <StackPanel>
+                        <Button Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Найти самые популярные теги по фразе">Рейтинг тегов</Button>
+                        <Button Style="{StaticResource ButtonStyle}" Tag="SearchLocations" Click="AnyButton_OnClick" x:Name="SearchLocations" ToolTip="Поиск по локациям">Поиск по локациям</Button>
+                    </StackPanel>
+                </GroupBox>
+                
+                <GroupBox Grid.Row="2" Header="Процессинг">
+                    <StackPanel>
+                        <Button Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Комментировать посты по конкретному тегу">Комменты</Button>
+                        <Button Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Лайкнуть посты по конкретному тегу">Лайкнуть</Button>
+                        <Button Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Подписаться на всех подписчиков юзера, найденного по имени">Подписаться</Button>
+                    </StackPanel>
+                </GroupBox>
 
+                <GroupBox Grid.Row="3" Header="Другое">
+                    <StackPanel>
+                        <Button Style="{StaticResource ButtonStyle}" Tag="HistoryOfActions" Click="AnyButton_OnClick" x:Name="HistoryOfActions" ToolTip="Посмотреть историю комментов/лайков с ссылками на посты">История</Button>
+                    </StackPanel>
+                </GroupBox>
             </Grid>
         </Border>
         <Border Grid.Column="1" Margin="5"  BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" >

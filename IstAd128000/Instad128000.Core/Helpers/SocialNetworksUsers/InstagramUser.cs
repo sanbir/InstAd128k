@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FourSquare.SharpSquare.Entities;
 using Instad128000.Core.Common.Enums;
 using Instad128000.Core.Common.Interfaces;
 using Instad128000.Core.Common.Interfaces.Services;
@@ -39,6 +40,10 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
+        public IEnumerable<string> TagsToProcess { get; set; }
+
+        public IEnumerable<Venue> LocationsToProcess { get; set; }
+
         public InstagramUser(string clientKey, string clientId, IWebDriver webDriver, string userName, string userPassword, 
             IRequestService requestService, IDataStringService dataStringService)
         {
@@ -50,6 +55,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             UserPassword = userPassword;
             RequestService = requestService;
             DataStringService = dataStringService;
+            TagsToProcess = new List<string>();
+            LocationsToProcess = new List<Venue>();
         }
 
         public bool Authorize()
@@ -91,7 +98,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         /// </summary>
         /// <param name="userName">User Name</param>
         /// <returns></returns>
-        public async Task<List<User>> GetContactsListAsync(string userName)
+        public async Task<IEnumerable<InstaSharp.Models.User>> GetContactsListAsync(string userName)
         {
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             var foundUser = await users.Search(userName, 1);
@@ -104,9 +111,9 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         /// Follow All Followers Of User
         /// </summary>
         /// <param name="userName">Name of user of which followers to follow</param>
-        public async Task<List<User>> AddToContactsAllContactsOfUserAsync(string userName)
+        public async Task<IEnumerable<InstaSharp.Models.User>> AddToContactsAllContactsOfUserAsync(string userName)
         {
-            List<User> followers = await GetContactsListAsync(userName);
+            List<InstaSharp.Models.User> followers = (await GetContactsListAsync(userName)).ToList();
             if (followers == null) return null;
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             foreach (var item in followers)
@@ -120,7 +127,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public async Task<List<RequestResult>> LikeByTagAsync(List<string> chosenTags, TimeSpan workPeriod)
+        public async Task<IEnumerable<RequestResult>> LikeByTagAsync(TimeSpan workPeriod)
         {
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
@@ -142,8 +149,9 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
             do
             {
-                var tag = chosenTags[random.Next(0, chosenTags.Count - 1)];
-                var result = await tagsEndpoint.Recent(tag, lastId, null, 50);
+                //todo: проверочка на TagsToProcess нулл
+                var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
+                var result = await tagsEndpoint.Recent(tag.NormalizeIt(), lastId, null, 50);
                 
                 foreach (var res in result.Data.ToArray())
                 {
@@ -276,7 +284,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         } 
 
-        public async Task<List<RequestResult>> CommentByTagAsync(List<string> chosenTags, string commentText, TimeSpan workPeriod)
+        public async Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod)
         {
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
@@ -290,12 +298,12 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     await GetSeleniumUserId();
                 }
 
-                var tag = chosenTags[random.Next(0,chosenTags.Count - 1)];
+                var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
 
                 var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
                 var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
 
-                var result = await tags.Recent(tag, lastId ?? "0", null, null);
+                var result = await tags.Recent(tag.NormalizeIt(), lastId ?? "0", null, null);
 
                 if (result == null)
                 {

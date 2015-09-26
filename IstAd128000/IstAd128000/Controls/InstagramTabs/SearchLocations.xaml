@@ -20,7 +20,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1.6*"/>
+            <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
@@ -70,5 +71,6 @@
                 </ListView.View>
             </ListView>
         </ScrollViewer>
+        <Button Grid.Column="1" Grid.Row="2" x:Name="SaveLocations" Click="SaveLocations_Click">Готово</Button>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using InstAd128000.Helpers;
 using System.Collections.Generic;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -17,6 +19,7 @@ namespace InstAd128000.Controls.InstagramTabs
         public CommentByTag()
         {
             InitializeComponent();
+            CommentTag.Text = String.Join("; ", UserFactory.Insta.TagsToProcess);
         }
 
         private async void Comment_OnClick(object sender, RoutedEventArgs e)
@@ -50,11 +53,8 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            var tags = new List<string>();
-            tags.AddRange(CommentTag.Text.Split(';'));
-
-            var result = await ControlGetter.MainWindow.InstagramTab.User.CommentByTagAsync(tags, CommentText.Text, WorkTime.Value.Value - DateTime.Now);
-            CommentedPostsCount.Text = result.Count.ToString();
+            var result = await UserFactory.Insta.CommentByTagAsync(CommentText.Text, WorkTime.Value.Value - DateTime.Now);
+            CommentedPostsCount.Text = result.Count().ToString();
 
             ResetMainWindow();
         }

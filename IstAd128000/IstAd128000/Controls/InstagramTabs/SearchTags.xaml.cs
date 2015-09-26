@@ -73,30 +73,8 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var str = String.Join("; ", ViewModel.Chosen.Select(x => x));
-            var result = MessageBox.Show("Use this tag to leave comments(Yes) or likes(No)?", "", MessageBoxButton.YesNoCancel);
-            if (result == MessageBoxResult.Yes)
-            {
-                var tag = ControlGetter.MainWindow.InstagramTab.CommentByTag.Tag as string;
-                ControlGetter.MainWindow.InstagramTab.CommentByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-                var keyIsPresent = false;
-                do
-                {
-                    keyIsPresent = ControlGetter.MainWindow.InstagramTab.ControlsList.ContainsKey(tag);
-                } while (keyIsPresent == false);
-                (ControlGetter.MainWindow.InstagramTab.ControlsList[tag] as CommentByTag).CommentTag.Text = str;
-            }
-            if (result == MessageBoxResult.No)
-            {
-                var tag = ControlGetter.MainWindow.InstagramTab.LikeByTag.Tag as string;
-                ControlGetter.MainWindow.InstagramTab.LikeByTag.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-                var keyIsPresent = false;
-                do
-                {
-                    keyIsPresent = ControlGetter.MainWindow.InstagramTab.ControlsList.ContainsKey(tag);
-                } while (keyIsPresent == false);
-                (ControlGetter.MainWindow.InstagramTab.ControlsList[tag] as LikeByTag).LikeTag.Text = str;
-            }
+            UserFactory.Insta.TagsToProcess = ViewModel.Chosen;
+            var result = MessageBox.Show("Тэги сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
         }
 
         private void Chosen_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

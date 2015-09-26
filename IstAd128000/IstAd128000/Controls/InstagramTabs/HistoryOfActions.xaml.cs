@@ -27,7 +27,6 @@ namespace InstAd128000.Controls.InstagramTabs
         public HistoryOfActions()
         {
             InitializeComponent();
-            SetItems();
         }
 
         private void Link_MouseUp(object sender, MouseButtonEventArgs e)

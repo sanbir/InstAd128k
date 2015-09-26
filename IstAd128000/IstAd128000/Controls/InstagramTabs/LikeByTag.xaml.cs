@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using InstAd128000.Helpers;
 using System.Collections.Generic;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -16,6 +17,7 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             InitializeComponent();
             MaxLikes = Convert.ToInt32(Properties.Settings.Default.MaxTransactionNumber);
+            LikeTag.Text = String.Join("; ", UserFactory.Insta.TagsToProcess);
         }
 
         private int MaxLikes { get; set; }
@@ -53,7 +55,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
             var tags = new List<string>();
             tags.AddRange(LikeTag.Text.Split(';'));
-            var result = await ControlGetter.MainWindow.InstagramTab.User.LikeByTagAsync(tags, WorkTime.Value.Value - DateTime.Now);
+            var result = await UserFactory.Insta.LikeByTagAsync(WorkTime.Value.Value - DateTime.Now);
            
             ResetMainWindow();
         }

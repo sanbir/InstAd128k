@@ -12,8 +12,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
     public static class UserFactory
     {
-        private static InstagramUser _instaUser { get; set; }
-        public static InstagramUser Insta
+        private static IInstaUser _instaUser { get; set; }
+        public static IInstaUser Insta
         {
             get { return _instaUser; }
         }

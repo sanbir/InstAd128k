@@ -13,6 +13,7 @@ using InstAd128000.Properties;
 using InstAd128000.ViewModels;
 using Microsoft.Maps.MapControl.WPF;
 using Location = Microsoft.Maps.MapControl.WPF.Location;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -87,6 +88,12 @@ namespace InstAd128000.Controls.InstagramTabs
 
             ViewModel.Latitude = circleCenter.Latitude;
             ViewModel.Longitude = circleCenter.Longitude;
+        }
+
+        private void SaveLocations_Click(object sender, RoutedEventArgs e)
+        {
+            UserFactory.Insta.LocationsToProcess = ViewModel.Venues;
+            var result = MessageBox.Show("Локации сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
         }
     }
 }

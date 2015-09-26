@@ -38,5 +38,14 @@ namespace Instad128000.Core.Extensions
 
             return str.Substring(0, index) + toStr + str.Substring(index + 1);
         }
+
+        public static string NormalizeIt(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return null;
+            }
+            return str.ToLower().Trim();
+        }
     }
 }
