@@ -16,6 +16,7 @@ using Instad128000.Core.Common.Interfaces;
 using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -24,10 +25,16 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class HistoryOfActions : UserControl
     {
-        public HistoryOfActions()
+        public HistoryOfActions(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
+            ViewModel = new HistoryOfActionsViewModel();
+            DataContext = ViewModel;
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
+
+        public HistoryOfActionsViewModel ViewModel { get; set; }
 
         private void Link_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -40,7 +47,7 @@ namespace InstAd128000.Controls.InstagramTabs
             Helpers.SpinnerInstance.SetToMainWindow();
 
             Refresh.IsEnabled = false;
-            HistoryContainerGrid.ItemsSource = await Task.Run(() => ControlGetter.MainWindow.RequestService.GetAll().Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
+            HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
             Refresh.IsEnabled = true;
 
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;

@@ -8,6 +8,8 @@ using System.Windows.Media;
 using InstAd128000.Helpers;
 using System.Collections.Generic;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using Instad128000.Core.Common.Interfaces.Services;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -16,11 +18,17 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class CommentByTag : UserControl
     {
-        public CommentByTag()
+        public CommentByTag(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
             CommentTag.Text = String.Join("; ", UserFactory.Insta.TagsToProcess);
+            ViewModel = new CommentByTagViewModel();
+            DataContext = ViewModel;
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
+
+        public CommentByTagViewModel ViewModel { get; set; }
 
         private async void Comment_OnClick(object sender, RoutedEventArgs e)
         {

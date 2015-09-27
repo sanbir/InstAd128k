@@ -14,6 +14,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using InstAd128000.ViewModels;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Enums;
 
 namespace InstAd128000.Controls.InstagramTabs
@@ -23,11 +24,13 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class SearchTags : UserControl
     {
-        public SearchTags()
+        public SearchTags(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
             ViewModel = new SearchTagsViewModel();
             DataContext = ViewModel;
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
 
         public SearchTagsViewModel ViewModel { get; set; }

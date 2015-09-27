@@ -6,6 +6,8 @@ using InstAd128000.Helpers;
 using InstaSharp.Models;
 using System.Linq;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using Instad128000.Core.Common.Interfaces.Services;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -14,10 +16,16 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class Follow : UserControl
     {
-        public Follow()
+        public Follow(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
+            ViewModel = new FollowViewModel();
+            DataContext = ViewModel;
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
+
+        public FollowViewModel ViewModel { get; set; }
 
         private List<User> _returnList;
         public List<User> UserList {

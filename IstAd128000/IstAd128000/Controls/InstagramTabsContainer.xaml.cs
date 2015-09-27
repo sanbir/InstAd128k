@@ -17,6 +17,7 @@ using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Services;
 using Microsoft.Practices.Unity;
+using Instad128000.Core.Common.Interfaces;
 
 namespace InstAd128000.Controls
 {
@@ -58,12 +59,11 @@ namespace InstAd128000.Controls
         }
 
         private Dictionary<string, UserControl> _controlsList;
-
         public Dictionary<string, UserControl> ControlsList
         {
             get { return _controlsList; }
         }
-
+        
         private void AnyButton_OnClick(object sender, RoutedEventArgs e)
         {
             UserControl tab;
@@ -83,7 +83,7 @@ namespace InstAd128000.Controls
             }
             try
             {
-                tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag));
+                tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), new object[] { RequestSRV, DataStringSRV });
                 _controlsList.Add(tag, tab);
             }
             catch (Exception ex)
@@ -96,6 +96,37 @@ namespace InstAd128000.Controls
             tab.Height = double.NaN;
             Panel.Children.Clear();
             Panel.Children.Add(tab);
+        }
+
+        public static readonly DependencyProperty RequestServiceProperty =
+                  DependencyProperty.Register(nameof(RequestSRV), typeof(IRequestService), typeof(InstagramTabsContainer), 
+                      new FrameworkPropertyMetadata(null, OnRequestServiceChanged));
+
+        public IRequestService RequestSRV
+        {
+            get { return GetValue(RequestServiceProperty) as IRequestService; }
+            set { SetValue(RequestServiceProperty, value); }
+        }
+
+        private static void OnRequestServiceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            var control = obj as InstagramTabsContainer;
+            control.RequestSRV = (IRequestService)eventArgs.NewValue;
+        }
+
+        public static readonly DependencyProperty DataStringServiceProperty =
+                  DependencyProperty.Register(nameof(DataStringSRV), typeof(IDataStringService), typeof(InstagramTabsContainer),
+                      new FrameworkPropertyMetadata(null, OnDataStringServiceChanged));
+        public IDataStringService DataStringSRV
+        {
+            get { return GetValue(DataStringServiceProperty) as IDataStringService; }
+            set { SetValue(DataStringServiceProperty, value); }
+        }
+
+        private static void OnDataStringServiceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs eventArgs)
+        {
+            var control = obj as InstagramTabsContainer;
+            control.DataStringSRV = (IDataStringService)eventArgs.NewValue;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

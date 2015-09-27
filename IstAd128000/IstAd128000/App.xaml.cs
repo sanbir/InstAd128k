@@ -13,9 +13,11 @@ using Instad128000.Core.Common.Interfaces.Data.Services;
 using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Logger;
 using Instad128000.Core.Helpers.Selenium;
+using InstAd128000.Helpers;
 using InstAd128000.Services;
 using InstAd128000.SqlLite;
 using Microsoft.Practices.Unity;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000
 {
@@ -36,16 +38,10 @@ namespace InstAd128000
 
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            IUnityContainer container = new UnityContainer();
+            var windowVM = Unity.Container.Resolve<MainWindowViewModel>();
+            var window = Unity.Container.Resolve<MainWindow>();
 
-            container.RegisterType<IDbContextFactory,DbContextFactory>();
-            container.RegisterType<ILogger,Log4NetLogger>();
-            container.RegisterType(typeof(ICrudService<>), typeof(CrudService<>));
-            container.RegisterType(typeof(IRepository<>), typeof(Repository<>));
-            container.RegisterType<IRequestService, RequestService>();
-            container.RegisterType<IDataStringService, DataStringService>();
-
-            var window = container.Resolve<MainWindow>();
+            window.ViewModel = windowVM;
             window.Show();
         }
     }

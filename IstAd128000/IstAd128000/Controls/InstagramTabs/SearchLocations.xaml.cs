@@ -14,6 +14,7 @@ using InstAd128000.ViewModels;
 using Microsoft.Maps.MapControl.WPF;
 using Location = Microsoft.Maps.MapControl.WPF.Location;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using Instad128000.Core.Common.Interfaces.Services;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -27,7 +28,7 @@ namespace InstAd128000.Controls.InstagramTabs
         private FoursquareHelper _foursquareHelper;
         public SearchLocationsViewModel ViewModel { get; set; }
 
-        public SearchLocations()
+        public SearchLocations(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
             MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(Settings.Default.BingCredentialsProvider);
@@ -39,6 +40,8 @@ namespace InstAd128000.Controls.InstagramTabs
 
             _foursquareHelper = new FoursquareHelper(Settings.Default.FourSquareClientId,
                 Settings.Default.FourSquareClientSecret);
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

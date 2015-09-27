@@ -5,6 +5,8 @@ using System.Windows.Media;
 using InstAd128000.Helpers;
 using System.Collections.Generic;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using Instad128000.Core.Common.Interfaces.Services;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -13,12 +15,18 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class LikeByTag : UserControl
     {
-        public LikeByTag()
+        public LikeByTag(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
             MaxLikes = Convert.ToInt32(Properties.Settings.Default.MaxTransactionNumber);
             LikeTag.Text = String.Join("; ", UserFactory.Insta.TagsToProcess);
+            ViewModel = new LikeByTagViewModel();
+            DataContext = ViewModel;
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
+
+        public LikeByTagViewModel ViewModel { get; set; }
 
         private int MaxLikes { get; set; }
 

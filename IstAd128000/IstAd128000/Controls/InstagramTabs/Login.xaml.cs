@@ -9,25 +9,30 @@ using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Helpers;
 using Instad128000.Core.Common.Enums;
 using System;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : UserControl, IDBInteractive
+    public partial class Login : UserControl
     {
         public IRequestService RequestService { get; set; }
         public IDataStringService DataStringService { get; set; }
 
-        public Login()
+        public Login(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
             UsernameBox.Text = Properties.Settings.Default.Username;
             PasswordBox.Password = Properties.Settings.Default.Password;
-            this.RequestService = RequestService;
-            this.DataStringService = DataStringService;
+            ViewModel = new LoginViewModel();
+            DataContext = ViewModel;
+            ViewModel.RequestService = reqSRV;
+            ViewModel.DataStringService = dataStrSRV;
         }
+
+        public LoginViewModel ViewModel { get; set; }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
@@ -88,7 +93,7 @@ namespace InstAd128000.Controls.InstagramTabs
         private async Task<bool> DoLoginTaskAsync()
         {
             var user = UserFactory.Init(SocialUserType.Instagram, UsernameBox.Text,PasswordBox.Password,
-                 ControlGetter.MainWindow.RequestService, ControlGetter.MainWindow.DataStringService);
+                 ViewModel.RequestService, ViewModel.DataStringService);
             var task = new Task<bool>(user.Authorize);
             task.Start();
             return await task;

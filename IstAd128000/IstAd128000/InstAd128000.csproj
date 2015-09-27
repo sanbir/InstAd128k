@@ -177,6 +177,7 @@
     <Compile Include="Helpers\ControlGetter.cs" />
     <Compile Include="Helpers\SpinnerInstance.cs" />
     <Compile Include="Helpers\UiHelper.cs" />
+    <Compile Include="Helpers\Unity.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Controls\InstagramTabs\Follow.xaml.cs">
       <DependentUpon>Follow.xaml</DependentUpon>
@@ -193,6 +194,13 @@
     <Compile Include="Controls\InstagramTabs\CommentByTag.xaml.cs">
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\CommonViewModel.cs" />
+    <Compile Include="ViewModels\HistoryOfActionsViewModel.cs" />
+    <Compile Include="ViewModels\FollowViewModel.cs" />
+    <Compile Include="ViewModels\CommentByTagViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\LikeByTagViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SearchLocationsViewModel.cs" />
     <Compile Include="ViewModels\SearchTagsViewModel.cs" />
     <Page Include="Controls\InstagramTabsContainer.xaml">

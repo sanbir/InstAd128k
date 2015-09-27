@@ -13,7 +13,7 @@ using Location = Microsoft.Maps.MapControl.WPF.Location;
 
 namespace InstAd128000.ViewModels
 {
-    public class SearchLocationsViewModel : INotifyPropertyChanged
+    public class SearchLocationsViewModel : CommonViewModel, INotifyPropertyChanged
     {
         private double _latitude;
         private double _longitude;

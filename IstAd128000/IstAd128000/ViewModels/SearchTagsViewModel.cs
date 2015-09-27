@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InstAd128000.ViewModels
 {
-    public class SearchTagsViewModel : INotifyPropertyChanged, INotifyCollectionChanged
+    public class SearchTagsViewModel : CommonViewModel, INotifyPropertyChanged, INotifyCollectionChanged
     {
         public SearchTagsViewModel()
         {

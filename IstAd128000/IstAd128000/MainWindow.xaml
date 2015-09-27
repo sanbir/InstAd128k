@@ -6,13 +6,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:instAd128000="clr-namespace:InstAd128000"
         xmlns:converters="clr-namespace:InstAd128000.Converters"
+        xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" ResizeMode="CanResizeWithGrip" WindowStyle="None" 
         MouseLeftButtonDown="Window_MouseDown" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True" Background="Transparent" 
         MinWidth="700" MinHeight="550">
     <Window.Resources>
-      <Style TargetType="Button" x:Key="TopMenuButton">
+        <Style TargetType="Button" x:Key="TopMenuButton">
             <Setter Property="Width" Value="32"/>
             <Setter Property="Height" Value="32"/>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
@@ -37,6 +38,11 @@
             </Setter>
         </Style>
     </Window.Resources>
+
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
+    
     <Grid Margin="5">
         <Border BorderThickness="1" BorderBrush="SaddleBrown" CornerRadius="5">
             <Border.Background>
@@ -73,7 +79,7 @@
                 </Border>
                 <TabControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" x:Name="Tabs">
                     <TabItem Header="Instagram">
-                        <controls:InstagramTabsContainer x:Name="InstagramTab"></controls:InstagramTabsContainer>
+                        <controls:InstagramTabsContainer RequestSRV="{Binding Path=RequestService, Mode=OneWay}" DataStringSRV="{Binding Path=DataStringService, Mode=OneWay}" x:Name="InstagramTab"/>
                     </TabItem> 
                 </TabControl>
             </Grid>
