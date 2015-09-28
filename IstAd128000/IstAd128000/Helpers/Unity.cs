@@ -16,6 +16,8 @@ namespace InstAd128000.Helpers
     public static class Unity
     {
         private static IUnityContainer _container { get; set; }
+        private static UnityServiceLocator _locator { get; set; }
+
         public static IUnityContainer Container
         {
             get

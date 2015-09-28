@@ -79,7 +79,7 @@
                 </Border>
                 <TabControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" x:Name="Tabs">
                     <TabItem Header="Instagram">
-                        <controls:InstagramTabsContainer RequestSRV="{Binding Path=RequestService, Mode=OneWay}" DataStringSRV="{Binding Path=DataStringService, Mode=OneWay}" x:Name="InstagramTab"/>
+                        <controls:InstagramTabsContainer x:Name="InstagramTab"/>
                     </TabItem> 
                 </TabControl>
             </Grid>

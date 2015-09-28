@@ -18,6 +18,7 @@ using Instad128000.Core.Helpers.SocialNetworksUsers;
 using InstAd128000.Services;
 using Microsoft.Practices.Unity;
 using Instad128000.Core.Common.Interfaces;
+using InstAd128000.Helpers;
 
 namespace InstAd128000.Controls
 {
@@ -83,7 +84,7 @@ namespace InstAd128000.Controls
             }
             try
             {
-                tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), new object[] { RequestSRV, DataStringSRV });
+                tab = (UserControl)Activator.CreateInstance(Type.GetType("InstAd128000.Controls.InstagramTabs." + tag), new object[] { Unity.Container.Resolve<IRequestService>(), Unity.Container.Resolve<IDataStringService>() });
                 _controlsList.Add(tag, tab);
             }
             catch (Exception ex)
@@ -98,36 +99,36 @@ namespace InstAd128000.Controls
             Panel.Children.Add(tab);
         }
 
-        public static readonly DependencyProperty RequestServiceProperty =
-                  DependencyProperty.Register(nameof(RequestSRV), typeof(IRequestService), typeof(InstagramTabsContainer), 
-                      new FrameworkPropertyMetadata(null, OnRequestServiceChanged));
+        //public static readonly DependencyProperty RequestServiceProperty =
+        //          DependencyProperty.Register(nameof(RequestSRV), typeof(IRequestService), typeof(InstagramTabsContainer), 
+        //              new FrameworkPropertyMetadata(null, OnRequestServiceChanged));
 
-        public IRequestService RequestSRV
-        {
-            get { return GetValue(RequestServiceProperty) as IRequestService; }
-            set { SetValue(RequestServiceProperty, value); }
-        }
+        //public IRequestService RequestSRV
+        //{
+        //    get { return GetValue(RequestServiceProperty) as IRequestService; }
+        //    set { SetValue(RequestServiceProperty, value); }
+        //}
 
-        private static void OnRequestServiceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            var control = obj as InstagramTabsContainer;
-            control.RequestSRV = (IRequestService)eventArgs.NewValue;
-        }
+        //private static void OnRequestServiceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs eventArgs)
+        //{
+        //    var control = obj as InstagramTabsContainer;
+        //    control.RequestSRV = (IRequestService)eventArgs.NewValue;
+        //}
 
-        public static readonly DependencyProperty DataStringServiceProperty =
-                  DependencyProperty.Register(nameof(DataStringSRV), typeof(IDataStringService), typeof(InstagramTabsContainer),
-                      new FrameworkPropertyMetadata(null, OnDataStringServiceChanged));
-        public IDataStringService DataStringSRV
-        {
-            get { return GetValue(DataStringServiceProperty) as IDataStringService; }
-            set { SetValue(DataStringServiceProperty, value); }
-        }
+        //public static readonly DependencyProperty DataStringServiceProperty =
+        //          DependencyProperty.Register(nameof(DataStringSRV), typeof(IDataStringService), typeof(InstagramTabsContainer),
+        //              new FrameworkPropertyMetadata(null, OnDataStringServiceChanged));
+        //public IDataStringService DataStringSRV
+        //{
+        //    get { return GetValue(DataStringServiceProperty) as IDataStringService; }
+        //    set { SetValue(DataStringServiceProperty, value); }
+        //}
 
-        private static void OnDataStringServiceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            var control = obj as InstagramTabsContainer;
-            control.DataStringSRV = (IDataStringService)eventArgs.NewValue;
-        }
+        //private static void OnDataStringServiceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs eventArgs)
+        //{
+        //    var control = obj as InstagramTabsContainer;
+        //    control.DataStringSRV = (IDataStringService)eventArgs.NewValue;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propertyName)
