@@ -116,6 +116,7 @@
     <Compile Include="Common\Models\RequestResult.cs" />
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\RequestResultExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\SearchLocations\FoursquareHelper.cs" />

@@ -4,6 +4,8 @@ using InstaSharp.Models;
 using InstaSharp.Models.Responses;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +20,7 @@ namespace Instad128000.Core.Common.Interfaces
         Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod);
         Task<TagsResponse> SearchForTagsAsync(string tagPart);
 
-        IEnumerable<string> TagsToProcess { get; set; }
-        IEnumerable<Venue> LocationsToProcess { get; set; }
+        ObservableCollection<TagsCount> TagsToProcess { get; set; }
+        ObservableCollection<Venue> LocationsToProcess { get; set; }
     }
 }

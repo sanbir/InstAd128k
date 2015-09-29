@@ -8,9 +8,11 @@
              Startup="App_OnStartup">
     <Application.Resources>
         <properties:Settings x:Key="Settings" />
+        
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:BoolArrToBoolWithAndOperatorConverter x:Key="BoolArrToBoolWithAndOperatorConverter" />
         <converters:RemainingTimeConverter x:Key="RemainingTimeConverter" />
+        
         <Style TargetType="Button" x:Key="ImageMenuButton">
             <Setter Property="Width" Value="32"/>
             <Setter Property="Height" Value="32"/>
@@ -82,5 +84,29 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="TextBlock" x:Key="ListItemTextBlockStyle">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="Label" x:Key="ListItemLabelStyle">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <ControlTemplate TargetType="ItemsControl" x:Key="ListTemplate">
+            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5">
+                <ScrollViewer ClipToBounds="True">
+                    <Grid>
+                        <ItemsPresenter/>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </ControlTemplate>
+        <ItemsPanelTemplate x:Key="ListPanelTemplate">
+            <WrapPanel />
+        </ItemsPanelTemplate>
+        
     </Application.Resources>
 </Application>

@@ -15,6 +15,9 @@ using Microsoft.Maps.MapControl.WPF;
 using Location = Microsoft.Maps.MapControl.WPF.Location;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
+using System.Collections.ObjectModel;
+using Instad128000.Core.Common.Models;
+using Instad128000.Core.Extensions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -95,7 +98,15 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void SaveLocations_Click(object sender, RoutedEventArgs e)
         {
-            UserFactory.Insta.LocationsToProcess = ViewModel.Venues;
+            //todo: fix collection modify
+            foreach (var item in UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.Venues.ToObservableCollection<Venue>().Any(y => y == x)))
+            {
+                UserFactory.Insta.LocationsToProcess.Remove(item);
+            }
+            foreach (var item in ViewModel.Venues.ToObservableCollection<Venue>().Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)))
+            {
+                UserFactory.Insta.LocationsToProcess.Add(item);
+            }
             var result = MessageBox.Show("Локации сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
         }
     }

@@ -16,6 +16,8 @@ using InstaSharp.Models;
 using InstaSharp.Models.Responses;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
@@ -40,9 +42,30 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public WaitTimer WaitTimer { get; set; }
 
-        public IEnumerable<string> TagsToProcess { get; set; }
-
-        public IEnumerable<Venue> LocationsToProcess { get; set; }
+        private ObservableCollection<TagsCount> _tagsToProcess { get; set; }
+        public ObservableCollection<TagsCount> TagsToProcess
+        {
+            get
+            {
+                return _tagsToProcess;
+            }
+            set
+            {
+                _tagsToProcess = value;
+            }
+        }
+        private ObservableCollection<Venue> _locationsToProcess { get; set; }
+        public ObservableCollection<Venue> LocationsToProcess
+        {
+            get
+            {
+                return _locationsToProcess;
+            }
+            set
+            {
+                _locationsToProcess = value;
+            }
+        }
 
         public InstagramUser(string clientKey, string clientId, IWebDriver webDriver, string userName, string userPassword, 
             IRequestService requestService, IDataStringService dataStringService)
@@ -55,8 +78,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             UserPassword = userPassword;
             RequestService = requestService;
             DataStringService = dataStringService;
-            TagsToProcess = new List<string>();
-            LocationsToProcess = new List<Venue>();
+            TagsToProcess = new ObservableCollection<TagsCount>();
+            LocationsToProcess = new ObservableCollection<Venue>();
         }
 
         public bool Authorize()
@@ -151,7 +174,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             {
                 //todo: проверочка на TagsToProcess нулл
                 var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
-                var result = await tagsEndpoint.Recent(tag.NormalizeIt(), lastId, null, 50);
+                var result = await tagsEndpoint.Recent(tag.Tag.NormalizeIt(), lastId, null, 50);
                 
                 foreach (var res in result.Data.ToArray())
                 {
@@ -303,7 +326,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
                 var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
 
-                var result = await tags.Recent(tag.NormalizeIt(), lastId ?? "0", null, null);
+                var result = await tags.Recent(tag.Tag.NormalizeIt(), lastId ?? "0", null, null);
 
                 if (result == null)
                 {

@@ -10,6 +10,40 @@
     <UserControl.DataContext>
         <viewModels:SearchTagsViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <DataTemplate x:Key="ListItemChosenTemplate">
+            <Grid Background="Transparent" MouseLeftButtonDown="Chosen_MouseLeftButtonDown" ToolTip="Нажмите, чтобы удалить тэг">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Tag}" x:Name="Tag"/>
+                            <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Count}" x:Name="Count"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ListItemResultTemplate">
+            <Grid Background="Transparent" MouseLeftButtonDown="ListItem_OnMouseLeftButtonDown" ToolTip="Нажмите, чтобы добавить тэг">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Label Style="{StaticResource ListItemLabelStyle}">Тэг</Label>
+                            <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Tag}"  x:Name="Tag"/>
+                            <Label Style="{StaticResource ListItemLabelStyle}" ToolTip="Количество использований тэга">Количество</Label>
+                            <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Count}"  x:Name="Count"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid x:Name="SearchTagsTabHolder" Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -31,104 +65,19 @@
         </StackPanel>
         
         <TextBlock Grid.Column="1" Grid.Row="2" Text="Выбранные тэги:"/>
-        <ItemsControl ItemsSource="{Binding Path=Result}" Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="0" Margin="10" x:Name="FoundTagsContainerGrid">
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="ItemsControl">
-                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5">
-                        <ScrollViewer ClipToBounds="True">
-                            <Grid>
-                                <ItemsPresenter/>
-                            </Grid>
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </ItemsControl.Template>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <DataTemplate.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="FontSize" Value="15"/>
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                        </Style>
-                        <Style TargetType="Label">
-                            <Setter Property="FontSize" Value="10"/>
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                        </Style>
-                    </DataTemplate.Resources>
-                    <Grid Background="Transparent" MouseLeftButtonDown="ListItem_OnMouseLeftButtonDown" ToolTip="Нажмите, чтобы добавить тэг">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
-                        </Grid.ColumnDefinitions>
-                        <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Label>Тэг</Label>
-                                    <TextBlock Margin="5" Text="{Binding Path=Tag}" HorizontalAlignment="Center" x:Name="Tag"/>
-                                    <Label ToolTip="Количество использований тэга">Количество</Label>
-                                    <TextBlock Margin="5" Text="{Binding Path=Count}" HorizontalAlignment="Center" x:Name="Count"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style></Style>
-            </ItemsControl.ItemContainerStyle>
+        <ItemsControl Template="{StaticResource ListTemplate}" 
+                      ItemsSource="{Binding Path=Result}" 
+                      ItemsPanel="{StaticResource ListPanelTemplate}"
+                      ItemTemplate="{StaticResource ListItemResultTemplate}"
+                      Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="0" Margin="10" x:Name="FoundTagsContainerGrid">
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding Path=Chosen}" Grid.IsSharedSizeScope="True" Grid.Row="3" Grid.Column="1" Margin="10" x:Name="ChosenTagsContainerGrid">
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="ItemsControl">
-                    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5">
-                        <ScrollViewer ClipToBounds="True">
-                            <Grid>
-                                <ItemsPresenter/>
-                            </Grid>
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </ItemsControl.Template>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <DataTemplate.Resources>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="FontSize" Value="15"/>
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                        </Style>
-                        <Style TargetType="Label">
-                            <Setter Property="FontSize" Value="10"/>
-                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                        </Style>
-                    </DataTemplate.Resources>
-                    <Grid Background="Transparent" MouseLeftButtonDown="Chosen_MouseLeftButtonDown" ToolTip="Нажмите, чтобы удалить тэг">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
-                        </Grid.ColumnDefinitions>
-                        <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <TextBlock Margin="5" Text="{Binding}" HorizontalAlignment="Center" x:Name="Tag"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style></Style>
-            </ItemsControl.ItemContainerStyle>
+        <ItemsControl Template="{StaticResource ListTemplate}" 
+                      ItemTemplate="{StaticResource ListItemChosenTemplate}" 
+                      ItemsSource="{Binding Path=Chosen}"
+                      ItemsPanel="{StaticResource ListPanelTemplate}" 
+                      Grid.IsSharedSizeScope="True" 
+                      Grid.Row="3" Grid.Column="1" Margin="10"
+                      x:Name="ChosenTagsContainerGrid">
         </ItemsControl>
         <Button Grid.Column="1" Grid.Row="4" Click="SaveButton_Click" x:Name="SaveButton" HorizontalAlignment="Right" Width="100" Height="30" >Готово</Button>
         <Button Grid.Column="0" Grid.Row="4" Click="SelectAllButton_Click" x:Name="SelectAllButton" HorizontalAlignment="Left" Width="100" Height="30" >Выбрать все</Button>

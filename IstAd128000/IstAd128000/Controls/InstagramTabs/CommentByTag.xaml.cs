@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
 using InstAd128000.ViewModels;
+using System.Collections.Specialized;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -21,29 +22,33 @@ namespace InstAd128000.Controls.InstagramTabs
         public CommentByTag(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
-            CommentTag.Text = String.Join("; ", UserFactory.Insta.TagsToProcess);
             ViewModel = new CommentByTagViewModel();
             DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
+            UserFactory.Insta.TagsToProcess.CollectionChanged += (object e, NotifyCollectionChangedEventArgs args) => {
+                ViewModel.Tags = UserFactory.Insta.TagsToProcess;
+            };
+            ViewModel.Tags = UserFactory.Insta.TagsToProcess;
+            UserFactory.Insta.LocationsToProcess.CollectionChanged += (object e, NotifyCollectionChangedEventArgs args) => {
+                ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
+            };
+            ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
         }
 
         public CommentByTagViewModel ViewModel { get; set; }
-
+        
         private async void Comment_OnClick(object sender, RoutedEventArgs e)
         {
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
             CommentButton.IsEnabled = false;
 
-            if (string.IsNullOrWhiteSpace(CommentTag.Text))
+            if (ViewModel.Tags.Count() == 0)
             {
-                CommentTag.Text = "Please, enter valid text";
-                CommentTag.Foreground = Brushes.Red;
-                ResetMainWindow();
+                MessageBox.Show("Пожалуйста, выберите тэги во вкладке \"Рейтинг тэгов\"");
                 return;
             }
-
             if (WorkTime.Value.HasValue)
             {
                 var delta = WorkTime.Value.Value - DateTime.Now;

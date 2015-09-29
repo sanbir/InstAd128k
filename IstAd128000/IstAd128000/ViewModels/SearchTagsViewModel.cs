@@ -16,7 +16,7 @@ namespace InstAd128000.ViewModels
         public SearchTagsViewModel()
         {
             Result = new List<TagsCount>();
-            Chosen = new ObservableCollection<string>();
+            Chosen = new ObservableCollection<TagsCount>();
             Chosen.CollectionChanged += Chosen_CollectionChanged;
         }
         
@@ -26,7 +26,7 @@ namespace InstAd128000.ViewModels
         }
 
         private List<TagsCount> result { get; set; }
-        private ObservableCollection<string> chosen { get; set; }
+        private ObservableCollection<TagsCount> chosen { get; set; }
 
         public List<TagsCount> Result
         {
@@ -41,11 +41,11 @@ namespace InstAd128000.ViewModels
             }
         }
 
-        public ObservableCollection<string> Chosen
+        public ObservableCollection<TagsCount> Chosen
         {
             get
             {
-                return chosen ?? new ObservableCollection<string>();
+                return chosen ?? (chosen = new ObservableCollection<TagsCount>());
             }
             set
             {
@@ -62,6 +62,5 @@ namespace InstAd128000.ViewModels
         }
         public event PropertyChangedEventHandler PropertyChanged;
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-
     }
 }

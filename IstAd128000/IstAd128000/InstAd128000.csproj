@@ -165,6 +165,7 @@
     <Compile Include="Controls\InstagramTabs\HistoryOfActions.xaml.cs">
       <DependentUpon>HistoryOfActions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InstagramTabs\NotifyCollectionChangedEvenArgs.cs" />
     <Compile Include="Controls\InstagramTabs\SearchLocations.xaml.cs">
       <DependentUpon>SearchLocations.xaml</DependentUpon>
     </Compile>

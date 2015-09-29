@@ -67,7 +67,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void ListItem_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
+            var text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").DataContext as TagsCount;
             if (!ViewModel.Chosen.Any(x => x == text))
             {
                 ViewModel.Chosen.Add(text);
@@ -76,16 +76,24 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            UserFactory.Insta.TagsToProcess = ViewModel.Chosen;
+            //todo: fix collection modify
+            foreach (var item in UserFactory.Insta.TagsToProcess.Where(x => !ViewModel.Chosen.Any(y => y == x)))
+            {
+                UserFactory.Insta.TagsToProcess.Remove(item);
+            }
+            foreach (var item in ViewModel.Chosen.Where(x => !UserFactory.Insta.TagsToProcess.Any(y => y == x)))
+            {
+                UserFactory.Insta.TagsToProcess.Add(item);
+            }
             var result = MessageBox.Show("Тэги сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
         }
 
         private void Chosen_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
-            if (ViewModel.Chosen.Any(x => x == text))
+            if (ViewModel.Chosen.Any(x => x.Tag == text))
             {
-                ViewModel.Chosen.Remove(text);
+                ViewModel.Chosen.Remove(ViewModel.Chosen.FirstOrDefault(x=>x.Tag == text));
             }
         }
 
@@ -93,9 +101,9 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             foreach (var str in ViewModel.Result)
             {
-                if (!ViewModel.Chosen.Any(x => x == str.Tag))
+                if (!ViewModel.Chosen.Any(x => x.Tag == str.Tag))
                 {
-                    ViewModel.Chosen.Add(str.Tag);
+                    ViewModel.Chosen.Add(str);
                 }
             }
         }
