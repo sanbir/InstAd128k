@@ -5,10 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:instAd1280001="clr-namespace:InstAd128000"
              xmlns:converters="clr-namespace:InstAd128000.Converters"
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
              mc:Ignorable="d"
               d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-    </UserControl.Resources>
+    <UserControl.DataContext>
+        <viewModels:FollowViewModel/>
+    </UserControl.DataContext>
     <Grid x:Name="FollowTabHolder" Margin="5">
         <Grid Height="Auto">
             <Grid.RowDefinitions>

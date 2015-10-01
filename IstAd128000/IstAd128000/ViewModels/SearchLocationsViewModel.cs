@@ -22,6 +22,7 @@ namespace InstAd128000.ViewModels
         private LocationCollection _locations;
         private LocationCollection _circleCenter;
         private List<Venue> _venues;
+        private List<Venue> _chosenVenues;
 
         public double Latitude
         {
@@ -93,6 +94,16 @@ namespace InstAd128000.ViewModels
             {
                 _venues = value;
                 OnPropertyChanged(nameof(Venues));
+            }
+        }
+
+        public List<Venue> ChosenVenues
+        {
+            get { return _venues; }
+            set
+            {
+                _chosenVenues = value;
+                OnPropertyChanged(nameof(ChosenVenues));
             }
         }
 

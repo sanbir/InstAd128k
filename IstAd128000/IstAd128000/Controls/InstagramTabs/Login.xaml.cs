@@ -18,18 +18,14 @@ namespace InstAd128000.Controls.InstagramTabs
     /// </summary>
     public partial class Login : UserControl
     {
-        public IRequestService RequestService { get; set; }
-        public IDataStringService DataStringService { get; set; }
-
         public Login(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
-            UsernameBox.Text = Properties.Settings.Default.Username;
-            PasswordBox.Password = Properties.Settings.Default.Password;
             ViewModel = new LoginViewModel();
             DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
+            PasswordBox.Password = ViewModel.Password;
         }
 
         public LoginViewModel ViewModel { get; set; }
@@ -38,7 +34,7 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             var error = false;
 
-            if (string.IsNullOrWhiteSpace(UsernameBox.Text))
+            if (string.IsNullOrWhiteSpace(ViewModel.Login))
             {
                 UsernameBox.Background = new SolidColorBrush(Color.FromArgb(60, 255, 100, 0));
                 UsernameBox.Text = "Please, provide username!";
@@ -51,13 +47,13 @@ namespace InstAd128000.Controls.InstagramTabs
                 error = true;
             }
 
-            if (UsernameBox.Text != Properties.Settings.Default.Username ||
-                PasswordBox.Password != Properties.Settings.Default.Password)
+            if (ViewModel.Login != Properties.Settings.Default.Username ||
+               PasswordBox.Password != Properties.Settings.Default.Password)
             {
                 var result = MessageBox.Show("Do you want to save credentials?","",MessageBoxButton.YesNo);
                 if (result == MessageBoxResult.Yes)
                 {
-                    Properties.Settings.Default.Username = UsernameBox.Text;
+                    Properties.Settings.Default.Username = ViewModel.Login;
                     Properties.Settings.Default.Password = PasswordBox.Password;
                     Properties.Settings.Default.Save();
                 }
@@ -92,7 +88,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async Task<bool> DoLoginTaskAsync()
         {
-            var user = UserFactory.Init(SocialUserType.Instagram, UsernameBox.Text,PasswordBox.Password,
+            var user = UserFactory.InitInsta(SocialUserType.Instagram, ViewModel.Login,ViewModel.Password,
                  ViewModel.RequestService, ViewModel.DataStringService);
             var task = new Task<bool>(user.Authorize);
             task.Start();

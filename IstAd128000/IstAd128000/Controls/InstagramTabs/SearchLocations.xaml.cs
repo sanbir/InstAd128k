@@ -98,15 +98,12 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void SaveLocations_Click(object sender, RoutedEventArgs e)
         {
-            //todo: fix collection modify
-            foreach (var item in UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.Venues.ToObservableCollection<Venue>().Any(y => y == x)))
-            {
-                UserFactory.Insta.LocationsToProcess.Remove(item);
-            }
-            foreach (var item in ViewModel.Venues.ToObservableCollection<Venue>().Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)))
-            {
-                UserFactory.Insta.LocationsToProcess.Add(item);
-            }
+            var deleted = new List<Venue>();
+            deleted.AddRange(UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.Venues.ToObservableCollection<Venue>().Any(y => y == x)));
+            
+            UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Except(deleted);
+            UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Concat(ViewModel.Venues.ToObservableCollection<Venue>().Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)));
+
             var result = MessageBox.Show("Локации сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
         }
     }

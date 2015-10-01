@@ -17,8 +17,8 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
                 </Grid.ColumnDefinitions>
                 <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
                             <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Tag}" x:Name="Tag"/>
                             <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Count}" x:Name="Count"/>
                         </StackPanel>
@@ -32,8 +32,8 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
                 </Grid.ColumnDefinitions>
                 <Border BorderBrush="BurlyWood" BorderThickness="1" CornerRadius="5" Margin="5">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
                             <Label Style="{StaticResource ListItemLabelStyle}">Тэг</Label>
                             <TextBlock Style="{StaticResource ListItemTextBlockStyle}" Text="{Binding Path=Tag}"  x:Name="Tag"/>
                             <Label Style="{StaticResource ListItemLabelStyle}" ToolTip="Количество использований тэга">Количество</Label>

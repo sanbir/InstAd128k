@@ -5,6 +5,7 @@ using Instad128000.Core.Helpers.Selenium;
 using InstAd128000.Properties;
 using Application = System.Windows.Application;
 using InstAd128000.ViewModels;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 
 namespace InstAd128000
 {
