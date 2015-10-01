@@ -18,71 +18,27 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
-    public class InstagramUser : IInstaUser
+    public class InstagramUser : BaseInstaUser
     {
-        private IRequestService RequestService { get; set; }
-        private IDataStringService DataStringService{ get; set; }
-
-        public string ClientKey { get; set; }
-
-        public string ClientId { get; set; }
-
         public IWebDriver WebDriver { get; set; }
-
-        public string UserName { get; set; }
-
-        public long UserId { get; set; }
-
-        public string UserPassword { get; set; }
 
         private InstagramConfig ApiConfig { get; set; }
 
         public WaitTimer WaitTimer { get; set; }
 
-        private ObservableCollection<TagsCount> _tagsToProcess { get; set; }
-        public ObservableCollection<TagsCount> TagsToProcess
-        {
-            get
-            {
-                return _tagsToProcess;
-            }
-            set
-            {
-                _tagsToProcess = value;
-            }
-        }
-        private ObservableCollection<Venue> _locationsToProcess { get; set; }
-        public ObservableCollection<Venue> LocationsToProcess
-        {
-            get
-            {
-                return _locationsToProcess;
-            }
-            set
-            {
-                _locationsToProcess = value;
-            }
-        }
-
         public InstagramUser(string clientKey, string clientId, IWebDriver webDriver, string userName, string userPassword, 
-            IRequestService requestService, IDataStringService dataStringService)
+            IRequestService requestService, IDataStringService dataStringService) 
+                : base(userName, userPassword, clientKey, clientId, requestService, dataStringService)
         {
-            ClientId = clientId;
-            ClientKey = clientKey;
             WebDriver = webDriver;
             WaitTimer = new WaitTimer(webDriver);
-            UserName = userName;
-            UserPassword = userPassword;
-            RequestService = requestService;
-            DataStringService = dataStringService;
-            TagsToProcess = new ObservableCollection<TagsCount>();
-            LocationsToProcess = new ObservableCollection<Venue>();
         }
 
-        public bool Authorize()
+        public override bool Authorize()
         {
             return SeleniumAuth() && ApiAuth();
         }
@@ -121,7 +77,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         /// </summary>
         /// <param name="userName">User Name</param>
         /// <returns></returns>
-        public async Task<IEnumerable<InstaSharp.Models.User>> GetContactsListAsync(string userName)
+        public override async Task<IEnumerable<InstaSharp.Models.User>> GetContactsListAsync(string userName)
         {
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             var foundUser = await users.Search(userName, 1);
@@ -134,7 +90,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         /// Follow All Followers Of User
         /// </summary>
         /// <param name="userName">Name of user of which followers to follow</param>
-        public async Task<IEnumerable<InstaSharp.Models.User>> AddToContactsAllContactsOfUserAsync(string userName)
+        public override async Task<IEnumerable<InstaSharp.Models.User>> AddToContactsAllContactsOfUserAsync(string userName)
         {
             List<InstaSharp.Models.User> followers = (await GetContactsListAsync(userName)).ToList();
             if (followers == null) return null;
@@ -150,8 +106,10 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public async Task<IEnumerable<RequestResult>> LikeByTagAsync(TimeSpan workPeriod)
+        public override async Task<IEnumerable<RequestResult>> LikeByTagAsync(TimeSpan workPeriod)
         {
+            _currentActionResultsList = new ObservableCollection<RequestResult>();
+            
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
             var random = new Random();
@@ -162,7 +120,6 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             }
             var mediaEndpoint = new InstaSharp.Endpoints.Media(ApiConfig);
             var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
-            var answer = new List<RequestResult>();
             var waitSeconds = 40; //todo: userSetting
             var likeFrequency = 2; //todo: userSetting // это типа каждое n-е фото только лайкает, чтоб никто ни о чём не догадался ]:->
             var banCount = 0;
@@ -190,7 +147,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                             }
                             else
                             {
-                                answer.Add(likeResult);
+                                _currentActionResultsList.Add(likeResult);
                             }
                             
                         }
@@ -208,24 +165,24 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     }
                     if(DateTime.Now > end)
                     {
-                        if (answer != null && answer.Count > 0)
+                        if (_currentActionResultsList != null && _currentActionResultsList.Count > 0)
                         {
-                            lastId = answer.Last().PostId;
-                            SaveToDb(answer);
+                            lastId = _currentActionResultsList.Last().PostId;
+                            SaveToDb();
                         }
-                        return answer;
+                        return _currentActionResultsList.ToList();
                     }
                     await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
 
                 }
 
                 lastId = result.Pagination.NextMaxTagId;
-                SaveToDb(answer);
+                SaveToDb();
 
             } while (DateTime.Now > end);
 
 
-            return answer;
+            return _currentActionResultsList.ToList();
         }
 
         public void WaitAjax()
@@ -307,13 +264,14 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         } 
 
-        public async Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod)
+        public override async Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod)
         {
+            _currentActionResultsList = new ObservableCollection<RequestResult>();
+
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
             var random = new Random();
-
-            var answer = new List<RequestResult>();
+            
             do
             {
                 if (UserId == 0)
@@ -323,10 +281,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
                 var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
 
-                var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+                var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
+
                 var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
 
-                var result = await tags.Recent(tag.Tag.NormalizeIt(), lastId ?? "0", null, null);
+                var result = await tagsEndpoint.Recent(tag.Tag.NormalizeIt(), lastId ?? "0", null, null);
 
                 if (result == null)
                 {
@@ -346,44 +305,36 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
                     if (requestResult != null)
                     {
-                        answer.Add(requestResult);
+                        _currentActionResultsList.Add(requestResult);
                     }
 
                     if (DateTime.Now > end)
                     {
-                        if (answer != null && answer.Count > 0)
+                        if (_currentActionResultsList != null && _currentActionResultsList.Count > 0)
                         {
-                            lastId = answer.Last().PostId;
-                            SaveToDb(answer);
+                            lastId = _currentActionResultsList.Last().PostId;
+                            SaveToDb();
                         }
-                        return answer;
+                        return _currentActionResultsList.ToList();
                     }
 
                     await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
                 };
 
                 lastId = result.Pagination.NextMaxTagId;
-                SaveToDb(answer);
+                SaveToDb();
 
             } while (DateTime.Now > end);
 
-            return answer;
+            return _currentActionResultsList.ToList();
         }
-        public async Task<TagsResponse> SearchForTagsAsync(string tagPart)
+
+        public override async Task<TagsResponse> SearchForTagsAsync(string tagPart)
         {
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
             var results = await tags.Search(tagPart);
 
             return results;
-        }
-
-        private void SaveToDb(List<RequestResult> res)
-        {
-            foreach (var ress in res)
-            {
-                RequestService.Update(ress.ToDataRequestResult());
-            }
-            RequestService.Save();
         }
     }
 }

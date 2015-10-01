@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
 using InstAd128000.ViewModels;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -19,11 +21,18 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             InitializeComponent();
             MaxLikes = Convert.ToInt32(Properties.Settings.Default.MaxTransactionNumber);
-            LikeTag.Text = String.Join("; ", UserFactory.Insta.TagsToProcess);
             ViewModel = new LikeByTagViewModel();
             DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
+            UserFactory.Insta.TagsChanged += () => {
+                ViewModel.Tags = UserFactory.Insta.TagsToProcess;
+            };
+            ViewModel.Tags = UserFactory.Insta.TagsToProcess;
+            UserFactory.Insta.LocationsChanged += () => {
+                ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
+            };
+            ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
         }
 
         public LikeByTagViewModel ViewModel { get; set; }
@@ -35,14 +44,7 @@ namespace InstAd128000.Controls.InstagramTabs
             ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
             SpinnerInstance.SetToMainWindow();
             LikeButton.IsEnabled = false;
-
-            if (string.IsNullOrWhiteSpace(LikeTag.Text))
-            {
-                LikeTag.Text = "Please, enter valid text";
-                LikeTag.Foreground = Brushes.Red;
-                ResetMainWindow();
-                return;
-            }
+            
 
             if (WorkTime.Value.HasValue)
             {
@@ -60,9 +62,7 @@ namespace InstAd128000.Controls.InstagramTabs
                 ResetMainWindow();
                 return;
             }
-
-            var tags = new List<string>();
-            tags.AddRange(LikeTag.Text.Split(';'));
+            
             var result = await UserFactory.Insta.LikeByTagAsync(WorkTime.Value.Value - DateTime.Now);
            
             ResetMainWindow();

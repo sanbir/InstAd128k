@@ -6,8 +6,12 @@
              xmlns:converters="clr-namespace:InstAd128000.Converters"
              xmlns:instAd128000="clr-namespace:InstAd128000"
              xmlns:controls="clr-namespace:InstAd128000.Controls"
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewModels:InstagramTabViewModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

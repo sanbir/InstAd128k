@@ -11,6 +11,7 @@ using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
 using InstAd128000.ViewModels;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -26,11 +27,11 @@ namespace InstAd128000.Controls.InstagramTabs
             DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
-            UserFactory.Insta.TagsToProcess.CollectionChanged += (object e, NotifyCollectionChangedEventArgs args) => {
+            UserFactory.Insta.TagsChanged += () => {
                 ViewModel.Tags = UserFactory.Insta.TagsToProcess;
             };
             ViewModel.Tags = UserFactory.Insta.TagsToProcess;
-            UserFactory.Insta.LocationsToProcess.CollectionChanged += (object e, NotifyCollectionChangedEventArgs args) => {
+            UserFactory.Insta.LocationsChanged += () => {
                 ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
             };
             ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
@@ -49,9 +50,9 @@ namespace InstAd128000.Controls.InstagramTabs
                 MessageBox.Show("Пожалуйста, выберите тэги во вкладке \"Рейтинг тэгов\"");
                 return;
             }
-            if (WorkTime.Value.HasValue)
+            if (ViewModel.EndTime.HasValue)
             {
-                var delta = WorkTime.Value.Value - DateTime.Now;
+                var delta = ViewModel.EndTime.Value - DateTime.Now;
                 if (delta.Hours < 0 || delta.Minutes <= 0)
                 {
                     MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
@@ -66,8 +67,7 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            var result = await UserFactory.Insta.CommentByTagAsync(CommentText.Text, WorkTime.Value.Value - DateTime.Now);
-            CommentedPostsCount.Text = result.Count().ToString();
+            var result = await UserFactory.Insta.CommentByTagAsync(CommentText.Text, ViewModel.EndTime.Value - DateTime.Now);
 
             ResetMainWindow();
         }

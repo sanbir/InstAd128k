@@ -46,6 +46,9 @@ namespace InstAd128000.ViewModels
             }
         }
 
+        public string Comment { get; set; }
+        public DateTime? EndTime { get; set; }
+
         public virtual void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)

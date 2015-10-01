@@ -9,5 +9,12 @@ namespace InstAd128000.ViewModels
 {
     public class LoginViewModel : CommonViewModel
     {
+        public LoginViewModel()
+        {
+            Login = Properties.Settings.Default.Username;
+            Password = Properties.Settings.Default.Password;
+        }
+        public string Login { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -99,7 +99,7 @@
     <Compile Include="Common\Enums\SentenceChanges.cs" />
     <Compile Include="Common\Enums\SocialUserType.cs" />
     <Compile Include="Common\Interfaces\Data\IRepository.cs" />
-    <Compile Include="Common\Interfaces\IInstaUser.cs" />
+    <Compile Include="Common\Interfaces\BaseInstaUser.cs" />
     <Compile Include="Common\Interfaces\IRequestResult.cs" />
     <Compile Include="Common\Interfaces\IUserControl.cs" />
     <Compile Include="Common\Interfaces\Services\ICrudService.cs" />
@@ -126,7 +126,6 @@
     <Compile Include="Extensions\PhantomJSExtensions.cs" />
     <Compile Include="Helpers\Selenium\WaitTimer.cs" />
     <Compile Include="Helpers\SocialNetworksUsers\InstagramUser.cs" />
-    <Compile Include="Common\Interfaces\ISocialNetworkUser.cs" />
     <Compile Include="Helpers\SocialNetworksUsers\UserFactory.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

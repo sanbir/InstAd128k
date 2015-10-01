@@ -76,15 +76,12 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            //todo: fix collection modify
-            foreach (var item in UserFactory.Insta.TagsToProcess.Where(x => !ViewModel.Chosen.Any(y => y == x)))
-            {
-                UserFactory.Insta.TagsToProcess.Remove(item);
-            }
-            foreach (var item in ViewModel.Chosen.Where(x => !UserFactory.Insta.TagsToProcess.Any(y => y == x)))
-            {
-                UserFactory.Insta.TagsToProcess.Add(item);
-            }
+            var deleted = new List<TagsCount>();
+            deleted.AddRange(UserFactory.Insta.TagsToProcess.Where(x => !ViewModel.Chosen.Any(y => y == x)));
+
+            UserFactory.Insta.TagsToProcess = UserFactory.Insta.TagsToProcess.Except(deleted);
+            UserFactory.Insta.TagsToProcess = UserFactory.Insta.TagsToProcess.Concat(ViewModel.Chosen.Where(x => !UserFactory.Insta.TagsToProcess.Any(y => y == x)));
+
             var result = MessageBox.Show("Тэги сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
         }
 

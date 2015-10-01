@@ -12,13 +12,13 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 {
     public static class UserFactory
     {
-        private static IInstaUser _instaUser { get; set; }
-        public static IInstaUser Insta
+        private static BaseInstaUser _instaUser { get; set; }
+        public static BaseInstaUser Insta
         {
             get { return _instaUser; }
         }
 
-        public static ISocialNetworkUser Init(SocialUserType type, string username, string password, IRequestService reqRes, IDataStringService dataStrSrv)
+        public static BaseInstaUser InitInsta(SocialUserType type, string username, string password, IRequestService reqRes, IDataStringService dataStrSrv)
         {
             switch (type)
             {
