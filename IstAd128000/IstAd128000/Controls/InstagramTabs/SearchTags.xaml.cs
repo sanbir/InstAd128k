@@ -27,13 +27,9 @@ namespace InstAd128000.Controls.InstagramTabs
         public SearchTags(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
-            ViewModel = new SearchTagsViewModel();
-            DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
         }
-
-        public SearchTagsViewModel ViewModel { get; set; }
 
         private async void SearchTags_OnClick(object sender, RoutedEventArgs e)
         {
@@ -45,18 +41,12 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
-            SpinnerInstance.SetToMainWindow();
-            TagSearchButton.IsEnabled = false;
-
+            IsInProgress(true);
             ViewModel.Result = (await UserFactory.Insta.SearchForTagsAsync(TagsStringInput.Text)).Data.Select(data => new TagsCount()
             {
                 Count = data.MediaCount, Tag = data.Name.Trim()
             }).ToList();
-
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-            SpinnerInstance.RemoveFromMainWindow();
-            TagSearchButton.IsEnabled = true;
+            IsInProgress(false);
         }
 
         private void TagsStringInput_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -102,6 +92,20 @@ namespace InstAd128000.Controls.InstagramTabs
                 {
                     ViewModel.Chosen.Add(str);
                 }
+            }
+        }
+
+        protected void IsInProgress(bool isInProgress)
+        {
+            if (isInProgress)
+            {
+                UiHelper.InstaBusy(true);
+                TagSearchButton.IsEnabled = false;
+            }
+            else
+            {
+                UiHelper.InstaBusy(false);
+                TagSearchButton.IsEnabled = true;
             }
         }
     }

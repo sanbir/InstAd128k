@@ -12,6 +12,7 @@ using Instad128000.Core.Common.Interfaces.Services;
 using InstAd128000.ViewModels;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using Instad128000.Core.Common.Interfaces;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -23,8 +24,6 @@ namespace InstAd128000.Controls.InstagramTabs
         public CommentByTag(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
-            ViewModel = new CommentByTagViewModel();
-            DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
             UserFactory.Insta.TagsChanged += () => {
@@ -36,15 +35,9 @@ namespace InstAd128000.Controls.InstagramTabs
             };
             ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
         }
-
-        public CommentByTagViewModel ViewModel { get; set; }
         
         private async void Comment_OnClick(object sender, RoutedEventArgs e)
         {
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
-            SpinnerInstance.SetToMainWindow();
-            CommentButton.IsEnabled = false;
-
             if (ViewModel.Tags.Count() == 0)
             {
                 MessageBox.Show("Пожалуйста, выберите тэги во вкладке \"Рейтинг тэгов\"");
@@ -67,7 +60,9 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
+            IsInProgress(true);
             var result = await UserFactory.Insta.CommentByTagAsync(CommentText.Text, ViewModel.EndTime.Value - DateTime.Now);
+            IsInProgress(false);
 
             ResetMainWindow();
         }
@@ -85,9 +80,22 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void ResetMainWindow()
         {
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-            SpinnerInstance.RemoveFromMainWindow();
+            ControlGetter.MainWindow.InstagramTab.ViewModel.IsNoProcessPerformed = true;
             CommentButton.IsEnabled = true;
+        }
+
+        protected void IsInProgress(bool isInProgress)
+        {
+            if (isInProgress)
+            {
+                UiHelper.InstaBusy(true);
+                CommentButton.IsEnabled = false;
+            }
+            else
+            {
+                UiHelper.InstaBusy(false);
+                CommentButton.IsEnabled = true;
+            }
         }
     }
 }

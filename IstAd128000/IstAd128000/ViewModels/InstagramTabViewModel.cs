@@ -17,7 +17,8 @@ namespace InstAd128000.ViewModels
             set
             {
                 _loggedIn = value;
-                NotifyPropertyChanged("IsLogged");
+                NotifyPropertyChanged(nameof(IsLogged));
+                NotifyPropertyChanged(nameof(IsUiFreeForUser));
             }
         }
         public bool IsNoProcessPerformed
@@ -26,12 +27,19 @@ namespace InstAd128000.ViewModels
             set
             {
                 _noProcessPerformed = value;
-                NotifyPropertyChanged("IsNoProcessPerformed");
+                NotifyPropertyChanged(nameof(IsNoProcessPerformed));
+                NotifyPropertyChanged(nameof(IsSomeProcessPerformed));
+                NotifyPropertyChanged(nameof(IsUiFreeForUser));
             }
         }
         public bool IsUiFreeForUser
         {
-            get { return IsLogged && !IsNoProcessPerformed; }
+            get { return IsLogged && IsNoProcessPerformed; }
+        }
+
+        public bool IsSomeProcessPerformed
+        {
+            get { return !IsNoProcessPerformed; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

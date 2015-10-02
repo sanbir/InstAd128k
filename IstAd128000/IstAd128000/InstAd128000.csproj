@@ -171,11 +171,11 @@
     <Compile Include="Controls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolArrToVisibility.cs" />
     <Compile Include="Converters\RemainingTimeConverter.cs" />
     <Compile Include="Converters\BoolArrToBoolWithAndOperatorConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\ControlGetter.cs" />
-    <Compile Include="Helpers\SpinnerInstance.cs" />
     <Compile Include="Helpers\UiHelper.cs" />
     <Compile Include="Helpers\Unity.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -284,7 +284,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

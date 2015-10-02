@@ -19,16 +19,12 @@ namespace InstAd128000.Controls.InstagramTabs
     public partial class Login : UserControl
     {
         public Login(IRequestService reqSRV, IDataStringService dataStrSRV)
-        {
+        { 
             InitializeComponent();
-            ViewModel = new LoginViewModel();
-            DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
             PasswordBox.Password = ViewModel.Password;
         }
-
-        public LoginViewModel ViewModel { get; set; }
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
@@ -58,17 +54,13 @@ namespace InstAd128000.Controls.InstagramTabs
                     Properties.Settings.Default.Save();
                 }
             }
-
-            ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
-            SpinnerInstance.SetToMainWindow();
-
             if (error) return;
 
+            IsInProgress(true);
             if (await DoLoginTaskAsync())
             {
-                ControlGetter.MainWindow.InstagramTab.IsLogged = true;
-                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+                ControlGetter.MainWindow.InstagramTab.ViewModel.IsLogged = true;
+                IsInProgress(false);
             }
             else
             {
@@ -78,12 +70,12 @@ namespace InstAd128000.Controls.InstagramTabs
                 warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
                 warnText.VerticalAlignment = VerticalAlignment.Top;
 
-                ControlGetter.MainWindow.InstagramTab.IsLogged = false;
-                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+                ControlGetter.MainWindow.InstagramTab.ViewModel.IsLogged = false;
+                IsInProgress(false);
                 ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(warnText);
                 ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(this);
             }
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
+            ControlGetter.MainWindow.InstagramTab.ViewModel.IsNoProcessPerformed = true;
         }
 
         private async Task<bool> DoLoginTaskAsync()
@@ -93,6 +85,22 @@ namespace InstAd128000.Controls.InstagramTabs
             var task = new Task<bool>(user.Authorize);
             task.Start();
             return await task;
+        }
+
+        protected void IsInProgress(bool isInProgress)
+        {
+            if (isInProgress)
+            {
+                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+                UiHelper.InstaBusy(true);
+                LoginButton.IsEnabled = false;
+            }
+            else
+            {
+                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+                UiHelper.InstaBusy(false);
+                LoginButton.IsEnabled = true;
+            }
         }
     }
 }

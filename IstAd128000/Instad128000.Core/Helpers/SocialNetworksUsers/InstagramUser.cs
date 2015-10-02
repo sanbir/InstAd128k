@@ -82,6 +82,10 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             var users = new InstaSharp.Endpoints.Users(ApiConfig);
             var foundUser = await users.Search(userName, 1);
             var relationships = new InstaSharp.Endpoints.Relationships(ApiConfig);
+            if (foundUser == null || foundUser.Data.Count == 0)
+            {
+                return null;
+            }
             var followers = await relationships.FollowedBy(foundUser.Data[0].Id);
             return followers.Data;
         }

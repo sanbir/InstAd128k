@@ -12,6 +12,7 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:BoolArrToBoolWithAndOperatorConverter x:Key="BoolArrToBoolWithAndOperatorConverter" />
         <converters:RemainingTimeConverter x:Key="RemainingTimeConverter" />
+        <converters:BoolArrToVisibility x:Key="BoolArrToVisibility" />
         
         <Style TargetType="Button" x:Key="ImageMenuButton">
             <Setter Property="Width" Value="32"/>
@@ -46,21 +47,7 @@
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
             <Setter Property="FontSize" Value="15"></Setter>
         </Style>
-        <Style TargetType="Button" x:Key="ButtonStyle">
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
-            <Setter Property="IsEnabled">
-                <Setter.Value>
-                    <MultiBinding Converter="{StaticResource BoolArrToBoolWithAndOperatorConverter}" >
-                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type controls:InstagramTabsContainer}}" Path="IsLogged"/>
-                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type controls:InstagramTabsContainer}}" Path="IsNoProcessPerformed"/>
-                    </MultiBinding>
-                </Setter.Value>
-            </Setter>
-        </Style>
+       
         <Style x:Key="NoChromeButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="1"/>

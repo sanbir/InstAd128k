@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.PhantomJS;
 using System;
 
@@ -12,11 +13,11 @@ namespace Instad128000.Core.Helpers.Selenium
         {
             get
             {
-                var driverService = PhantomJSDriverService.CreateDefaultService();
-                driverService.HideCommandPromptWindow = true;
+                //var driverService = PhantomJSDriverService.CreateDefaultService();
+                //driverService.HideCommandPromptWindow = true;
                 AppDomain.CurrentDomain.UnhandledException += Close;
                 AppDomain.CurrentDomain.ProcessExit += Close;
-                return _pD ?? (_pD = new PhantomJSDriver(driverService));
+                return _pD ?? (_pD = new ChromeDriver());
             }
         }
 

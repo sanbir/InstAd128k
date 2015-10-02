@@ -18,6 +18,8 @@ using Instad128000.Core.Common.Interfaces.Services;
 using System.Collections.ObjectModel;
 using Instad128000.Core.Common.Models;
 using Instad128000.Core.Extensions;
+using InstAd128000.Helpers;
+using System.Windows.Controls;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -29,17 +31,14 @@ namespace InstAd128000.Controls.InstagramTabs
         private ILogger _logger;
 
         private FoursquareHelper _foursquareHelper;
-        public SearchLocationsViewModel ViewModel { get; set; }
 
         public SearchLocations(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
             MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(Settings.Default.BingCredentialsProvider);
             //////////////////////////////////
-
-            ViewModel = new SearchLocationsViewModel {Latitude = 54.8693482, Longitude = 83.0785167, Query = "школа", Radius = 3000, Venues = new List<Venue>()};
+            
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-            DataContext = ViewModel;
 
             _foursquareHelper = new FoursquareHelper(Settings.Default.FourSquareClientId,
                 Settings.Default.FourSquareClientSecret);
@@ -58,7 +57,8 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             try
             {
-                ViewModel.Venues.Clear();
+                IsInProgress(true);
+                ViewModel.Venues = new List<Venue>();
 
                 ViewModel.Venues =
                     await
@@ -66,6 +66,7 @@ namespace InstAd128000.Controls.InstagramTabs
                             .GetVenues(ViewModel.Latitude, ViewModel.Longitude, ViewModel.Radius, ViewModel.Query);
 
                 AddPushpinsToMap();
+                IsInProgress(false);
             }
             catch (Exception ex)
             {
@@ -96,15 +97,63 @@ namespace InstAd128000.Controls.InstagramTabs
             ViewModel.Longitude = circleCenter.Longitude;
         }
 
+        //private void SaveLocations_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var deleted = new List<Venue>();
+        //    deleted.AddRange(UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.Venues.ToObservableCollection<Venue>().Any(y => y == x)));
+            
+        //    UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Except(deleted);
+        //    UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Concat(ViewModel.Venues.ToObservableCollection<Venue>().Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)));
+
+        //    var result = MessageBox.Show("Локации сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
+        //}
+
+        protected void IsInProgress(bool isInProgress)
+        {
+            if (isInProgress)
+            {
+                UiHelper.InstaBusy(true);
+                SaveLocations.IsEnabled = false;
+            }
+            else
+            {
+                UiHelper.InstaBusy(false);
+                SaveLocations.IsEnabled = true;
+            }
+        }
+
+        private void Found_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var text = UiHelper.FindChild<TextBlock>(sender as Grid, "LocationName").DataContext as Venue;
+            if (!ViewModel.ChosenVenues.Any(x => x == text))
+            {
+                ViewModel.ChosenVenues = ViewModel.ChosenVenues.Concat(new[] { text });
+            }
+        }
+
+        private void Chosen_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var text = UiHelper.FindChild<TextBlock>(sender as Grid, "LocationName").DataContext as Venue;
+            if (ViewModel.ChosenVenues.Any(x => x == text))
+            {
+                ViewModel.ChosenVenues = ViewModel.ChosenVenues.Except(new[] { text });
+            }
+        }
+
         private void SaveLocations_Click(object sender, RoutedEventArgs e)
         {
             var deleted = new List<Venue>();
-            deleted.AddRange(UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.Venues.ToObservableCollection<Venue>().Any(y => y == x)));
-            
+            deleted.AddRange(UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.ChosenVenues.Any(y => y == x)));
+
             UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Except(deleted);
-            UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Concat(ViewModel.Venues.ToObservableCollection<Venue>().Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)));
+            UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Concat(ViewModel.ChosenVenues.Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)));
 
             var result = MessageBox.Show("Локации сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
+        }
+
+        private void SelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ChosenVenues = ViewModel.Venues;
         }
     }
 }

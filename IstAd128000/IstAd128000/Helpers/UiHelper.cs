@@ -38,7 +38,6 @@ namespace InstAd128000.Helpers
                 return FindVisualParent<T>(parentObject);
             }
         }
-
         /// <summary>
         /// Finds a Child of a given item in the visual tree. 
         /// </summary>
@@ -90,6 +89,23 @@ namespace InstAd128000.Helpers
             }
 
             return foundChild;
+        }
+
+        public static void InstaBusy(bool busy)
+        {
+            if (busy)
+            {
+                ControlGetter.MainWindow.InstagramTab.ViewModel.IsNoProcessPerformed = false;
+            }
+            else
+            {
+                ControlGetter.MainWindow.InstagramTab.ViewModel.IsNoProcessPerformed = true;
+            }
+        }
+
+        public static void InstaChangeLoginStatus(bool loggedIn)
+        {
+            ControlGetter.MainWindow.InstagramTab.ViewModel.IsLogged = loggedIn;
         }
     }
 }

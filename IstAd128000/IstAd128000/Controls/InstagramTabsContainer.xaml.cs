@@ -19,6 +19,7 @@ using InstAd128000.Services;
 using Microsoft.Practices.Unity;
 using Instad128000.Core.Common.Interfaces;
 using InstAd128000.Helpers;
+using InstAd128000.ViewModels;
 
 namespace InstAd128000.Controls
 {
@@ -30,33 +31,8 @@ namespace InstAd128000.Controls
         public InstagramTabsContainer()
         {
             InitializeComponent();
-            _noProcessPerformed = true;
+            ViewModel.IsNoProcessPerformed = true;
             _controlsList = new Dictionary<string, UserControl>();
-        }
-
-        private bool _loggedIn;
-        private bool _noProcessPerformed;
-        public bool IsLogged
-        {
-            get { return _loggedIn; }
-            set
-            {
-                _loggedIn = value;
-                NotifyPropertyChanged("IsLogged");
-            }
-        }
-        public bool IsNoProcessPerformed
-        {
-            get { return _noProcessPerformed; }
-            set
-            {
-                _noProcessPerformed = value;
-                NotifyPropertyChanged("IsNoProcessPerformed");
-            }
-        }
-        public bool IsUiFreeForUser
-        {
-            get { return IsLogged && !IsNoProcessPerformed; }
         }
 
         private Dictionary<string, UserControl> _controlsList;

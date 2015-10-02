@@ -15,14 +15,24 @@ namespace InstAd128000.ViewModels
 {
     public class SearchLocationsViewModel : CommonViewModel, INotifyPropertyChanged
     {
+        public SearchLocationsViewModel()
+        {
+            Latitude = 54.8693482;
+            Longitude = 83.0785167;
+            Query = "школа";
+            Radius = 3000;
+            Venues = new List<Venue>();
+            ChosenVenues = new List<Venue>();
+        }
+
         private double _latitude;
         private double _longitude;
         private int _radius;
         private string _query;
         private LocationCollection _locations;
         private LocationCollection _circleCenter;
-        private List<Venue> _venues;
-        private List<Venue> _chosenVenues;
+        private IEnumerable<Venue> _venues;
+        private IEnumerable<Venue> _chosenVenues;
 
         public double Latitude
         {
@@ -87,7 +97,7 @@ namespace InstAd128000.ViewModels
             }
         }
 
-        public List<Venue> Venues
+        public IEnumerable<Venue> Venues
         {
             get { return _venues; }
             set
@@ -97,9 +107,9 @@ namespace InstAd128000.ViewModels
             }
         }
 
-        public List<Venue> ChosenVenues
+        public IEnumerable<Venue> ChosenVenues
         {
-            get { return _venues; }
+            get { return _chosenVenues; }
             set
             {
                 _chosenVenues = value;

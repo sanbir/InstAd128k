@@ -29,6 +29,12 @@ namespace InstAd128000
         public App()
         {
             this.DispatcherUnhandledException += OnDispatcherUnhandledException;
+            this.Exit += App_Exit; ;
+        }
+
+        private void App_Exit(object sender, ExitEventArgs e)
+        {
+            Driver.Close();
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)

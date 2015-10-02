@@ -28,13 +28,9 @@ namespace InstAd128000.Controls.InstagramTabs
         public HistoryOfActions(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
-            ViewModel = new HistoryOfActionsViewModel();
-            DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
         }
-
-        public HistoryOfActionsViewModel ViewModel { get; set; }
 
         private void Link_MouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -43,20 +39,28 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async Task SetItems()
         {
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
-            Helpers.SpinnerInstance.SetToMainWindow();
-
-            Refresh.IsEnabled = false;
+            IsInProgress(true);
             HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
-            Refresh.IsEnabled = true;
-
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-            Helpers.SpinnerInstance.RemoveFromMainWindow();
+            IsInProgress(false);
         }
 
         private async void Refresh_Click(object sender, RoutedEventArgs e)
         {
             await SetItems();
+        }
+
+        protected void IsInProgress(bool isInProgress)
+        {
+            if (isInProgress)
+            {
+                UiHelper.InstaBusy(true);
+                RefreshButton.IsEnabled = false;
+            }
+            else
+            {
+                UiHelper.InstaBusy(false);
+                RefreshButton.IsEnabled = true;
+            }
         }
     }
 }

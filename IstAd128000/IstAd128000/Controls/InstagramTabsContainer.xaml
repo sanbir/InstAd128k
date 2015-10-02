@@ -10,8 +10,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <UserControl.DataContext>
-        <viewModels:InstagramTabViewModel/>
+        <viewModels:InstagramTabViewModel x:Name="ViewModel"/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="IsEnabled">
+                <Setter.Value>
+                    <Binding Path="IsUiFreeForUser" Mode="OneWay">
+                    </Binding>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -57,5 +72,6 @@
                 <TextBlock Style="{StaticResource OnStartDisclaimer}"/>
             </Grid>
         </Border>
+        <controls:Spinner Grid.Column="1" Visibility="{Binding Path=IsSomeProcessPerformed,Mode=OneWay,Converter={StaticResource BoolArrToVisibility}}"></controls:Spinner>
     </Grid>
 </UserControl>

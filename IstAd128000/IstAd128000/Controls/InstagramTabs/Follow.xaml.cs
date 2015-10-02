@@ -19,44 +19,41 @@ namespace InstAd128000.Controls.InstagramTabs
         public Follow(IRequestService reqSRV, IDataStringService dataStrSRV)
         {
             InitializeComponent();
-            ViewModel = new FollowViewModel();
-            DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
         }
 
-        public FollowViewModel ViewModel { get; set; }
-
-        private List<User> _returnList;
-        public List<User> UserList {
-            get { return _returnList; }
-        }
-
         private async void Follow_OnClick(object sender, RoutedEventArgs e)
         {
-            _returnList = null;
-
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
-            SpinnerInstance.SetToMainWindow();
-            FollowButton.IsEnabled = false;
-
-            //todo: check text is not empty
-            var followString = FollowUsernameBox.Text;
-            _returnList = (await UserFactory.Insta.AddToContactsAllContactsOfUserAsync(followString)).ToList();
-
-            if (_returnList != null)
+            if (string.IsNullOrWhiteSpace(ViewModel.TypedUserName))
             {
-                FollowedPeopleContainerGrid.ItemsSource = _returnList;
-                FollowedPeopleCount.Text = "Followed Count (" + _returnList.Count + "):";
+                FollowUsernameBox.Text = "Text is invalid";
+                FollowUsernameBox.Foreground = Brushes.Red;
+                return;
             }
-            else
+            IsInProgress(true);
+            ViewModel.UserList = (await UserFactory.Insta.AddToContactsAllContactsOfUserAsync(ViewModel.TypedUserName)).ToList();
+            IsInProgress(false);
+
+            if (ViewModel.UserList == null)
             {
                 FollowedPeopleCount.Foreground = Brushes.Red;
                 FollowedPeopleCount.Text = "Sorry, this user locked his page or user do not exist.";
             }
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-            SpinnerInstance.RemoveFromMainWindow();
-            FollowButton.IsEnabled = true;
+        }
+
+        protected void IsInProgress(bool isInProgress)
+        {
+            if (isInProgress)
+            {
+                UiHelper.InstaBusy(true);
+                FollowButton.IsEnabled = false;
+            }
+            else
+            {
+                UiHelper.InstaBusy(false);
+                FollowButton.IsEnabled = true;
+            }
         }
     }
 }

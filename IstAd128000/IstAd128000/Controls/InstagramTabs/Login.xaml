@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <viewModels:LoginViewModel/>
+        <viewModels:LoginViewModel x:Name="ViewModel"/>
     </UserControl.DataContext>
     <Grid>
         <StackPanel VerticalAlignment="Center" x:Name="LoginPanel">
@@ -18,7 +18,7 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0">Username:</Label>
-                <TextBox Grid.Column="1" x:Name="UsernameBox" Text="{Binding Path=Login,Mode=OneWay}"/>
+                <TextBox Grid.Column="1" x:Name="UsernameBox" Text="{Binding Path=Login}"/>
             </Grid>
             <Grid Height="Auto">
                 <Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
                 <Label Grid.Column="0">Password:</Label>
                 <PasswordBox Grid.Column="1" x:Name="PasswordBox" PasswordChar="*"></PasswordBox>
             </Grid>
-            <Button Width="100" Height="30" HorizontalAlignment="Right" Click="Login_OnClick">Войти</Button>
+            <Button Width="100" Height="30" HorizontalAlignment="Right" Click="Login_OnClick" x:Name="LoginButton">Войти</Button>
         </StackPanel>
     </Grid>
 </UserControl>

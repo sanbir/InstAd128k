@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <viewModels:SearchTagsViewModel/>
+        <viewModels:SearchTagsViewModel x:Name="ViewModel"/>
     </UserControl.DataContext>
     <UserControl.Resources>
         <DataTemplate x:Key="ListItemChosenTemplate">

@@ -11,11 +11,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <viewModels:SearchLocationsViewModel />
+        <viewModels:SearchLocationsViewModel  x:Name="ViewModel"/>
     </UserControl.DataContext>
     <UserControl.Resources>
         <DataTemplate x:Key="ListItemFoundTemplate">
-            <Grid Background="Transparent" ToolTip="Нажмите, чтобы добавить локацию">
+            <Grid Background="Transparent" MouseLeftButtonDown="Found_MouseLeftButtonDown"  ToolTip="Нажмите, чтобы добавить локацию">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
                 </Grid.ColumnDefinitions>
@@ -31,7 +31,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ListItemChosenTemplate">
-            <Grid Background="Transparent" ToolTip="Нажмите, чтобы удалить локацию">
+            <Grid Background="Transparent" MouseLeftButtonDown="Chosen_MouseLeftButtonDown" ToolTip="Нажмите, чтобы удалить локацию">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="ColumnSize" />
                 </Grid.ColumnDefinitions>
@@ -106,13 +106,13 @@
                       x:Name="FoundLocationContainerGrid"/>
         <ItemsControl Template="{StaticResource ListTemplate}" 
                       ItemTemplate="{StaticResource ListItemChosenTemplate}" 
-                      ItemsSource="{Binding Path=Venues}"
+                      ItemsSource="{Binding Path=ChosenVenues}"
                       ItemsPanel="{StaticResource ListPanelTemplate}" 
                       Grid.IsSharedSizeScope="True" 
                       Grid.Row="3" Grid.RowSpan="2" Grid.Column="1"
                       x:Name="ChosenLocationsContainerGrid"/>
 
         <Button Grid.Column="1" Grid.Row="5" x:Name="SaveLocations" Click="SaveLocations_Click">Готово</Button>
-        <Button Grid.Column="1" Grid.Row="2" x:Name="SelectAll">Выбрать все</Button>
+        <Button Grid.Column="1" Grid.Row="2" x:Name="SelectAll" Click="SelectAll_Click">Выбрать все</Button>
     </Grid>
 </UserControl>

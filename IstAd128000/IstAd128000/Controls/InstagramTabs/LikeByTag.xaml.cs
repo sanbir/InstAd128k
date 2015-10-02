@@ -21,8 +21,6 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             InitializeComponent();
             MaxLikes = Convert.ToInt32(Properties.Settings.Default.MaxTransactionNumber);
-            ViewModel = new LikeByTagViewModel();
-            DataContext = ViewModel;
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
             UserFactory.Insta.TagsChanged += () => {
@@ -35,44 +33,41 @@ namespace InstAd128000.Controls.InstagramTabs
             ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
         }
 
-        public LikeByTagViewModel ViewModel { get; set; }
-
         private int MaxLikes { get; set; }
 
         private async void Like_OnClick(object sender, RoutedEventArgs e)
         {
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = false;
-            SpinnerInstance.SetToMainWindow();
-            LikeButton.IsEnabled = false;
-            
-
             if (WorkTime.Value.HasValue)
             {
                 var delta = WorkTime.Value.Value - DateTime.Now;
                 if (delta.Hours < 0 || delta.Minutes <= 0)
                 {
-                    MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
-                    ResetMainWindow();
                     return;
                 }
             }
             else
             {
                 MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
-                ResetMainWindow();
                 return;
             }
-            
+
+            IsInProgress(true);
             var result = await UserFactory.Insta.LikeByTagAsync(WorkTime.Value.Value - DateTime.Now);
-           
-            ResetMainWindow();
+            IsInProgress(false);
         }
 
-        private void ResetMainWindow()
+        protected void IsInProgress(bool isInProgress)
         {
-            ControlGetter.MainWindow.InstagramTab.IsNoProcessPerformed = true;
-            SpinnerInstance.RemoveFromMainWindow();
-            LikeButton.IsEnabled = true;
+            if (isInProgress)
+            {
+                UiHelper.InstaBusy(true);
+                LikeButton.IsEnabled = false;
+            }
+            else
+            {
+                UiHelper.InstaBusy(false);
+                LikeButton.IsEnabled = true;
+            }
         }
     }
 }
