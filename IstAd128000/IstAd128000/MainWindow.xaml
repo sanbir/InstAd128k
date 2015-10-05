@@ -60,6 +60,9 @@
                 </Grid.RowDefinitions>
                 <Border Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" Background="BlanchedAlmond" Grid.Row="0">
                     <DockPanel>
+                        <Button Style="{StaticResource TopMenuButton}" Click="Button_Click">
+                            <Image Source="Files/Images/System/Close.png"/>
+                        </Button>
                         <Button Style="{StaticResource TopMenuButton}" Click="Close_OnClick" ToolTip="Закрыть">
                             <Image Source="Files/Images/System/Close.png"/>
                         </Button>

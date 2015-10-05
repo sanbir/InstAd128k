@@ -80,11 +80,10 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async Task<bool> DoLoginTaskAsync()
         {
-            var user = UserFactory.InitInsta(SocialUserType.Instagram, ViewModel.Login,ViewModel.Password,
-                 ViewModel.RequestService, ViewModel.DataStringService);
-            var task = new Task<bool>(user.Authorize);
-            task.Start();
-            return await task;
+            var user = await Task.Run(() => UserFactory.InitInsta(SocialUserType.Instagram, ViewModel.Login, ViewModel.Password,
+                 ViewModel.RequestService, ViewModel.DataStringService));
+
+            return await Task.Run(() => user.Authorize());
         }
 
         protected void IsInProgress(bool isInProgress)

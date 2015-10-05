@@ -48,6 +48,7 @@ namespace Instad128000.Core.Common.Interfaces
         public abstract Task<IEnumerable<RequestResult>> LikeByTagAsync(TimeSpan workPeriod);
         public abstract Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod);
         public abstract Task<TagsResponse> SearchForTagsAsync(string tagPart);
+        public abstract Task<MediasResponse> GetLocationsMediaAsync(string id);
 
         protected IRequestService RequestService { get; set; }
         protected IDataStringService DataStringService { get; set; }

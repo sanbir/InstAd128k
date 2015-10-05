@@ -340,5 +340,17 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
             return results;
         }
+
+        //todo: вот так можно получать посты по локациям, это надо запилить
+        public override async Task<MediasResponse> GetLocationsMediaAsync(string id)
+        {
+            var locations = new InstaSharp.Endpoints.Locations(ApiConfig);
+            var locationsMedia = new InstaSharp.Endpoints.Locations(ApiConfig);
+
+            var locationsResult = (await locations.Search(id, InstaSharp.Endpoints.Locations.FoursquareVersion.Two)).Data.FirstOrDefault();
+            var mediaResult = await locationsMedia.Recent(locationsResult.Id.ToString());
+
+            return mediaResult;
+        }
     }
 }

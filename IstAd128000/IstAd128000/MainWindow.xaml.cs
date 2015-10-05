@@ -6,6 +6,8 @@ using InstAd128000.Properties;
 using Application = System.Windows.Application;
 using InstAd128000.ViewModels;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
+using System.Collections.Generic;
+using FourSquare.SharpSquare.Entities;
 
 namespace InstAd128000
 {
@@ -48,6 +50,17 @@ namespace InstAd128000
             WindowState = WindowState.Normal;
             this.Width = Convert.ToDouble(Settings.Default.DefaultWidth);
             this.Height = Convert.ToDouble(Settings.Default.DefaultHeight);
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var locs = new List<Venue>();
+            locs.AddRange(UserFactory.Insta.LocationsToProcess);
+            foreach (var item in locs)
+            {
+                var res = await UserFactory.Insta.GetLocationsMediaAsync(item.id);
+                var str = res.Data;
+            }
         }
     }
 }

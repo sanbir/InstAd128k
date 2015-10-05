@@ -97,17 +97,6 @@ namespace InstAd128000.Controls.InstagramTabs
             ViewModel.Longitude = circleCenter.Longitude;
         }
 
-        //private void SaveLocations_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var deleted = new List<Venue>();
-        //    deleted.AddRange(UserFactory.Insta.LocationsToProcess.Where(x => !ViewModel.Venues.ToObservableCollection<Venue>().Any(y => y == x)));
-            
-        //    UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Except(deleted);
-        //    UserFactory.Insta.LocationsToProcess = UserFactory.Insta.LocationsToProcess.Concat(ViewModel.Venues.ToObservableCollection<Venue>().Where(x => !UserFactory.Insta.LocationsToProcess.Any(y => y == x)));
-
-        //    var result = MessageBox.Show("Локации сохранены, доступны во вкладках \"Комменты\" и \"Лайки\"");
-        //}
-
         protected void IsInProgress(bool isInProgress)
         {
             if (isInProgress)
