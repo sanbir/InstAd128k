@@ -16,6 +16,7 @@ using InstaSharp.Models;
 using InstaSharp.Models.Responses;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
+using Instad128000.Core.Common.Exceptions;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -110,54 +111,95 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return followers;
         }
 
-        public override async Task<IEnumerable<RequestResult>> LikeByTagAsync(TimeSpan workPeriod)
+        public void WaitAjax()
         {
-            _currentActionResultsList = new ObservableCollection<RequestResult>();
+            while (true) // Handle timeout somewhere
+            {
+                var ready = new Func<bool>(() => (bool)ExecuteJavaScript("return (typeof($) === 'undefined') ? true : !$.active;"));
+                if (ready())
+                    break;
+                Thread.Sleep(100);
+            }
             
+        }
+
+        public object ExecuteJavaScript(string javaScript, params object[] args)
+        {
+            var javaScriptExecutor = (IJavaScriptExecutor)WebDriver;
+
+            return javaScriptExecutor.ExecuteScript(javaScript, args);
+        }
+
+        public override async Task<TagsResponse> SearchForTagsAsync(string tagPart)
+        {
+            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
+            var results = await tags.Search(tagPart);
+
+            return results;
+        }
+
+        public override async Task<IEnumerable<RequestResult>> DoActionAsync(TimeSpan workPeriod, string commentText = null)
+        {
+            var tagsAvailable = TagsToProcess != null && TagsToProcess.Count() != 0;
+            var locationsAvailable = LocationsToProcess != null && LocationsToProcess.Count() != 0;
+
+            if (!tagsAvailable && !locationsAvailable)
+            {
+                throw new InstAdException(InstAdErrors.NoTagsOrLocationsSpecified);
+            }
+
+            _currentActionResultsList = new ObservableCollection<RequestResult>();
+
             var start = DateTime.Now;
             var end = DateTime.Now.Add(workPeriod);
             var random = new Random();
-
+            var isLike = string.IsNullOrWhiteSpace(commentText);
+             
             if (UserId == 0)
             {
                 await GetSeleniumUserId();
             }
-            var mediaEndpoint = new InstaSharp.Endpoints.Media(ApiConfig);
-            var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
+
             var waitSeconds = 40; //todo: userSetting
             var likeFrequency = 2; //todo: userSetting // это типа каждое n-е фото только лайкает, чтоб никто ни о чём не догадался ]:->
             var banCount = 0;
             var count = 0;
             var banCountSetting = 10; //todo: userSettin
             var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
-
+            var shouldObfuscate = false;
+            var obfuscator = new SentenceObfuscator(commentText, DataStringService);
+            var obfuscatorHistory = obfuscator.GetHistoryOfSentenceChanges();
             do
             {
-                //todo: проверочка на TagsToProcess нулл
                 var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
-                var result = await tagsEndpoint.Recent(tag.Tag.NormalizeIt(), lastId, null, 50);
-                
+                var result = random.Next(0, 1) == 0 ? (await GetTagsMediaAsync(lastId)) : (await GetLocationsMediaAsync());
+
                 foreach (var res in result.Data.ToArray())
                 {
                     var timer = random.Next(10, waitSeconds);
-                    if (random.Next(0, waitSeconds) <= waitSeconds/likeFrequency)
+                    obfuscatorHistory = obfuscator.GetHistoryOfSentenceChanges();
+                    if (random.Next(0, waitSeconds) <= waitSeconds / likeFrequency)
                     {
-                        var likeResult = await Task.Run(() => AddLike(res));
-                        if (likeResult != null)
+                        commentText = shouldObfuscate ? obfuscator.Next() : obfuscatorHistory[random.Next(0, obfuscatorHistory.Count()-1)];
+                        shouldObfuscate = false;
+
+                        var actionResult = await Task.Run(() => isLike ? AddLike(res) : AddComment(res, commentText));
+                        if (actionResult != null)
                         {
-                            if (likeResult.VictimsId == 0)
+                            if (actionResult.VictimsId == 0)
                             {
                                 count++;
                             }
                             else
                             {
-                                _currentActionResultsList.Add(likeResult);
+                                _currentActionResultsList.Add(actionResult);
                             }
-                            
+
                         }
                         else
                         {
                             banCount++;
+                            shouldObfuscate = true;
                             if (banCount == banCountSetting)
                                 break;
                         }
@@ -167,7 +209,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                         count++;
                         WebDriver.Navigate().GoToUrl(res.Link);
                     }
-                    if(DateTime.Now > end)
+                    if (DateTime.Now > end)
                     {
                         if (_currentActionResultsList != null && _currentActionResultsList.Count > 0)
                         {
@@ -189,29 +231,10 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return _currentActionResultsList.ToList();
         }
 
-        public void WaitAjax()
-        {
-            while (true) // Handle timeout somewhere
-            {
-                var ready = new Func<bool>(() => (bool)ExecuteJavaScript("return (typeof($) === 'undefined') ? true : !$.active;"));
-                if (ready())
-                    break;
-                Thread.Sleep(100);
-            }
-            
-        }
-
-        public object ExecuteJavaScript(string javaScript, params object[] args)
-        {
-            var javaScriptExecutor = (IJavaScriptExecutor)WebDriver;
-
-            return javaScriptExecutor.ExecuteScript(javaScript, args);
-        }
-
         private RequestResult AddLike(Media media)
         {
             RequestResult result = null;
-            
+
             WebDriver.Navigate().GoToUrl(media.Link);
             var likeButton = WebDriver.WaitUntil(By.ClassName("coreSpriteHeartOpen"), 5);
             if (likeButton != null)
@@ -221,14 +244,14 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 ExecuteJavaScript(script);                                                      //1047724894729627550
                 WaitAjax();
                 string vazr = (string)ExecuteJavaScript("return window.vazr;");
-                if(vazr == "1")
-                    result = new RequestResult("", media.User.Id, UserId, media.Link, RequestType.Like,media.Id);
+                if (vazr == "1")
+                    result = new RequestResult("", media.User.Id, UserId, media.Link, RequestType.Like, media.Id);
             }
             else
             {
-                return new RequestResult("", 0, 0, "", RequestType.Like,media.Id);
+                return new RequestResult("", 0, 0, "", RequestType.Like, media.Id);
             }
-            
+
             return result;
         }
 
@@ -264,93 +287,35 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     }
                 }
             } while (counter != 2); //todo: сделать колличество попыток настраиваемым для юзера
-            
+
             return result;
-        } 
+        }
 
-        public override async Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod)
+        private async Task<MediasResponse> GetLocationsMediaAsync()
         {
-            _currentActionResultsList = new ObservableCollection<RequestResult>();
-
-            var start = DateTime.Now;
-            var end = DateTime.Now.Add(workPeriod);
             var random = new Random();
-            
-            do
-            {
-                if (UserId == 0)
-                {
-                    await GetSeleniumUserId();
-                }
-
-                var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
-
-                var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
-
-                var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
-
-                var result = await tagsEndpoint.Recent(tag.Tag.NormalizeIt(), lastId ?? "0", null, null);
-
-                if (result == null)
-                {
-                    return null;
-                }
-
-                if (result.Data == null || result.Data.Count == 0)
-                {
-                    return null;
-                }
-
-                foreach (var res in result.Data.ToArray())
-                {
-                    var timer = random.Next(0, 20);
-
-                    var requestResult = await Task.Run(() => AddComment(res, commentText));
-
-                    if (requestResult != null)
-                    {
-                        _currentActionResultsList.Add(requestResult);
-                    }
-
-                    if (DateTime.Now > end)
-                    {
-                        if (_currentActionResultsList != null && _currentActionResultsList.Count > 0)
-                        {
-                            lastId = _currentActionResultsList.Last().PostId;
-                            SaveToDb();
-                        }
-                        return _currentActionResultsList.ToList();
-                    }
-
-                    await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
-                };
-
-                lastId = result.Pagination.NextMaxTagId;
-                SaveToDb();
-
-            } while (DateTime.Now > end);
-
-            return _currentActionResultsList.ToList();
-        }
-
-        public override async Task<TagsResponse> SearchForTagsAsync(string tagPart)
-        {
-            var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
-            var results = await tags.Search(tagPart);
-
-            return results;
-        }
-
-        //todo: вот так можно получать посты по локациям, это надо запилить
-        public override async Task<MediasResponse> GetLocationsMediaAsync(string id)
-        {
             var locations = new InstaSharp.Endpoints.Locations(ApiConfig);
-            var locationsMedia = new InstaSharp.Endpoints.Locations(ApiConfig);
 
-            var locationsResult = (await locations.Search(id, InstaSharp.Endpoints.Locations.FoursquareVersion.Two)).Data.FirstOrDefault();
-            var mediaResult = await locationsMedia.Recent(locationsResult.Id.ToString());
+            var location = LocationsToProcess.ToArray()[random.Next(0, LocationsToProcess.Count() - 1)];
+            var locationsResult = (await locations.Search(location.id, InstaSharp.Endpoints.Locations.FoursquareVersion.Two)).Data.FirstOrDefault();
+            var mediaResult = await locations.Recent(locationsResult.Id.ToString(),DateTime.Now - new TimeSpan(30,0,0,0,0),null,null, null);
 
+            random = null;
+            locations = null;
             return mediaResult;
+        }
+
+        private async Task<MediasResponse> GetTagsMediaAsync(string lastId)
+        {
+            var random = new Random();
+            var tagsEndpoint = new InstaSharp.Endpoints.Tags(ApiConfig);
+
+            var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
+            var result = await tagsEndpoint.Recent(tag.Tag.NormalizeIt(), lastId, null, 50);
+
+            random = null;
+            tagsEndpoint = null;
+            return result;
         }
     }
 }

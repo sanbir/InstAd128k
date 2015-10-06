@@ -61,7 +61,13 @@
                       ItemsSource="{Binding Path=Tags}"
                       ItemsPanel="{StaticResource ListPanelTemplate}" 
                       Grid.IsSharedSizeScope="True" 
-                      Grid.Column="1" Grid.Row="0" x:Name="Tags" Margin="0,5,0,5"></ItemsControl>
+                      Grid.Column="1" Grid.Row="0" x:Name="Tags" Margin="0,5,0,5"
+                      IsEnabled="{Binding Path=TagsAvailable}"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" TextWrapping="WrapWithOverflow"
+                   Visibility="{Binding Path=TagsAvailable,Converter={StaticResource InverseAndParseToVisibility}}"
+                   VerticalAlignment="Center"
+                   Foreground="Red"
+                   Text="Чтобы выбрать тэги, перейдите на вкладку 'Рейтинг тегов'"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
             <TextBlock TextWrapping="Wrap">Комментировать посты из:</TextBlock>
@@ -71,7 +77,13 @@
                       ItemsSource="{Binding Path=Locations}"
                       ItemsPanel="{StaticResource ListPanelTemplate}" 
                       Grid.IsSharedSizeScope="True" 
-                      Grid.Column="1" Grid.Row="1" x:Name="Locations" Margin="0,5,0,5"></ItemsControl>
+                      Grid.Column="1" Grid.Row="1" x:Name="Locations" Margin="0,5,0,5"
+                      IsEnabled="{Binding Path=LocationsAvailable}"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="WrapWithOverflow" 
+                   Visibility="{Binding Path=LocationsAvailable,Converter={StaticResource InverseAndParseToVisibility}}"
+                   VerticalAlignment="Center"
+                   Foreground="Red"
+                   Text="Чтобы выбрать локации, перейдите на вкладку 'Поиск локаций'"/>
 
         <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center">Текст комментария: </TextBlock>
         <TextBox Grid.Column="1" Grid.Row="2" x:Name="CommentText" Margin="0,5,0,5" Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>

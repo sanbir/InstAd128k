@@ -28,6 +28,7 @@ namespace InstAd128000.ViewModels
             {
                 _tags = value;
                 OnPropertyChanged(nameof(Tags));
+                OnPropertyChanged(nameof(TagsAvailable));
             }
         }
         private IEnumerable<Venue> _locations { get; set; }
@@ -41,6 +42,23 @@ namespace InstAd128000.ViewModels
             {
                 _locations = value;
                 OnPropertyChanged(nameof(Locations));
+                OnPropertyChanged(nameof(LocationsAvailable));
+            }
+        }
+
+        public bool TagsAvailable
+        {
+            get
+            {
+                return _tags != null && _tags.Count() != 0;
+            }
+        }
+
+        public bool LocationsAvailable
+        {
+            get
+            {
+                return _locations != null && _locations.Count() != 0;
             }
         }
 

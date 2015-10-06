@@ -32,15 +32,15 @@ namespace InstAd128000.Controls.InstagramTabs
             ViewModel.DataStringService = dataStrSRV;
         }
 
-        private void Link_MouseUp(object sender, MouseButtonEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            System.Diagnostics.Process.Start((sender as TextBlock).Text);
+            System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
         }
 
         private async Task SetItems()
         {
             IsInProgress(true);
-            HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
+            HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().OrderByDescending(x=>x.CreateDate).Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
             IsInProgress(false);
         }
 

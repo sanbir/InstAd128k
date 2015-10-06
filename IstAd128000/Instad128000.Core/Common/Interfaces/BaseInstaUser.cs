@@ -45,10 +45,8 @@ namespace Instad128000.Core.Common.Interfaces
 
         public abstract Task<IEnumerable<InstaSharp.Models.User>> GetContactsListAsync(string userName);
         public abstract Task<IEnumerable<InstaSharp.Models.User>> AddToContactsAllContactsOfUserAsync(string userName);
-        public abstract Task<IEnumerable<RequestResult>> LikeByTagAsync(TimeSpan workPeriod);
-        public abstract Task<IEnumerable<RequestResult>> CommentByTagAsync(string commentText, TimeSpan workPeriod);
+        public abstract Task<IEnumerable<RequestResult>> DoActionAsync(TimeSpan workPeriod, string commentText = null);
         public abstract Task<TagsResponse> SearchForTagsAsync(string tagPart);
-        public abstract Task<MediasResponse> GetLocationsMediaAsync(string id);
 
         protected IRequestService RequestService { get; set; }
         protected IDataStringService DataStringService { get; set; }
@@ -57,11 +55,14 @@ namespace Instad128000.Core.Common.Interfaces
         {
             if (RequestService != null)
             {
-                foreach (var ress in _currentActionResultsList)
+                if (_currentActionResultsList != null)
                 {
-                    RequestService.Update(ress.ToDataRequestResult());
+                    foreach (var ress in _currentActionResultsList)
+                    {
+                        RequestService.Update(ress.ToDataRequestResult());
+                    }
+                    RequestService.Save();
                 }
-                RequestService.Save();
             }
         }
 
@@ -75,8 +76,10 @@ namespace Instad128000.Core.Common.Interfaces
             }
             set
             {
-                var toDelete = _tagsToProcess.Where(x => !value.Any(y => y == x));
-                var toAdd = value.Where(x => !_tagsToProcess.Any(y => y == x));
+                var toDelete = new List<TagsCount>();
+                toDelete.AddRange(_tagsToProcess.Where(x => !value.Any(y => y == x)));
+                var toAdd = new List<TagsCount>();
+                toAdd.AddRange(value.Where(x => !_tagsToProcess.Any(y => y == x)));
 
                 foreach (var del in toDelete)
                 {
@@ -87,6 +90,9 @@ namespace Instad128000.Core.Common.Interfaces
                 {
                     _tagsToProcess.Add(add);
                 }
+
+                toDelete = null;
+                toAdd = null;
             }
         }
         public IEnumerable<Venue> LocationsToProcess
@@ -97,8 +103,10 @@ namespace Instad128000.Core.Common.Interfaces
             }
             set
             {
-                var toDelete = _locationsToProcess.Where(x => !value.Any(y => y == x));
-                var toAdd = value.Where(x => !_locationsToProcess.Any(y => y == x));
+                var toDelete = new List<Venue>();
+                toDelete.AddRange(_locationsToProcess.Where(x => !value.Any(y => y == x)));
+                var toAdd = new List<Venue>();
+                toAdd.AddRange(value.Where(x => !_locationsToProcess.Any(y => y == x)));
 
                 foreach (var del in toDelete)
                 {
@@ -109,6 +117,9 @@ namespace Instad128000.Core.Common.Interfaces
                 {
                     _locationsToProcess.Add(add);
                 }
+
+                toDelete = null;
+                toAdd = null;
             }
         }
         public IEnumerable<RequestResult> CurrentActionResults
@@ -119,8 +130,10 @@ namespace Instad128000.Core.Common.Interfaces
             }
             set
             {
-                var toDelete = _currentActionResultsList.Where(x => !value.Any(y => y == x));
-                var toAdd = value.Where(x => !_currentActionResultsList.Any(y => y == x));
+                var toDelete = new List<RequestResult>();
+                toDelete.AddRange(_currentActionResultsList.Where(x => !value.Any(y => y == x)));
+                var toAdd = new List<RequestResult>();
+                toAdd.AddRange(value.Where(x => !_currentActionResultsList.Any(y => y == x)));
 
                 foreach (var del in toDelete)
                 {
@@ -131,6 +144,9 @@ namespace Instad128000.Core.Common.Interfaces
                 {
                     _currentActionResultsList.Add(add);
                 }
+
+                toDelete = null;
+                toAdd = null;
             }
         }
 

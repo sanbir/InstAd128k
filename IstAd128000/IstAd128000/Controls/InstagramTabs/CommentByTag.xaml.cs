@@ -13,6 +13,7 @@ using InstAd128000.ViewModels;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Instad128000.Core.Common.Interfaces;
+using Instad128000.Core.Common.Exceptions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -38,9 +39,9 @@ namespace InstAd128000.Controls.InstagramTabs
         
         private async void Comment_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.Tags.Count() == 0)
+            if (string.IsNullOrWhiteSpace(CommentText.Text))
             {
-                MessageBox.Show("Пожалуйста, выберите тэги во вкладке \"Рейтинг тэгов\"");
+                MessageBox.Show("Пожалуйста, введите комментарий");
                 return;
             }
             if (ViewModel.EndTime.HasValue)
@@ -49,22 +50,32 @@ namespace InstAd128000.Controls.InstagramTabs
                 if (delta.Hours < 0 || delta.Minutes <= 0)
                 {
                     MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
-                    ResetMainWindow();
                     return;
                 }
             }
             else
             {
                 MessageBox.Show("Пожалуйста, введите валидный промежуток времени");
-                ResetMainWindow();
                 return;
             }
 
-            IsInProgress(true);
-            var result = await UserFactory.Insta.CommentByTagAsync(CommentText.Text, ViewModel.EndTime.Value - DateTime.Now);
-            IsInProgress(false);
-
-            ResetMainWindow();
+            try
+            {
+                IsInProgress(true);
+                var result = await UserFactory.Insta.DoActionAsync(ViewModel.EndTime.Value - DateTime.Now, CommentText.Text);
+            }
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("System error: " + exc.Message + ". Please, try again.");
+            }
+            finally
+            {
+                IsInProgress(false);
+            }
         }
 
         private void CommentsNumber_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -76,12 +87,6 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             var regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
             return !regex.IsMatch(text);
-        }
-
-        private void ResetMainWindow()
-        {
-            ControlGetter.MainWindow.InstagramTab.ViewModel.IsNoProcessPerformed = true;
-            CommentButton.IsEnabled = true;
         }
 
         protected void IsInProgress(bool isInProgress)

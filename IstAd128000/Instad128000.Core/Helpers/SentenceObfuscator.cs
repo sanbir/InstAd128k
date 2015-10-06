@@ -74,7 +74,7 @@ namespace Instad128000.Core.Helpers
             var stringLength = currentString.Length;
             if (changesNumber == 0)
             {
-                changesNumber = Rand.Next(0, stringLength / 8);
+                changesNumber = Rand.Next(stringLength / 8, stringLength / 4);
             }
 
             for (var i = 0; i < changesNumber; i++)

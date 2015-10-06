@@ -54,7 +54,11 @@
                                     <Label>Коммент</Label>
                                     <TextBlock Margin="5" Text="{Binding Path=Comment}" HorizontalAlignment="Center" x:Name="Comment"/>
                                     <Label>Ссылка</Label>
-                                    <TextBlock MouseUp="Link_MouseUp" Margin="5" Text="{Binding Path=Link}" HorizontalAlignment="Center" x:Name="Link"/>
+                                    <TextBlock Margin="5" HorizontalAlignment="Center" x:Name="Link">
+                                        <Hyperlink NavigateUri="{Binding Path=Link}" RequestNavigate="Hyperlink_RequestNavigate">
+                                            Нажмите на ссылку
+                                        </Hyperlink>
+                                    </TextBlock>
                                     <Label>Тип</Label>
                                     <TextBlock Margin="5" Text="{Binding Path=Type}" HorizontalAlignment="Center" x:Name="Type"/>
                                 </StackPanel>

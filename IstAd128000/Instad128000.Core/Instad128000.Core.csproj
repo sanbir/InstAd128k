@@ -95,9 +95,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Enums\InstAdErrors.cs" />
     <Compile Include="Common\Enums\RequestType.cs" />
     <Compile Include="Common\Enums\SentenceChanges.cs" />
     <Compile Include="Common\Enums\SocialUserType.cs" />
+    <Compile Include="Common\Exceptions\InstAdException.cs" />
     <Compile Include="Common\Interfaces\Data\IRepository.cs" />
     <Compile Include="Common\Interfaces\BaseInstaUser.cs" />
     <Compile Include="Common\Interfaces\IRequestResult.cs" />

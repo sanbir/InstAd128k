@@ -12,8 +12,12 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:BoolArrToBoolWithAndOperatorConverter x:Key="BoolArrToBoolWithAndOperatorConverter" />
         <converters:RemainingTimeConverter x:Key="RemainingTimeConverter" />
-        <converters:BoolArrToVisibility x:Key="BoolArrToVisibility" />
-        
+        <converters:BoolToVisibility x:Key="BoolToVisibility" />
+        <converters:ValueConverterGroup x:Key="InverseAndParseToVisibility" >
+            <converters:InverseBooleanConverter/>
+            <converters:BoolToVisibility/>
+        </converters:ValueConverterGroup>
+
         <Style TargetType="Button" x:Key="ImageMenuButton">
             <Setter Property="Width" Value="32"/>
             <Setter Property="Height" Value="32"/>

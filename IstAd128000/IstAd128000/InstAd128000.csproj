@@ -171,7 +171,8 @@
     <Compile Include="Controls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\BoolArrToVisibility.cs" />
+    <Compile Include="Converters\BoolToVisibility.cs" />
+    <Compile Include="Converters\ValueConverterGroup.cs" />
     <Compile Include="Converters\RemainingTimeConverter.cs" />
     <Compile Include="Converters\BoolArrToBoolWithAndOperatorConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />

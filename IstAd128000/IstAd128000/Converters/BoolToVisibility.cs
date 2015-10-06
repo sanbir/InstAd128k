@@ -7,7 +7,7 @@ using System.Windows.Data;
 namespace InstAd128000.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class BoolArrToVisibility : IValueConverter
+    public class BoolToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

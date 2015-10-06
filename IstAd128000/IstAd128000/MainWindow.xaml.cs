@@ -51,16 +51,5 @@ namespace InstAd128000
             this.Width = Convert.ToDouble(Settings.Default.DefaultWidth);
             this.Height = Convert.ToDouble(Settings.Default.DefaultHeight);
         }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var locs = new List<Venue>();
-            locs.AddRange(UserFactory.Insta.LocationsToProcess);
-            foreach (var item in locs)
-            {
-                var res = await UserFactory.Insta.GetLocationsMediaAsync(item.id);
-                var str = res.Data;
-            }
-        }
     }
 }

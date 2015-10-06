@@ -9,6 +9,7 @@ using Instad128000.Core.Common.Interfaces.Services;
 using InstAd128000.ViewModels;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using Instad128000.Core.Common.Exceptions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -51,8 +52,23 @@ namespace InstAd128000.Controls.InstagramTabs
                 return;
             }
 
-            IsInProgress(true);
-            var result = await UserFactory.Insta.LikeByTagAsync(WorkTime.Value.Value - DateTime.Now);
+            try
+            {
+                IsInProgress(true);
+                var result = await UserFactory.Insta.DoActionAsync(WorkTime.Value.Value - DateTime.Now);
+            }
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("System error: " + exc.Message + ". Please, try again.");
+            }
+            finally
+            {
+                IsInProgress(false);
+            }
             IsInProgress(false);
         }
 

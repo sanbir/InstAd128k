@@ -72,6 +72,6 @@
                 <TextBlock Style="{StaticResource OnStartDisclaimer}"/>
             </Grid>
         </Border>
-        <controls:Spinner Grid.Column="1" Visibility="{Binding Path=IsSomeProcessPerformed,Mode=OneWay,Converter={StaticResource BoolArrToVisibility}}"></controls:Spinner>
+        <controls:Spinner Grid.Column="1" Visibility="{Binding Path=IsSomeProcessPerformed,Mode=OneWay,Converter={StaticResource BoolToVisibility}}"></controls:Spinner>
     </Grid>
 </UserControl>
