@@ -6,4 +6,5 @@ syntax: glob
 [Ll]ogs/
 [Pp]ackages/
 *.tmp
-IstAd128000/Instad128000.Core/Helpers/SocialNetworksUsers/InstagramUser.cs.orig
+*.cs.orig
+*.orig

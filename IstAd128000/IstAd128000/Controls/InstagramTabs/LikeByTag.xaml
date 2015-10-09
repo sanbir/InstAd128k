@@ -68,7 +68,8 @@
                    Visibility="{Binding Path=TagsAvailable,Converter={StaticResource InverseAndParseToVisibility}}"
                    VerticalAlignment="Center"
                    Foreground="Red"
-                   Text="Чтобы выбрать тэги, перейдите на вкладку 'Рейтинг тегов'"/>
+                   Margin="10"
+                   Text="Чтобы выбрать тэги, перейдите на вкладку &quot;Рейтинг тегов&quot;"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
             <TextBlock TextWrapping="Wrap">Лайкнуть посты из:</TextBlock>
@@ -84,7 +85,8 @@
                    Visibility="{Binding Path=LocationsAvailable,Converter={StaticResource InverseAndParseToVisibility}}"
                    VerticalAlignment="Center"
                    Foreground="Red"
-                   Text="Чтобы выбрать локации, перейдите на вкладку 'Поиск локаций'"/>
+                   Margin="10"
+                   Text="Чтобы выбрать локации, перейдите на вкладку &quot;Поиск локаций&quot;"/>
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Закончить лайкать в :" TextWrapping="Wrap"/>
         <StackPanel Grid.Column="1" Grid.Row="2">
             <xctk:TimePicker AllowSpin="True"  x:Name="WorkTime" ToolTip="Время, когда программа закончит лайкать." />

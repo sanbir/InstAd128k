@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Enums\InstAdErrors.cs" />
+    <Compile Include="Common\Enums\VictimsNetwork.cs" />
     <Compile Include="Common\Enums\RequestType.cs" />
     <Compile Include="Common\Enums\SentenceChanges.cs" />
     <Compile Include="Common\Enums\SocialUserType.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Common\Models\RequestResult.cs" />
     <Compile Include="Common\Models\TagsCount.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\RequestResultExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

@@ -144,5 +144,10 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             ViewModel.ChosenVenues = ViewModel.Venues;
         }
+
+        private void DeselectAll_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ChosenVenues = new List<Venue>();
+        }
     }
 }

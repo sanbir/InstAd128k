@@ -54,7 +54,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="5*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.75*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" Text="Теги по вхождению строки: " TextWrapping="Wrap" VerticalAlignment="Center"/>
         <TextBox Grid.Column="1" Grid.Row="0" Text="kitty" x:Name="TagsStringInput" TextChanged="TagsStringInput_OnTextChanged"/>
@@ -79,7 +79,14 @@
                       Grid.Row="3" Grid.Column="1" Margin="10"
                       x:Name="ChosenTagsContainerGrid">
         </ItemsControl>
-        <Button Grid.Column="1" Grid.Row="4" Click="SaveButton_Click" x:Name="SaveButton" HorizontalAlignment="Right" Width="100" Height="30" >Готово</Button>
-        <Button Grid.Column="0" Grid.Row="4" Click="SelectAllButton_Click" x:Name="SelectAllButton" HorizontalAlignment="Left" Width="100" Height="30" >Выбрать все</Button>
+        <Button Margin="5" Grid.Column="1" Grid.Row="4" Click="SaveButton_Click" x:Name="SaveButton">Готово</Button>
+        <Grid Grid.Column="0" Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Margin="5" Grid.Column="0" x:Name="SelectAll" Click="SelectAll_Click">Выбрать все</Button>
+            <Button Margin="5" Grid.Column="1" x:Name="DeselectAll" Click="DeselectAll_Click">Убрать все</Button>
+        </Grid>
     </Grid>
 </UserControl>

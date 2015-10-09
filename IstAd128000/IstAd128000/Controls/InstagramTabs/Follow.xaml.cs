@@ -31,6 +31,7 @@ namespace InstAd128000.Controls.InstagramTabs
                 FollowUsernameBox.Foreground = Brushes.Red;
                 return;
             }
+            
             IsInProgress(true);
             ViewModel.UserList = (await UserFactory.Insta.AddToContactsAllContactsOfUserAsync(ViewModel.TypedUserName)).ToList();
             IsInProgress(false);

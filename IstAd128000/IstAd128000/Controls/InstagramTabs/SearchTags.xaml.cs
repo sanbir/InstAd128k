@@ -16,6 +16,7 @@ using InstAd128000.ViewModels;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Enums;
+using Instad128000.Core.Extensions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -60,7 +61,7 @@ namespace InstAd128000.Controls.InstagramTabs
             var text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").DataContext as TagsCount;
             if (!ViewModel.Chosen.Any(x => x == text))
             {
-                ViewModel.Chosen.Add(text);
+                ViewModel.Chosen = ViewModel.Chosen.Concat(new[] { text });
             }
         }
 
@@ -77,22 +78,21 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void Chosen_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").Text;
-            if (ViewModel.Chosen.Any(x => x.Tag == text))
+            var text = UiHelper.FindChild<TextBlock>(sender as Grid, "Tag").DataContext as TagsCount;
+            if (ViewModel.Chosen.Any(x => x == text))
             {
-                ViewModel.Chosen.Remove(ViewModel.Chosen.FirstOrDefault(x=>x.Tag == text));
+                ViewModel.Chosen = ViewModel.Chosen.Except(new[] { text });
             }
         }
 
-        private void SelectAllButton_Click(object sender, RoutedEventArgs e)
+        private void SelectAll_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var str in ViewModel.Result)
-            {
-                if (!ViewModel.Chosen.Any(x => x.Tag == str.Tag))
-                {
-                    ViewModel.Chosen.Add(str);
-                }
-            }
+            ViewModel.Chosen = ViewModel.Result;
+        }
+
+        private void DeselectAll_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Chosen = new List<TagsCount>();
         }
 
         protected void IsInProgress(bool isInProgress)

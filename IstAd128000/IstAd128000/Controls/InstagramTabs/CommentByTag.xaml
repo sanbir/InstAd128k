@@ -67,7 +67,8 @@
                    Visibility="{Binding Path=TagsAvailable,Converter={StaticResource InverseAndParseToVisibility}}"
                    VerticalAlignment="Center"
                    Foreground="Red"
-                   Text="Чтобы выбрать тэги, перейдите на вкладку 'Рейтинг тегов'"/>
+                   Margin="10"
+                   Text="Чтобы выбрать тэги, перейдите на вкладку &quot;Рейтинг тегов&quot;"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">
             <TextBlock TextWrapping="Wrap">Комментировать посты из:</TextBlock>
@@ -83,7 +84,8 @@
                    Visibility="{Binding Path=LocationsAvailable,Converter={StaticResource InverseAndParseToVisibility}}"
                    VerticalAlignment="Center"
                    Foreground="Red"
-                   Text="Чтобы выбрать локации, перейдите на вкладку 'Поиск локаций'"/>
+                   Margin="10"
+                   Text="Чтобы выбрать локации, перейдите на вкладку &quot;Поиск локаций&quot;"/>
 
         <TextBlock Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center">Текст комментария: </TextBlock>
         <TextBox Grid.Column="1" Grid.Row="2" x:Name="CommentText" Margin="0,5,0,5" Text="{Binding Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>

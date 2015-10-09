@@ -112,7 +112,14 @@
                       Grid.Row="3" Grid.RowSpan="2" Grid.Column="1"
                       x:Name="ChosenLocationsContainerGrid"/>
 
-        <Button Grid.Column="1" Grid.Row="5" x:Name="SaveLocations" Click="SaveLocations_Click">Готово</Button>
-        <Button Grid.Column="1" Grid.Row="2" x:Name="SelectAll" Click="SelectAll_Click">Выбрать все</Button>
+        <Button Margin="5" Grid.Column="1" Grid.Row="5" x:Name="SaveLocations" Click="SaveLocations_Click">Готово</Button>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Margin="2" Grid.Column="0" x:Name="SelectAll" Click="SelectAll_Click">Выбрать все</Button>
+            <Button Margin="2" Grid.Column="1" x:Name="DeselectAll" Click="DeselectAll_Click">Убрать все</Button>
+        </Grid>
     </Grid>
 </UserControl>

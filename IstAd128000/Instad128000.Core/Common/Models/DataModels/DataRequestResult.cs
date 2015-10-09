@@ -15,6 +15,7 @@ namespace Instad128000.Core.Common.Models.DataModels
         public long UserId { get; set; }
         public string PostId { get; set; }
         public string Link { get; set; }
+        public RequestType VictimNetwork { get; set; }
         public RequestType Type { get; set; }
     }
 }

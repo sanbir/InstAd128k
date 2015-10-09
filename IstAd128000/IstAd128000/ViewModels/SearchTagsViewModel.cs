@@ -11,24 +11,18 @@ using System.Threading.Tasks;
 
 namespace InstAd128000.ViewModels
 {
-    public class SearchTagsViewModel : CommonViewModel, INotifyPropertyChanged, INotifyCollectionChanged
+    public class SearchTagsViewModel : CommonViewModel, INotifyPropertyChanged
     {
         public SearchTagsViewModel()
         {
             Result = new List<TagsCount>();
             Chosen = new ObservableCollection<TagsCount>();
-            Chosen.CollectionChanged += Chosen_CollectionChanged;
-        }
-        
-        private void Chosen_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged("Result");
         }
 
-        private List<TagsCount> result { get; set; }
-        private ObservableCollection<TagsCount> chosen { get; set; }
+        private IEnumerable<TagsCount> result { get; set; }
+        private IEnumerable<TagsCount> chosen { get; set; }
 
-        public List<TagsCount> Result
+        public IEnumerable<TagsCount> Result
         {
             get
             {
@@ -37,11 +31,11 @@ namespace InstAd128000.ViewModels
             set
             {
                 result = value;
-                OnPropertyChanged("Result");
+                OnPropertyChanged(nameof(Result));
             }
         }
 
-        public ObservableCollection<TagsCount> Chosen
+        public IEnumerable<TagsCount> Chosen
         {
             get
             {
@@ -50,6 +44,7 @@ namespace InstAd128000.ViewModels
             set
             {
                 chosen = value;
+                OnPropertyChanged(nameof(Chosen));
             }
         }
 
@@ -61,6 +56,5 @@ namespace InstAd128000.ViewModels
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
     }
 }

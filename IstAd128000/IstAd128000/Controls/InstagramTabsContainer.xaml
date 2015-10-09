@@ -41,7 +41,12 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <Button Grid.Row="0" Style="{StaticResource ImageMenuButton}" Tag="Login" Click="AnyButton_OnClick" x:Name="LoginButton" ToolTip="Войти в аккаунт Instagram">
+                <Button Grid.Row="0" Style="{StaticResource ImageMenuButton}"
+                        Tag="Login"
+                        Click="AnyButton_OnClick" 
+                        x:Name="LoginButton" 
+                        IsEnabled="{Binding Path=IsLogged, Converter={StaticResource InverseBooleanConverter}}"
+                        ToolTip="Войти в аккаунт Instagram">
                     <Image Source="../Files/Images/System/Login.png"/>
                 </Button>
 
