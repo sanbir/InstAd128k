@@ -17,6 +17,7 @@ using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
 using InstAd128000.ViewModels;
+using Instad128000.Core.Common.Exceptions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -39,9 +40,23 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async Task SetItems()
         {
-            IsInProgress(true);
-            HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().OrderByDescending(x=>x.CreateDate).Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
-            IsInProgress(false);
+            try
+            {
+                IsInProgress(true);
+                HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().OrderByDescending(x => x.CreateDate).Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
+            }
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("System error: " + exc.Message + ". Please, try again.");
+            }
+            finally
+            {
+                IsInProgress(false);
+            }
         }
 
         private async void Refresh_Click(object sender, RoutedEventArgs e)
