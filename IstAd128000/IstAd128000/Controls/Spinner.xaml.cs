@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Instad128000.Core.Helpers.SocialNetworksUsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace InstAd128000.Controls
         public Spinner()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UserFactory.Insta.IsBreakMode = true;
         }
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:InstAd128000.Controls.InstagramTabs"
              xmlns:properties="clr-namespace:InstAd128000.Properties"
-             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels.InstagramViewModels"
              xmlns:mapControl="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              xmlns:helpers="clr-namespace:InstAd128000.Helpers"
              mc:Ignorable="d" 

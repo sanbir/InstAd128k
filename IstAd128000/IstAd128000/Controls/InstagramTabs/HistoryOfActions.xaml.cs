@@ -43,7 +43,7 @@ namespace InstAd128000.Controls.InstagramTabs
             try
             {
                 IsInProgress(true);
-                HistoryContainerGrid.ItemsSource = await Task.Run(() => ViewModel.RequestService.GetAll().OrderByDescending(x => x.CreateDate).Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
+                ViewModel.History = await Task.Run(() => ViewModel.RequestService.GetAll().OrderByDescending(x => x.CreateDate).Select(x => new HistoryAction() { Comment = x.CommentText, Link = x.Link, Type = x.Type }));
             }
             catch (InstAdException IAe)
             {
@@ -51,7 +51,7 @@ namespace InstAd128000.Controls.InstagramTabs
             }
             catch (Exception exc)
             {
-                MessageBox.Show("System error: " + exc.Message + ". Please, try again.");
+                MessageBox.Show("Системная ошибка: " + exc.Message + ". Пожалуйста, попробуйте еще раз.");
             }
             finally
             {

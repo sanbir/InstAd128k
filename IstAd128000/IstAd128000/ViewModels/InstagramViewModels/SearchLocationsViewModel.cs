@@ -11,7 +11,7 @@ using InstAd128000.Annotations;
 using Microsoft.Maps.MapControl.WPF;
 using Location = Microsoft.Maps.MapControl.WPF.Location;
 
-namespace InstAd128000.ViewModels
+namespace InstAd128000.ViewModels.InstagramViewModels
 {
     public class SearchLocationsViewModel : CommonViewModel, INotifyPropertyChanged
     {

@@ -24,13 +24,11 @@ namespace InstAd128000.Controls.InstagramTabs
             MaxLikes = Convert.ToInt32(Properties.Settings.Default.MaxTransactionNumber);
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
-            UserFactory.Insta.TagsChanged += () => {
+            UserFactory.Insta.PropertyChanged += (object sender, PropertyChangedEventArgs args) => {
                 ViewModel.Tags = UserFactory.Insta.TagsToProcess;
-            };
-            ViewModel.Tags = UserFactory.Insta.TagsToProcess;
-            UserFactory.Insta.LocationsChanged += () => {
                 ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
             };
+            ViewModel.Tags = UserFactory.Insta.TagsToProcess;
             ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
         }
 
@@ -63,13 +61,12 @@ namespace InstAd128000.Controls.InstagramTabs
             }
             catch (Exception exc)
             {
-                MessageBox.Show("System error: " + exc.Message + ". Please, try again.");
+                MessageBox.Show("Системная ошибка: " + exc.Message + ". Пожалуйста, попробуйте еще раз.");
             }
             finally
             {
                 IsInProgress(false);
             }
-            IsInProgress(false);
         }
 
         protected void IsInProgress(bool isInProgress)

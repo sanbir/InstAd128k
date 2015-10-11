@@ -27,13 +27,11 @@ namespace InstAd128000.Controls.InstagramTabs
             InitializeComponent();
             ViewModel.RequestService = reqSRV;
             ViewModel.DataStringService = dataStrSRV;
-            UserFactory.Insta.TagsChanged += () => {
+            UserFactory.Insta.PropertyChanged += (object sender, PropertyChangedEventArgs args) => {
                 ViewModel.Tags = UserFactory.Insta.TagsToProcess;
-            };
-            ViewModel.Tags = UserFactory.Insta.TagsToProcess;
-            UserFactory.Insta.LocationsChanged += () => {
                 ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
             };
+            ViewModel.Tags = UserFactory.Insta.TagsToProcess;
             ViewModel.Locations = UserFactory.Insta.LocationsToProcess;
         }
         
@@ -70,7 +68,7 @@ namespace InstAd128000.Controls.InstagramTabs
             }
             catch (Exception exc)
             {
-                MessageBox.Show("System error: " + exc.Message + ". Please, try again.");
+                MessageBox.Show("Системная ошибка: " + exc.Message + ". Пожалуйста, попробуйте еще раз.");
             }
             finally
             {
@@ -88,7 +86,6 @@ namespace InstAd128000.Controls.InstagramTabs
             var regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
             return !regex.IsMatch(text);
         }
-
         protected void IsInProgress(bool isInProgress)
         {
             if (isInProgress)

@@ -127,5 +127,8 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Control Style="{StaticResource BusyAnimationStyle}"/>
+    <Grid>
+        <Control Style="{StaticResource BusyAnimationStyle}"/>
+        <Button Width="100" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click">Остановить</Button>
+    </Grid>
 </UserControl>

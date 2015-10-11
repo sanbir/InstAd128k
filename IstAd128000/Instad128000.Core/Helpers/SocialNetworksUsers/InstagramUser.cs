@@ -41,7 +41,18 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
         public override bool Authorize()
         {
-            return SeleniumAuth() && ApiAuth();
+            bool result = false;
+            try
+            {
+                result = SeleniumAuth() && ApiAuth();
+            }
+            catch (Exception e)
+            {
+                IsLogged = false;
+                throw;
+            }
+            IsLogged = result;
+            return result;
         }
 
         private bool SeleniumAuth()
@@ -134,7 +145,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         {
             var tags = new InstaSharp.Endpoints.Tags(ApiConfig);
             var results = await tags.Search(tagPart);
-
+            
             return results;
         }
 
@@ -176,6 +187,13 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
                 foreach (var res in result.Data.ToArray())
                 {
+                    if (IsBreakMode)
+                    {
+                        lastId = _currentActionResultsList.Last().PostId;
+                        SaveToDb();
+                        IsBreakMode = false;
+                        return _currentActionResultsList.ToList();
+                    }
                     var timer = random.Next(10, waitSeconds);
                     obfuscatorHistory = obfuscator.GetHistoryOfSentenceChanges();
                     if (random.Next(0, waitSeconds) <= waitSeconds / likeFrequency)
@@ -226,8 +244,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 SaveToDb();
 
             } while (DateTime.Now > end);
-
-
+            
             return _currentActionResultsList.ToList();
         }
 
@@ -316,6 +333,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             random = null;
             tagsEndpoint = null;
             return result;
+        }
+
+        public override void HandleUnhandledException()
+        {
+            IsBreakMode = true;
         }
     }
 }

@@ -18,6 +18,7 @@ using InstAd128000.Services;
 using InstAd128000.SqlLite;
 using Microsoft.Practices.Unity;
 using InstAd128000.ViewModels;
+using Instad128000.Core.Helpers.SocialNetworksUsers;
 
 namespace InstAd128000
 {
@@ -39,6 +40,7 @@ namespace InstAd128000
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)
         {
+            UserFactory.Insta?.HandleUnhandledException();
             Driver.Close();
         }
 

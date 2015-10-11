@@ -1,14 +1,25 @@
-﻿using System;
+﻿using Instad128000.Core.Helpers.SocialNetworksUsers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstAd128000.ViewModels
+namespace InstAd128000.ViewModels.InstagramViewModels
 {
     public class InstagramTabViewModel : INotifyPropertyChanged
     {
+        public void SetInstaUserModelChangedEventHandler()
+        {
+            UserFactory.Insta.PropertyChanged += Insta_PropertyChanged;
+        }
+
+        private void Insta_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            IsLogged = UserFactory.Insta.IsLogged;
+        }
+
         private bool _loggedIn;
         private bool _noProcessPerformed;
         public bool IsLogged

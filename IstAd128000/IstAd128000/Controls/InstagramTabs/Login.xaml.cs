@@ -10,6 +10,7 @@ using InstAd128000.Helpers;
 using Instad128000.Core.Common.Enums;
 using System;
 using InstAd128000.ViewModels;
+using Instad128000.Core.Common.Exceptions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -56,32 +57,45 @@ namespace InstAd128000.Controls.InstagramTabs
             }
             if (error) return;
 
-            IsInProgress(true);
-            if (await DoLoginTaskAsync())
+            try
             {
-                ControlGetter.MainWindow.InstagramTab.ViewModel.IsLogged = true;
-                IsInProgress(false);
-            }
-            else
-            {
-                var warnText = new TextBlock();
-                warnText.Style = (Style)Application.Current.MainWindow.FindResource("OnStartDisclaimer");
-                warnText.Text = "Credentials provided are incorrect or do not exist. Please, ckeck it and try again.";
-                warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
-                warnText.VerticalAlignment = VerticalAlignment.Top;
+                IsInProgress(true);
+                if (!(await DoLoginTaskAsync()))
+                {
+                    var warnText = new TextBlock();
+                    warnText.Style = (Style)Application.Current.MainWindow.FindResource("OnStartDisclaimer");
+                    warnText.Text = "Credentials provided are incorrect or do not exist. Please, ckeck it and try again.";
+                    warnText.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0, 0));
+                    warnText.VerticalAlignment = VerticalAlignment.Top;
 
-                ControlGetter.MainWindow.InstagramTab.ViewModel.IsLogged = false;
-                IsInProgress(false);
-                ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(warnText);
-                ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(this);
+                    ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(warnText);
+                    ControlGetter.MainWindow.InstagramTab.Panel.Children.Add(this);
+                }
+                else
+                {
+                    ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
+                }
             }
-            ControlGetter.MainWindow.InstagramTab.ViewModel.IsNoProcessPerformed = true;
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Системная ошибка: " + exc.Message + ". Пожалуйста, попробуйте еще раз.");
+            }
+            finally
+            {
+                IsInProgress(false);
+            }
         }
 
         private async Task<bool> DoLoginTaskAsync()
         {
             var user = await Task.Run(() => UserFactory.InitInsta(SocialUserType.Instagram, ViewModel.Login, ViewModel.Password,
                  ViewModel.RequestService, ViewModel.DataStringService));
+
+            UiHelper.FindVisualParent<InstagramTabsContainer>(this).ViewModel.SetInstaUserModelChangedEventHandler();
 
             return await Task.Run(() => user.Authorize());
         }
@@ -90,13 +104,11 @@ namespace InstAd128000.Controls.InstagramTabs
         {
             if (isInProgress)
             {
-                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
                 UiHelper.InstaBusy(true);
                 LoginButton.IsEnabled = false;
             }
             else
             {
-                ControlGetter.MainWindow.InstagramTab.Panel.Children.Clear();
                 UiHelper.InstaBusy(false);
                 LoginButton.IsEnabled = true;
             }

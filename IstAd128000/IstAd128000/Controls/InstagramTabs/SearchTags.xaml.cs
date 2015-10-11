@@ -17,6 +17,7 @@ using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Enums;
 using Instad128000.Core.Extensions;
+using Instad128000.Core.Common.Exceptions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -41,13 +42,27 @@ namespace InstAd128000.Controls.InstagramTabs
                 TagsStringInput.Foreground = Brushes.Red;
                 return;
             }
-
-            IsInProgress(true);
-            ViewModel.Result = (await UserFactory.Insta.SearchForTagsAsync(TagsStringInput.Text)).Data.Select(data => new TagsCount()
+            try
             {
-                Count = data.MediaCount, Tag = data.Name.Trim()
-            }).ToList();
-            IsInProgress(false);
+                IsInProgress(true);
+                ViewModel.Result = (await UserFactory.Insta.SearchForTagsAsync(TagsStringInput.Text)).Data.Select(data => new TagsCount()
+                {
+                    Count = data.MediaCount,
+                    Tag = data.Name.Trim()
+                }).ToList();
+            }
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Системная ошибка: " + ex.Message + ". Пожалуйста, попробуйте еще раз.");
+            }
+            finally
+            {
+                IsInProgress(false);
+            }
         }
 
         private void TagsStringInput_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -92,7 +107,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void DeselectAll_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Chosen = new List<TagsCount>();
+            ViewModel.Chosen = null;
         }
 
         protected void IsInProgress(bool isInProgress)

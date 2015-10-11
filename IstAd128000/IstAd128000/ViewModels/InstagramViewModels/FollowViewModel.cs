@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstAd128000.ViewModels
+namespace InstAd128000.ViewModels.InstagramViewModels
 {
     public class FollowViewModel : CommonViewModel, INotifyPropertyChanged
     {

@@ -20,6 +20,7 @@ using Instad128000.Core.Common.Models;
 using Instad128000.Core.Extensions;
 using InstAd128000.Helpers;
 using System.Windows.Controls;
+using Instad128000.Core.Common.Exceptions;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -66,11 +67,19 @@ namespace InstAd128000.Controls.InstagramTabs
                             .GetVenues(ViewModel.Latitude, ViewModel.Longitude, ViewModel.Radius, ViewModel.Query);
 
                 AddPushpinsToMap();
-                IsInProgress(false);
+            }
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Системная ошибка: " + ex.Message + ". Пожалуйста, попробуйте еще раз.");
                 _logger.Error(ex.Message);
+            }
+            finally
+            {
+                IsInProgress(false);
             }
         }
 
@@ -147,7 +156,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private void DeselectAll_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.ChosenVenues = new List<Venue>();
+            ViewModel.ChosenVenues = null;
         }
     }
 }

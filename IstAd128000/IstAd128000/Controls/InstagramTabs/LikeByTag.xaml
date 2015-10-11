@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:InstAd128000.Controls"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels"
+             xmlns:viewModels="clr-namespace:InstAd128000.ViewModels.InstagramViewModels"
              mc:Ignorable="d"  
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>

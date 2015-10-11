@@ -8,6 +8,8 @@ using System.Linq;
 using Instad128000.Core.Helpers.SocialNetworksUsers;
 using Instad128000.Core.Common.Interfaces.Services;
 using InstAd128000.ViewModels;
+using Instad128000.Core.Common.Exceptions;
+using System;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -31,10 +33,24 @@ namespace InstAd128000.Controls.InstagramTabs
                 FollowUsernameBox.Foreground = Brushes.Red;
                 return;
             }
-            
-            IsInProgress(true);
-            ViewModel.UserList = (await UserFactory.Insta.AddToContactsAllContactsOfUserAsync(ViewModel.TypedUserName)).ToList();
-            IsInProgress(false);
+
+            try
+            {
+                IsInProgress(true);
+                ViewModel.UserList = (await UserFactory.Insta.AddToContactsAllContactsOfUserAsync(ViewModel.TypedUserName)).ToList();
+            }
+            catch (InstAdException IAe)
+            {
+                MessageBox.Show(IAe.Message);
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Системная ошибка: " + exc.Message + ". Пожалуйста, попробуйте еще раз.");
+            }
+            finally
+            {
+                IsInProgress(false);
+            }
 
             if (ViewModel.UserList == null)
             {

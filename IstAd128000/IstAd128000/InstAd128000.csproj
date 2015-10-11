@@ -196,15 +196,15 @@
       <DependentUpon>CommentByTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\CommonViewModel.cs" />
-    <Compile Include="ViewModels\HistoryOfActionsViewModel.cs" />
-    <Compile Include="ViewModels\FollowViewModel.cs" />
-    <Compile Include="ViewModels\CommentByTagViewModel.cs" />
-    <Compile Include="ViewModels\InstagramTabViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\LikeByTagViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\HistoryOfActionsViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\FollowViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\CommentByTagViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\InstagramTabViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\LikeByTagViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\SearchLocationsViewModel.cs" />
-    <Compile Include="ViewModels\SearchTagsViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\SearchLocationsViewModel.cs" />
+    <Compile Include="ViewModels\InstagramViewModels\SearchTagsViewModel.cs" />
     <Page Include="Controls\InstagramTabsContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

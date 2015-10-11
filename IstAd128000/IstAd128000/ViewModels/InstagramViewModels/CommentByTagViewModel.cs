@@ -3,20 +3,22 @@ using Instad128000.Core.Common.Interfaces.Services;
 using Instad128000.Core.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InstAd128000.ViewModels
+namespace InstAd128000.ViewModels.InstagramViewModels
 {
-    public class LikeByTagViewModel : CommonViewModel, INotifyPropertyChanged
+    public class CommentByTagViewModel : CommonViewModel, INotifyPropertyChanged
     {
-        public LikeByTagViewModel()
+        public CommentByTagViewModel()
         {
             Tags = new List<TagsCount>();
         }
-
+        
         private IEnumerable<TagsCount> _tags { get; set; }
         public IEnumerable<TagsCount> Tags
         {
@@ -61,6 +63,9 @@ namespace InstAd128000.ViewModels
                 return _locations != null && _locations.Count() != 0;
             }
         }
+
+        public string Comment { get; set; }
+        public DateTime? EndTime { get; set; }
 
         public virtual void OnPropertyChanged(string propertyName)
         {

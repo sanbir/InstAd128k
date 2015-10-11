@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Instad128000.Core.Common.Interfaces
 {
-    public abstract class BaseInstaUser
+    public abstract class BaseInstaUser : INotifyPropertyChanged
     {
         public BaseInstaUser(string userName, string userPassword, string clientKey, string clientId, 
             IRequestService requestService, IDataStringService dataStringService)
@@ -33,15 +33,6 @@ namespace Instad128000.Core.Common.Interfaces
             _locationsToProcess.CollectionChanged += _locationsToProcess_CollectionChanged;
             _currentActionResultsList.CollectionChanged += _currentActionResultsList_CollectionChanged;
         }
-
-        public delegate void TagsChangedEventHandler();
-        public event TagsChangedEventHandler TagsChanged;
-
-        public delegate void LocationsChangedEventHandler();
-        public event LocationsChangedEventHandler LocationsChanged;
-
-        public delegate void ResultsChangedEventHandler();
-        public event ResultsChangedEventHandler ResultsChanged;
 
         public abstract Task<IEnumerable<InstaSharp.Models.User>> GetContactsListAsync(string userName);
         public abstract Task<IEnumerable<InstaSharp.Models.User>> AddToContactsAllContactsOfUserAsync(string userName);
@@ -65,8 +56,8 @@ namespace Instad128000.Core.Common.Interfaces
                 }
             }
         }
-
         public abstract bool Authorize();
+        public abstract void HandleUnhandledException();
 
         public IEnumerable<TagsCount> TagsToProcess
         {
@@ -154,25 +145,34 @@ namespace Instad128000.Core.Common.Interfaces
         protected ObservableCollection<Venue> _locationsToProcess { get; set; }
         protected ObservableCollection<RequestResult> _currentActionResultsList { get; set; }
 
+        private void OnPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void _tagsToProcess_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (TagsChanged != null)
+            if (PropertyChanged != null)
             {
-                TagsChanged();
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(TagsToProcess)));
             }
         }
         private void _locationsToProcess_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (LocationsChanged != null)
+            if (PropertyChanged != null)
             {
-                LocationsChanged();
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(LocationsToProcess)));
             }
         }
         private void _currentActionResultsList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (ResultsChanged != null)
+            if (PropertyChanged != null)
             {
-                ResultsChanged();
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(CurrentActionResults)));
             }
         }
 
@@ -183,5 +183,32 @@ namespace Instad128000.Core.Common.Interfaces
         protected string ClientId { get; set; }
 
         public long UserId { get; set; }
+        
+        private bool _isBreakMode { get; set; }
+        private bool _isLogged { get; set; }
+        public bool IsBreakMode
+        {
+            get
+            {
+                return _isBreakMode;
+            }
+            set
+            {
+                _isBreakMode = value;
+                OnPropertyChanged(nameof(IsBreakMode));
+            }
+        }
+        public bool IsLogged
+        {
+            get
+            {
+                return _isLogged;
+            }
+            set
+            {
+                _isLogged = value;
+                OnPropertyChanged(nameof(IsLogged));
+            }
+        }
     }
 }
