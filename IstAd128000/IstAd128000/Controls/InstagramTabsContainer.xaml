@@ -19,6 +19,8 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="0,10,0,0"/>
+        </Style>
+        <Style TargetType="Button" x:Key="InstaMenuButtonStyle" BasedOn="{StaticResource ButtonStyle}">
             <Setter Property="IsEnabled">
                 <Setter.Value>
                     <Binding Path="IsUiFreeForUser" Mode="OneWay">
@@ -39,6 +41,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
                 <Button Grid.Row="0" Style="{StaticResource ImageMenuButton}"
@@ -52,24 +55,29 @@
 
                 <GroupBox Grid.Row="1" Header="Настройки">
                     <StackPanel>
-                        <Button Style="{StaticResource ButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Найти самые популярные теги по фразе">Рейтинг тегов</Button>
-                        <Button Style="{StaticResource ButtonStyle}" Tag="SearchLocations" Click="AnyButton_OnClick" x:Name="SearchLocations" ToolTip="Поиск по локациям">Поиск по локациям</Button>
+                        <Button Style="{StaticResource InstaMenuButtonStyle}" Tag="SearchTags" Click="AnyButton_OnClick" ToolTip="Найти самые популярные теги по фразе">Рейтинг тегов</Button>
+                        <Button Style="{StaticResource InstaMenuButtonStyle}" Tag="SearchLocations" Click="AnyButton_OnClick" x:Name="SearchLocations" ToolTip="Поиск по локациям">Поиск по локациям</Button>
                     </StackPanel>
                 </GroupBox>
                 
                 <GroupBox Grid.Row="2" Header="Процессинг">
                     <StackPanel>
-                        <Button Style="{StaticResource ButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Комментировать посты по конкретному тегу">Комменты</Button>
-                        <Button Style="{StaticResource ButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Лайкнуть посты по конкретному тегу">Лайкнуть</Button>
-                        <Button Style="{StaticResource ButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Подписаться на всех подписчиков юзера, найденного по имени">Подписаться</Button>
+                        <Button Style="{StaticResource InstaMenuButtonStyle}" Tag="CommentByTag" Click="AnyButton_OnClick" x:Name="CommentByTag" ToolTip="Комментировать посты по конкретному тегу">Комменты</Button>
+                        <Button Style="{StaticResource InstaMenuButtonStyle}" Tag="LikeByTag" Click="AnyButton_OnClick" x:Name="LikeByTag" ToolTip="Лайкнуть посты по конкретному тегу">Лайкнуть</Button>
+                        <Button Style="{StaticResource InstaMenuButtonStyle}" Tag="Follow" Click="AnyButton_OnClick" ToolTip="Подписаться на всех подписчиков юзера, найденного по имени">Подписаться</Button>
                     </StackPanel>
                 </GroupBox>
 
                 <GroupBox Grid.Row="3" Header="Другое">
                     <StackPanel>
-                        <Button Style="{StaticResource ButtonStyle}" Tag="HistoryOfActions" Click="AnyButton_OnClick" x:Name="HistoryOfActions" ToolTip="Посмотреть историю комментов/лайков с ссылками на посты">История</Button>
+                        <Button Style="{StaticResource InstaMenuButtonStyle}" Tag="HistoryOfActions" Click="AnyButton_OnClick" x:Name="HistoryOfActions" ToolTip="Посмотреть историю комментов/лайков с ссылками на посты">История</Button>
                     </StackPanel>
                 </GroupBox>
+
+                <Button Grid.Row="4" Style="{StaticResource ButtonStyle}"
+                        Tag="Cancel" Click="Cancel_Click" x:Name="Cancel" 
+                        ToolTip="Отменить текущую операцию"
+                        Visibility="{Binding Path=IsNoProcessPerformed, Converter={StaticResource InverseAndParseToVisibility}}">Отменить</Button>
             </Grid>
         </Border>
         <Border Grid.Column="1" Margin="5"  BorderThickness="1" BorderBrush="BurlyWood" CornerRadius="5" >

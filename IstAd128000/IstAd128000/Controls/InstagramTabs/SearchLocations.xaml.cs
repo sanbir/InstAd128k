@@ -21,6 +21,8 @@ using Instad128000.Core.Extensions;
 using InstAd128000.Helpers;
 using System.Windows.Controls;
 using Instad128000.Core.Common.Exceptions;
+using System.Threading;
+using System.ComponentModel;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -118,6 +120,19 @@ namespace InstAd128000.Controls.InstagramTabs
                 UiHelper.InstaBusy(false);
                 SaveLocations.IsEnabled = true;
             }
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            var MainParent = UiHelper.FindVisualParent<InstagramTabsContainer>(this);
+            if (MainParent != null)
+            {
+                MainParent.ViewModel.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
+                {
+                    ViewModel.CancelToken = MainParent.ViewModel.CancelToken.Token;
+                };
+            }
+            base.OnVisualParentChanged(oldParent);
         }
 
         private void Found_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

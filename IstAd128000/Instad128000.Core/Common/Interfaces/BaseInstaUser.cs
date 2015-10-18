@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Instad128000.Core.Common.Interfaces
@@ -36,7 +37,7 @@ namespace Instad128000.Core.Common.Interfaces
 
         public abstract Task<IEnumerable<InstaSharp.Models.User>> GetContactsListAsync(string userName);
         public abstract Task<IEnumerable<InstaSharp.Models.User>> AddToContactsAllContactsOfUserAsync(string userName);
-        public abstract Task<IEnumerable<RequestResult>> DoActionAsync(TimeSpan workPeriod, string commentText = null);
+        public abstract Task<IEnumerable<RequestResult>> DoActionAsync(TimeSpan workPeriod, CancellationToken cancelToken, string commentText = null);
         public abstract Task<TagsResponse> SearchForTagsAsync(string tagPart);
 
         protected IRequestService RequestService { get; set; }
@@ -57,7 +58,6 @@ namespace Instad128000.Core.Common.Interfaces
             }
         }
         public abstract bool Authorize();
-        public abstract void HandleUnhandledException();
 
         public IEnumerable<TagsCount> TagsToProcess
         {
@@ -184,20 +184,7 @@ namespace Instad128000.Core.Common.Interfaces
 
         public long UserId { get; set; }
         
-        private bool _isBreakMode { get; set; }
         private bool _isLogged { get; set; }
-        public bool IsBreakMode
-        {
-            get
-            {
-                return _isBreakMode;
-            }
-            set
-            {
-                _isBreakMode = value;
-                OnPropertyChanged(nameof(IsBreakMode));
-            }
-        }
         public bool IsLogged
         {
             get

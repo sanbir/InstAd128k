@@ -4,12 +4,30 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace InstAd128000.ViewModels.InstagramViewModels
 {
     public class InstagramTabViewModel : INotifyPropertyChanged
     {
+        public InstagramTabViewModel()
+        {
+            this.CancelToken = new CancellationTokenSource();
+            this.CancelWorkAction = () =>
+            {
+                CancelToken.Cancel();
+            };
+            CancelToken.Token.Register(() => 
+            {
+                this.CancelToken = new CancellationTokenSource();
+                NotifyPropertyChanged(nameof(CancelToken));                                 
+            });
+        }
+
+        public Action CancelWorkAction { get; private set; }
+        public CancellationTokenSource CancelToken { get; private set; }
+
         public void SetInstaUserModelChangedEventHandler()
         {
             UserFactory.Insta.PropertyChanged += Insta_PropertyChanged;

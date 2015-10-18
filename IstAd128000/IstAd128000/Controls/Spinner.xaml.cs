@@ -25,10 +25,5 @@ namespace InstAd128000.Controls
         {
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            UserFactory.Insta.IsBreakMode = true;
-        }
     }
 }

@@ -18,6 +18,8 @@ using Instad128000.Core.Common.Models;
 using InstAd128000.Helpers;
 using InstAd128000.ViewModels;
 using Instad128000.Core.Common.Exceptions;
+using System.Threading;
+using System.ComponentModel;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -76,6 +78,19 @@ namespace InstAd128000.Controls.InstagramTabs
                 UiHelper.InstaBusy(false);
                 RefreshButton.IsEnabled = true;
             }
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            var MainParent = UiHelper.FindVisualParent<InstagramTabsContainer>(this);
+            if (MainParent != null)
+            {
+                MainParent.ViewModel.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
+                {
+                    ViewModel.CancelToken = MainParent.ViewModel.CancelToken.Token;
+                };
+            }
+            base.OnVisualParentChanged(oldParent);
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace InstAd128000.ViewModels
@@ -12,7 +13,10 @@ namespace InstAd128000.ViewModels
     {
         [Dependency]
         public IRequestService RequestService { get; set; }
+
         [Dependency]
         public IDataStringService DataStringService { get; set; }
+
+        public CancellationToken CancelToken { get; set; }
     }
 }
