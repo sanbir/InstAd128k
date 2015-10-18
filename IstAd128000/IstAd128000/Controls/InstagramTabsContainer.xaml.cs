@@ -20,13 +20,14 @@ using Microsoft.Practices.Unity;
 using Instad128000.Core.Common.Interfaces;
 using InstAd128000.Helpers;
 using InstAd128000.ViewModels;
+using System.Threading;
 
 namespace InstAd128000.Controls
 {
     /// <summary>
     /// Interaction logic for InstagramTabsContainer.xaml
     /// </summary>
-    public partial class InstagramTabsContainer : UserControl, INotifyPropertyChanged
+    public partial class InstagramTabsContainer : UserControl
     {
         public InstagramTabsContainer()
         {
@@ -40,9 +41,11 @@ namespace InstAd128000.Controls
         {
             get { return _controlsList; }
         }
-        
-        private void AnyButton_OnClick(object sender, RoutedEventArgs e)
+
+        private async void AnyButton_OnClick(object sender, RoutedEventArgs e)
         {
+            UiHelper.InstaBusy(true);
+
             UserControl tab;
 
             var button = sender as Button;
@@ -66,6 +69,7 @@ namespace InstAd128000.Controls
             catch (Exception ex)
             {
                 MessageBox.Show("This functionality is under development");
+                UiHelper.InstaBusy(false);
                 return;
             }
 
@@ -73,15 +77,14 @@ namespace InstAd128000.Controls
             tab.Height = double.NaN;
             Panel.Children.Clear();
             Panel.Children.Add(tab);
+
+            UiHelper.InstaBusy(false);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propertyName)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            if (ViewModel.CancelWorkAction != null)
+                ViewModel.CancelWorkAction();
         }
     }
 }

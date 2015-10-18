@@ -149,7 +149,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return results;
         }
 
-        public override async Task<IEnumerable<RequestResult>> DoActionAsync(TimeSpan workPeriod, string commentText = null)
+        public override async Task<IEnumerable<RequestResult>> DoActionAsync(TimeSpan workPeriod, CancellationToken cancelToken, string commentText = null)
         {
             var tagsAvailable = TagsToProcess != null && TagsToProcess.Count() != 0;
             var locationsAvailable = LocationsToProcess != null && LocationsToProcess.Count() != 0;
@@ -176,10 +176,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             var banCount = 0;
             var count = 0;
             var banCountSetting = 10; //todo: userSettin
-            var lastId = RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault();
+            var lastId = await Task.Run(() => RequestService.GetAll()?.OrderByDescending(c => c.ModifyDate).Select(c => c.PostId)?.FirstOrDefault());
             var shouldObfuscate = false;
             var obfuscator = new SentenceObfuscator(commentText, DataStringService);
             var obfuscatorHistory = obfuscator.GetHistoryOfSentenceChanges();
+
             do
             {
                 var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
@@ -187,13 +188,17 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
                 foreach (var res in result.Data.ToArray())
                 {
-                    if (IsBreakMode)
+                    if (cancelToken.IsCancellationRequested)
                     {
-                        lastId = _currentActionResultsList.Last().PostId;
-                        SaveToDb();
-                        IsBreakMode = false;
-                        return _currentActionResultsList.ToList();
+                        Finish(out lastId);
+                        throw new InstAdException(InstAdErrors.OperationCancelled);
                     }
+
+                    if (string.IsNullOrWhiteSpace(lastId))
+                    {
+                        lastId = GetCurrLastId();
+                    }
+
                     var timer = random.Next(10, waitSeconds);
                     obfuscatorHistory = obfuscator.GetHistoryOfSentenceChanges();
                     if (random.Next(0, waitSeconds) <= waitSeconds / likeFrequency)
@@ -229,11 +234,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                     }
                     if (DateTime.Now > end)
                     {
-                        if (_currentActionResultsList != null && _currentActionResultsList.Count > 0)
-                        {
-                            lastId = _currentActionResultsList.Last().PostId;
-                            SaveToDb();
-                        }
+                        Finish(out lastId);
                         return _currentActionResultsList.ToList();
                     }
                     await Task.Run(() => Thread.Sleep(new TimeSpan(0, 0, timer)));
@@ -335,9 +336,21 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             return result;
         }
 
-        public override void HandleUnhandledException()
+        private void Finish(out string lastId)
         {
-            IsBreakMode = true;
+            lastId = GetCurrLastId();
+            SaveToDb();
+        }
+        private string GetCurrLastId()
+        {
+            if (_currentActionResultsList != null && _currentActionResultsList.Count > 0)
+            {
+                return _currentActionResultsList.Last().PostId;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

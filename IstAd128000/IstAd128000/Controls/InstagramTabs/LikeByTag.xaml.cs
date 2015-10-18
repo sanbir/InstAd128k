@@ -10,6 +10,7 @@ using InstAd128000.ViewModels;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Instad128000.Core.Common.Exceptions;
+using System.Threading;
 
 namespace InstAd128000.Controls.InstagramTabs
 {
@@ -53,7 +54,7 @@ namespace InstAd128000.Controls.InstagramTabs
             try
             {
                 IsInProgress(true);
-                var result = await UserFactory.Insta.DoActionAsync(WorkTime.Value.Value - DateTime.Now);
+                var result = await UserFactory.Insta.DoActionAsync(WorkTime.Value.Value - DateTime.Now, ViewModel.CancelToken);
             }
             catch (InstAdException IAe)
             {
@@ -81,6 +82,19 @@ namespace InstAd128000.Controls.InstagramTabs
                 UiHelper.InstaBusy(false);
                 LikeButton.IsEnabled = true;
             }
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            var MainParent = UiHelper.FindVisualParent<InstagramTabsContainer>(this);
+            if (MainParent != null)
+            {
+                MainParent.ViewModel.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
+                {
+                    ViewModel.CancelToken = MainParent.ViewModel.CancelToken.Token;
+                };
+            }
+            base.OnVisualParentChanged(oldParent);
         }
     }
 }

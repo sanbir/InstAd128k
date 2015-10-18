@@ -12,6 +12,8 @@ namespace Instad128000.Core.Common.Enums
         [Description("Ойой, произошла неизвестная ошибка.")]
         UnknownError = 0,
         [Description("Пожалуйста, укажите тэги или локации во вкладках \"Рейтинг тэгов\", \"Поиск локаций\"")]
-        NoTagsOrLocationsSpecified = 1
+        NoTagsOrLocationsSpecified = 1,
+        [Description("Операция была успешно отменена!!!")]
+        OperationCancelled = 2
     }
 }

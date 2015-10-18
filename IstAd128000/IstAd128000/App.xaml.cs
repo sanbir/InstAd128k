@@ -40,7 +40,6 @@ namespace InstAd128000
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)
         {
-            UserFactory.Insta?.HandleUnhandledException();
             Driver.Close();
         }
 
