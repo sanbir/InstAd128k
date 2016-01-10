@@ -97,7 +97,7 @@ namespace InstAd128000.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CherryFirsov")]
+        [global::System.Configuration.DefaultSettingValueAttribute("instad128")]
         public string Username {
             get {
                 return ((string)(this["Username"]));
@@ -109,7 +109,7 @@ namespace InstAd128000.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("07doreti")]
+        [global::System.Configuration.DefaultSettingValueAttribute("qwerty128")]
         public string Password {
             get {
                 return ((string)(this["Password"]));

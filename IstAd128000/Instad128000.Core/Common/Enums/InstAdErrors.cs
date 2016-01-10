@@ -14,6 +14,8 @@ namespace Instad128000.Core.Common.Enums
         [Description("Пожалуйста, укажите тэги или локации во вкладках \"Рейтинг тэгов\", \"Поиск локаций\"")]
         NoTagsOrLocationsSpecified = 1,
         [Description("Операция была успешно отменена!!!")]
-        OperationCancelled = 2
+        OperationCancelled = 2,
+        [Description("Извините, но залогиниться не удалось. Проверьте свои логин/пароль и попробуйте еще раз.")]
+        LoginFailed = 3
     }
 }

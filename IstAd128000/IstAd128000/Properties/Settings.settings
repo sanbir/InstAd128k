@@ -21,10 +21,10 @@
       <Value Profile="(Default)">KZWGHVNMPDUTNY2VPZS1ZYGQH3B3UJY5UX5P0S1N3JUGZ3FD</Value>
     </Setting>
     <Setting Name="Username" Type="System.String" Scope="User">
-      <Value Profile="(Default)">CherryFirsov</Value>
+      <Value Profile="(Default)">instad128</Value>
     </Setting>
     <Setting Name="Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">07doreti</Value>
+      <Value Profile="(Default)">qwerty128</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,0 +1,15 @@
+syntax: glob
+*.suo
+*.user
+bin/
+Bin/
+obj/
+Obj/
+logs/
+Logs/
+packages/
+Packages/
+_ReSharper.Caches/
+*.tmp
+*.cs.orig
+*.orig

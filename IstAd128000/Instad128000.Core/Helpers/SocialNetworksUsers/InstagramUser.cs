@@ -59,14 +59,30 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         {
             WebDriver.Navigate().GoToUrl("https://instagram.com/accounts/login/");
 
-            var user = WaitTimer.FindElement(By.Id("lfFieldInputUsername"), 60);
-            var pass = WebDriver.FindElement(By.Id("lfFieldInputPassword"));
-            var button = WebDriver.FindElement(By.ClassName("-cx-PRIVATE-LoginForm__loginButton"));
+            var user = WaitTimer.FindElement(By.Name("username"), 60);
+            var pass = WebDriver.FindElement(By.Name("password"));
+            var button = WebDriver.FindElement(By.XPath("//*[text()[contains(.,'Log in')]]"));
 
             user.SendKeys(UserName);
             pass.SendKeys(UserPassword);
 
             button.SendKeys(Keys.Enter);
+
+            Task.Delay(1000);
+
+            try
+            {
+                WaitTimer.FindElement(By.XPath("//*[text()[contains(.,'Your username or password was incorrect.')]]"), 30);
+                throw new InstAdException(InstAdErrors.LoginFailed);
+            }
+            catch (InstAdException iae) when (iae.Error == InstAdErrors.LoginFailed)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                //ignore
+            }
 
             return WaitTimer.FindElement(By.CssSelector("span[class*='-cx-PRIVATE-SearchBox__inactiveSearchIcon coreSpriteSearchIcon']"), 60) != null;
         }

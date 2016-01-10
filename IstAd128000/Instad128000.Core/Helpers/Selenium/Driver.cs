@@ -13,11 +13,11 @@ namespace Instad128000.Core.Helpers.Selenium
         {
             get
             {
-                //var driverService = PhantomJSDriverService.CreateDefaultService();
-                //driverService.HideCommandPromptWindow = true;
+                var driverService = PhantomJSDriverService.CreateDefaultService();
+                driverService.HideCommandPromptWindow = true;
                 AppDomain.CurrentDomain.UnhandledException += Close;
                 AppDomain.CurrentDomain.ProcessExit += Close;
-                return _pD ?? (_pD = new ChromeDriver());
+                return _pD ?? (_pD = new PhantomJSDriver(driverService));
             }
         }
 
@@ -32,25 +32,18 @@ namespace Instad128000.Core.Helpers.Selenium
             {
                 _pD.Quit();
                 _pD.Dispose();
+                _pD = null;
             }
         }
 
         private static void Close(object sender, UnhandledExceptionEventArgs args)
         {
-            if (_pD != null)
-            {
-                _pD.Quit();
-                _pD.Dispose();
-            }
+            Close();
         }
 
         private static void Close(object sender, EventArgs args)
         {
-            if (_pD != null)
-            {
-                _pD.Quit();
-                _pD.Dispose();
-            }
+            Close();
         }
     }
 }
