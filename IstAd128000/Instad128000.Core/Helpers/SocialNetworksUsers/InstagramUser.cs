@@ -136,7 +136,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 //todo: убрать break
                 //break;
                 WebDriver.Navigate().GoToUrl("https://instagram.com/" + item.Username);
-                var followButton = WebDriver.FindElement(By.ClassName("-cx-PRIVATE-FollowButton__button"));
+                var followButton = WebDriver.FindElement(By.XPath("//button[text()='Follow']"));
                 followButton.Click();
             }
             return followers;
