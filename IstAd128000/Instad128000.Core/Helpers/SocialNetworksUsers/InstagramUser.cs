@@ -59,6 +59,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
         {
             WebDriver.Navigate().GoToUrl("https://instagram.com/accounts/login/");
 
+            Task.Delay(1000);
             var user = WaitTimer.FindElement(By.Name("username"), 60);
             var pass = WebDriver.FindElement(By.Name("password"));
             var button = WebDriver.FindElement(By.XPath("//*[text()[contains(.,'Log in')]]"));
@@ -72,8 +73,11 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
             try
             {
-                WaitTimer.FindElement(By.XPath("//*[text()[contains(.,'Your username or password was incorrect.')]]"), 30);
-                throw new InstAdException(InstAdErrors.LoginFailed);
+                if (WaitTimer.FindElement(
+                    By.XPath("//*[text()[contains(.,'Your username or password was incorrect.')]]"), 10) != null)
+                {
+                    throw new InstAdException(InstAdErrors.LoginFailed);
+                }
             }
             catch (InstAdException iae) when (iae.Error == InstAdErrors.LoginFailed)
             {
@@ -84,7 +88,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
                 //ignore
             }
 
-            return WaitTimer.FindElement(By.CssSelector("span[class*='-cx-PRIVATE-SearchBox__inactiveSearchIcon coreSpriteSearchIcon']"), 60) != null;
+            return WaitTimer.FindElement(By.XPath("//a[contains(@href,'" + UserName + "')]"), 60) != null;
         }
 
         private bool ApiAuth()
@@ -130,7 +134,7 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
             foreach (var item in followers)
             {
                 //todo: убрать break
-                break;
+                //break;
                 WebDriver.Navigate().GoToUrl("https://instagram.com/" + item.Username);
                 var followButton = WebDriver.FindElement(By.ClassName("-cx-PRIVATE-FollowButton__button"));
                 followButton.Click();
@@ -199,8 +203,8 @@ namespace Instad128000.Core.Helpers.SocialNetworksUsers
 
             do
             {
-                var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
-                var result = random.Next(0, 1) == 0 ? (await GetTagsMediaAsync(lastId)) : (await GetLocationsMediaAsync());
+                //var tag = TagsToProcess.ToArray()[random.Next(0, TagsToProcess.Count() - 1)];
+                var result = random.Next(0, 1) == 0 && TagsToProcess.Count() != 0 ? (await GetTagsMediaAsync(lastId)) : (await GetLocationsMediaAsync());
 
                 foreach (var res in result.Data.ToArray())
                 {

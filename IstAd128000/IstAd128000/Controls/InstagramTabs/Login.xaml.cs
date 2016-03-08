@@ -31,6 +31,7 @@ namespace InstAd128000.Controls.InstagramTabs
 
         private async void Login_OnClick(object sender, RoutedEventArgs e)
         {
+            ViewModel.Password = PasswordBox.Password;
             var error = false;
 
             if (string.IsNullOrWhiteSpace(ViewModel.Login))
